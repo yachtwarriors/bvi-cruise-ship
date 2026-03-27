@@ -47,16 +47,5 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
-    <<: *default
-    database: bvi_cruise_ship_production
-    username: bvi_cruise_ship
-    password: <%= ENV["BVI_CRUISE_SHIP_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: bvi_cruise_ship_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: bvi_cruise_ship_production_queue
-    migrations_paths: db/queue_migrate
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
