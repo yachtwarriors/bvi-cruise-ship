@@ -11,5 +11,7 @@ Rails.application.routes.draw do
     post "recalculate", to: "dashboard#recalculate"
   end
 
+  get "/sitemap.xml", to: "sitemap#index", defaults: { format: "xml" }, as: :sitemap
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

@@ -10,6 +10,25 @@
                    description: "Track cruise ships visiting the BVI and check hourly crowd risk at The Baths and White Bay.",
                    image: image_url("the-baths-4.jpg") } %>
 
+<% content_for :head do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "BVI Cruise Ship Schedule",
+  "description": "Track cruise ships visiting the British Virgin Islands. See hourly crowd risk levels at The Baths and White Bay based on ship schedules, passenger counts, and arrival times.",
+  "url": "https://bvicruiseshipschedule.com/",
+  "applicationCategory": "TravelApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "about": [
+    { "@type": "TouristAttraction", "name": "The Baths National Park", "address": { "@type": "PostalAddress", "addressLocality": "Virgin Gorda", "addressRegion": "British Virgin Islands" } },
+    { "@type": "TouristAttraction", "name": "White Bay", "address": { "@type": "PostalAddress", "addressLocality": "Jost Van Dyke", "addressRegion": "British Virgin Islands" } }
+  ]
+}
+</script>
+<% end %>
+
 <%# Hero — full width with background image %>
 <div class="relative isolate overflow-hidden">
   <%= image_tag "the-baths-3.jpg", class: "absolute inset-0 -z-10 size-full object-cover brightness-50", alt: "The Baths, Virgin Gorda BVI" %>

@@ -1,9 +1,12 @@
 class ScraperOrchestratorService
+  BVI_TIMEZONE = "America/Virgin".freeze
+
   def self.run
     new.run
   end
 
   def run
+    today = Time.use_zone(BVI_TIMEZONE) { Time.zone.today }
     total_records = 0
 
     # 1. Scrape Crew Center (near-term, high-quality data)
@@ -12,8 +15,9 @@ class ScraperOrchestratorService
     # 2. Scrape CruiseDig (extended date range)
     total_records += scrape_source("cruisedig") { CruiseDigScraperService.fetch_all }
 
-    # 3. Recalculate crowd intensities for all dates with new/updated visits
-    recalculate_crowds
+    # 3. Recalculate crowd intensities for today and future dates only
+    #    Past dates are preserved as historical record
+    recalculate_crowds(today)
 
     # 4. Check data freshness
     ScraperMonitorService.check_data_freshness
@@ -40,6 +44,7 @@ class ScraperOrchestratorService
   end
 
   def persist_visits(visits)
+    today = Time.use_zone(BVI_TIMEZONE) { Time.zone.today }
     count = 0
 
     visits.each do |attrs|
@@ -49,21 +54,32 @@ class ScraperOrchestratorService
         port_id: attrs[:port_id]
       )
 
-      # Update with latest data (Crew Center may have better data than CruiseDig)
-      # Prefer crew_center data over cruisedig if both exist
-      if visit.new_record? || attrs[:source] == "crew_center"
+      # Future/today dates: always update with latest scraped data (schedules change)
+      # Past dates: only create if new, never overwrite historical records
+      if visit.new_record?
         visit.assign_attributes(attrs)
-        visit.save! if visit.changed?
-        count += 1 if visit.previously_new_record? || visit.saved_changes.any?
+        visit.save!
+        count += 1
+      elsif attrs[:visit_date] >= today
+        # Future date — refresh with latest data
+        # Prefer crew_center data over cruisedig
+        if attrs[:source] == "crew_center" || visit.source != "crew_center"
+          visit.assign_attributes(attrs)
+          if visit.changed?
+            visit.save!
+            count += 1
+          end
+        end
       end
+      # Past dates with existing records: skip (preserve historical data)
     end
 
     count
   end
 
-  def recalculate_crowds
-    # Recalculate for dates that have cruise visits
-    dates = CruiseVisit.distinct.pluck(:visit_date).sort
+  def recalculate_crowds(today)
+    # Only recalculate today and future — past crowd snapshots are frozen
+    dates = CruiseVisit.where("visit_date >= ?", today).distinct.pluck(:visit_date).sort
     return if dates.empty?
 
     CrowdCalculationService.calculate_for_dates(dates)

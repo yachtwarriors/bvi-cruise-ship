@@ -8,7 +8,7 @@ class CruiseDigScraperService
     "norman-island" => "/ports/norman-island-british-virgin-islands/arrivals"
   }.freeze
 
-  MAX_PAGES = 20 # Safety limit
+  MAX_PAGES = 20
 
   def self.fetch_all
     new.fetch_all
@@ -50,7 +50,7 @@ class CruiseDigScraperService
       page += 1
 
       # Check if there's a next page
-      break unless doc.at_css("a[rel='next']") || doc.css(".pager__item--next a").any?
+      break unless doc.at_css("li.pager__item--next a, a[rel='next']")
 
       sleep 1.5
     end
@@ -61,31 +61,47 @@ class CruiseDigScraperService
   def parse_page(doc, port)
     results = []
 
-    # CruiseDig uses <li> elements in a list, not tables
-    doc.css(".view-content .views-row, .view-content li").each do |entry|
-      text = entry.text.strip
-      next if text.blank?
+    doc.css(".view-content li").each do |li|
+      schedule = li.at_css(".schedule")
+      next unless schedule
 
-      # Try to extract ship name, cruise line, passengers, date from the entry
-      parsed = parse_entry(entry)
-      next unless parsed && parsed[:visit_date]
+      ship_div = schedule.at_css(".schedule__ship")
+      datetime_div = schedule.at_css(".schedule__datetime")
+      next unless ship_div && datetime_div
 
-      capacity = parsed[:passenger_capacity]
+      # Ship name from the first link in .name
+      ship_name = ship_div.at_css(".name a")&.text&.strip
+      next if ship_name.blank?
+
+      # Cruise line from the first .occupancy link
+      cruise_line = ship_div.at_css(".occupancy a")&.text&.strip
+
+      # Passenger count from .occupancy text containing "passengers"
+      pax_div = ship_div.css(".occupancy").find { |d| d.text.include?("passengers") }
+      passengers = parse_european_number(pax_div&.text)
+
+      # Date and time
+      datetime_text = datetime_div.text.gsub(/\s+/, " ").strip
+      arrival_at = parse_datetime(datetime_text)
+      visit_date = arrival_at&.to_date
+
+      next unless visit_date
+
+      capacity = passengers
       capacity_estimated = false
-
       if capacity.nil? || capacity == 0
-        capacity = ShipCapacityLookup.find(parsed[:ship_name])
+        capacity = ShipCapacityLookup.find(ship_name)
         capacity_estimated = capacity.present?
       end
 
       results << {
         port_id: port.id,
-        ship_name: parsed[:ship_name],
-        cruise_line: parsed[:cruise_line],
+        ship_name: ship_name,
+        cruise_line: cruise_line,
         passenger_capacity: capacity,
-        arrival_at: parsed[:arrival_at],
-        departure_at: parsed[:departure_at],
-        visit_date: parsed[:visit_date],
+        arrival_at: arrival_at,
+        departure_at: nil, # CruiseDig arrivals page doesn't have departure times
+        visit_date: visit_date,
         source: "cruisedig",
         capacity_estimated: capacity_estimated
       }
@@ -94,43 +110,24 @@ class CruiseDigScraperService
     results
   end
 
-  def parse_entry(entry)
-    # CruiseDig entries have links for ship and cruise line, plus text for date/pax
-    ship_link = entry.at_css("a[href*='/cruise-ships/'], a[href*='/ship/']")
-    line_link = entry.at_css("a[href*='/cruise-lines/'], a[href*='/line/']")
+  def parse_european_number(raw)
+    return nil if raw.blank?
+    raw.gsub(/[^\d.]/, "").gsub(".", "").to_i.then { |n| n > 0 ? n : nil }
+  end
 
-    ship_name = ship_link&.text&.strip
-    return nil if ship_name.blank?
-
-    cruise_line = line_link&.text&.strip
-
-    # Extract passenger count — look for number followed by "passengers" or "pax"
-    pax_match = entry.text.match(/(\d[\d.,]*)\s*(?:passengers|pax)/i)
-    passengers = pax_match ? pax_match[1].gsub(/[,.]/, "").to_i : nil
-
-    # Extract date — look for common date patterns
-    date_match = entry.text.match(/(\d{1,2}\s+\w{3}\s+\d{4})/)
-    if date_match
-      visit_date = Date.parse(date_match[1]) rescue nil
+  def parse_datetime(str)
+    return nil if str.blank?
+    # "28 Mar 2026 - 08:00" — times are BVI local (AST = UTC-4)
+    Time.use_zone("America/Virgin") do
+      Time.zone.strptime(str, "%d %b %Y - %H:%M")
     end
-
-    # Extract time if present
-    time_match = entry.text.match(/(\d{2}:\d{2})/)
-    arrival_at = nil
-    if time_match && visit_date
-      arrival_at = DateTime.parse("#{visit_date} #{time_match[1]}")
+  rescue ArgumentError
+    # Try without time
+    begin
+      Date.strptime(str.split(" - ").first.strip, "%d %b %Y").in_time_zone("America/Virgin")
+    rescue
+      nil
     end
-
-    return nil unless visit_date
-
-    {
-      ship_name: ship_name,
-      cruise_line: cruise_line,
-      passenger_capacity: passengers,
-      arrival_at: arrival_at,
-      departure_at: nil,
-      visit_date: visit_date
-    }
   end
 
   def user_agent
