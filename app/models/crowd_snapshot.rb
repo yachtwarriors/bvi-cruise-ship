@@ -9,6 +9,6 @@ class CrowdSnapshot < ApplicationRecord
   scope :on_date, ->(date) { where(snapshot_date: date) }
   scope :in_range, ->(start_date, end_date) { where(snapshot_date: start_date..end_date) }
   scope :for_location, ->(location) { where(location: location) }
-  scope :daytime, -> { where(hour: 6..20) }
+  scope :daytime, -> { where(hour: 6..18) }
   scope :ordered, -> { order(:snapshot_date, :hour) }
 end
