@@ -176,8 +176,8 @@
             </div>
 
             <%# Hourly timeline with EVERY hour labeled %>
-            <div class="overflow-x-auto">
-              <div class="min-w-[500px]">
+            <div>
+              <div>
                 <div class="grid gap-px" style="grid-template-columns: repeat(15, minmax(0, 1fr))">
                   <% (6..20).each do |hour| %>
                     <% snapshot = snapshots.find { |s| s.hour == hour } %>
