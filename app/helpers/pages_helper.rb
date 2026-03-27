@@ -27,9 +27,9 @@ module PagesHelper
   end
 
   def peak_intensity_for(snapshots)
-    return "none" if snapshots.blank?
-    priorities = { "red" => 3, "yellow" => 2, "green" => 1, "none" => 0 }
-    snapshots.max_by { |s| priorities[s.intensity] || 0 }&.intensity || "none"
+    return "green" if snapshots.blank?
+    priorities = { "red" => 3, "yellow" => 2, "green" => 1 }
+    snapshots.max_by { |s| priorities[s.intensity] || 0 }&.intensity || "green"
   end
 
   def total_passengers_for(visits)

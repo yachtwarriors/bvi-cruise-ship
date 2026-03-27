@@ -142,12 +142,16 @@
           <% peak = peak_intensity_for(snapshots) %>
 
 
-          <div class="mb-4 last:mb-3">
-            <%# Location header with risk badge %>
-            <div class="flex items-center justify-between mb-1.5">
-              <h4 class="text-sm font-semibold text-slate-700"><%= location.name %></h4>
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium <%= intensity_color_class(peak) %> text-white">
-                <%= peak == "green" ? "Low" : peak == "yellow" ? "Moderate" : "High" %>
+          <% location_icon = location.slug == Location::THE_BATHS ? "🪨" : "🏖️" %>
+          <div class="mb-4 last:mb-3 rounded-lg border border-slate-100 p-3 <%= intensity_bg_light(peak) %>">
+            <%# Location header with icon and risk badge %>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-lg"><%= location_icon %></span>
+                <h4 class="text-base font-bold text-slate-800"><%= location.name %></h4>
+              </div>
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold <%= intensity_color_class(peak) %> text-white">
+                <%= peak == "green" ? "Low Risk" : peak == "yellow" ? "Moderate" : "High Risk" %>
               </span>
             </div>
 
@@ -157,7 +161,7 @@
                 <div class="grid gap-px" style="grid-template-columns: repeat(15, minmax(0, 1fr))">
                   <% (6..20).each do |hour| %>
                     <% snapshot = snapshots.find { |s| s.hour == hour } %>
-                    <% intensity = snapshot&.intensity || "none" %>
+                    <% intensity = snapshot&.intensity || "green" %>
                     <% visitors = snapshot&.estimated_visitors || 0 %>
 
                     <div class="text-center">
@@ -199,13 +203,12 @@
   </div>
 </div>
 
-<%# Footer attribution %>
-<div class="mt-6 pb-4 text-center">
-  <div class="text-xs text-slate-400">
-    Built with 🩵 by the
-    <a href="https://yachtwarriors.com" target="_blank" rel="noopener" class="text-cyan-500 hover:text-cyan-600">Yacht Warriors</a>
-    crew
-  </div>
+<%# Footer attribution — matches bathsflagstatus.com style %>
+<div class="mt-6 pb-4 flex justify-center items-center text-sm text-gray-600">
+  Built with 🩵 by the
+  <%= link_to "https://yachtwarriors.com", target: "_blank", rel: "noopener" do %>
+    <%= image_tag "yw_logo.png", alt: "Yacht Warriors Logo", class: "inline h-5 ml-2" %>
+  <% end %>
 </div>
 
 </div> <%# close max-w-3xl wrapper %>
