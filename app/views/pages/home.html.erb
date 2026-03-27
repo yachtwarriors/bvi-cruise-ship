@@ -36,8 +36,8 @@
     <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-6xl">BVI Cruise Ship Schedule</h1>
     <p class="mt-6 text-lg font-medium text-gray-300 sm:text-xl/8">
       We look at how many cruise ships are in town, how many passengers they carry, and their arrival and departure
-      times to give you our best estimate of when <strong class="text-white">The Baths</strong> and
-      <strong class="text-white">White Bay</strong> are most likely to be crowded — so you can plan around it.
+      times to give you our best estimate of when <strong class="text-white">The Baths</strong>,
+      <strong class="text-white">White Bay</strong>, and <strong class="text-white">Cane Garden Bay</strong> are most likely to be crowded — so you can plan around it.
     </p>
     <div class="mt-8 flex items-center justify-center gap-x-4">
       <a href="#schedule" class="rounded-md bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-400">View This Week</a>
@@ -162,7 +162,7 @@
           <% peak = peak_intensity_for(snapshots) %>
 
 
-          <% location_icon = location.slug == Location::THE_BATHS ? "🪨" : "🏖️" %>
+          <% location_icon = case location.slug; when Location::THE_BATHS then "🪨"; when Location::WHITE_BAY then "🏖️"; when Location::CANE_GARDEN_BAY then "🌴"; else "📍"; end %>
           <div class="mb-4 last:mb-3 rounded-lg border border-slate-100 p-3 <%= intensity_bg_light(peak) %>">
             <%# Location header with icon and risk badge %>
             <div class="flex items-center justify-between mb-2">

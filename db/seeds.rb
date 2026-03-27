@@ -18,7 +18,8 @@ end
 puts "Seeding locations..."
 [
   { name: "The Baths", slug: "the-baths" },
-  { name: "White Bay", slug: "white-bay" }
+  { name: "White Bay", slug: "white-bay" },
+  { name: "Cane Garden Bay", slug: "cane-garden-bay" }
 ].each do |attrs|
   Location.find_or_create_by!(slug: attrs[:slug]) do |l|
     l.name = attrs[:name]
@@ -36,6 +37,10 @@ baths_threshold.update!(green_max: 200, yellow_max: 600)
 white_bay_threshold = CrowdThreshold.find_or_initialize_by(location: white_bay)
 white_bay_threshold.update!(green_max: 100, yellow_max: 300)
 
+cane_garden_bay = Location.find_by!(slug: "cane-garden-bay")
+cgb_threshold = CrowdThreshold.find_or_initialize_by(location: cane_garden_bay)
+cgb_threshold.update!(green_max: 300, yellow_max: 800)
+
 # App config defaults
 puts "Seeding app config..."
 {
@@ -43,6 +48,8 @@ puts "Seeding app config..."
   "transit_time_baths_from_road_town" => { value: "120", description: "Minutes from Road Town to The Baths via ferry excursion" },
   "transit_time_white_bay_from_jost" => { value: "20", description: "Minutes from Jost Van Dyke landing to White Bay" },
   "transit_time_baths_from_gorda_sound" => { value: "120", description: "Minutes from Gorda Sound anchorage to The Baths via tender + taxi" },
+  "transit_time_cgb_from_road_town" => { value: "45", description: "Minutes from Road Town cruise terminal to Cane Garden Bay by taxi" },
+  "road_town_cgb_pct" => { value: "0.30", description: "Estimated % of Road Town cruise passengers who visit Cane Garden Bay" },
   "spanish_town_baths_pct" => { value: "0.50", description: "Estimated % of Spanish Town passengers who visit The Baths" },
   "gorda_sound_baths_pct" => { value: "0.40", description: "Estimated % of Gorda Sound passengers who visit The Baths" },
   "road_town_baths_excursion_pct" => { value: "0.20", description: "Estimated % of Road Town cruise passengers who take The Baths excursion" },

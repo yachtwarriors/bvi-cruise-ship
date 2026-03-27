@@ -8,8 +8,9 @@ class CrowdCalculationService
 
   # Earliest excursion tours start running
   EARLIEST_EXCURSION_HOURS = {
-    Location::THE_BATHS => 8 * 60 + 30,  # First excursion groups can arrive ~8:30 AM
-    Location::WHITE_BAY => 9 * 60         # Beach bars open ~9-10 AM
+    Location::THE_BATHS => 8 * 60 + 30,      # First excursion groups can arrive ~8:30 AM
+    Location::WHITE_BAY => 9 * 60,            # Beach bars open ~9-10 AM
+    Location::CANE_GARDEN_BAY => 8 * 60 + 30  # Beach bars and taxis running by ~8:30 AM
   }.freeze
 
   def self.calculate_for_dates(dates)
@@ -87,9 +88,14 @@ class CrowdCalculationService
       end
     when Location::WHITE_BAY
       # Only Jost Van Dyke ships impact White Bay
-      # Road Town ships have no meaningful impact on White Bay
       visits.select { |v| v.port.slug == Port::JOST_VAN_DYKE }.each do |v|
         result << [v, 1.0]
+      end
+    when Location::CANE_GARDEN_BAY
+      # Road Town ships only — it's on Tortola, easy taxi ride
+      cgb_pct = AppConfig.get_float("road_town_cgb_pct", default: 0.30)
+      visits.select { |v| v.port.slug == Port::ROAD_TOWN }.each do |v|
+        result << [v, cgb_pct]
       end
     end
 
@@ -167,6 +173,8 @@ class CrowdCalculationService
       AppConfig.get_int("transit_time_baths_from_road_town", default: 120)
     when [Port::JOST_VAN_DYKE, Location::WHITE_BAY]
       AppConfig.get_int("transit_time_white_bay_from_jost", default: 20)
+    when [Port::ROAD_TOWN, Location::CANE_GARDEN_BAY]
+      AppConfig.get_int("transit_time_cgb_from_road_town", default: 45)
     else
       60
     end

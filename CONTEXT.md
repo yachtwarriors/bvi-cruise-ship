@@ -51,6 +51,16 @@ I run multiple businesses and build all my own web properties. I'm a hands-on te
 - **Market:** No direct competitor. BVI-focused marketing, works globally. Connected to Yacht Warriors audience
 - **Status:** Editor prototype built, iterating on map style and route UX
 
+### BVI Cruise Ship Schedule (bvicruiseshipschedule.com)
+- **What:** Cruise ship schedule tracker for the British Virgin Islands with hourly crowd risk predictions
+- **Value prop:** Helps charter guests and day visitors plan around cruise ship crowds at The Baths (Virgin Gorda) and White Bay (Jost Van Dyke)
+- **Features:** Daily ship schedules with passenger counts, hourly crowd risk timeline (low/moderate/high/extreme), covers Tortola (Road Town), Virgin Gorda (Spanish Town), Jost Van Dyke, and Gorda Sound ports
+- **Data sources:** Scraped from CruiseDig and other third-party schedule sites; models include CruiseVisit, Port, Location, CrowdSnapshot, CrowdThreshold
+- **Tech stack:** Rails 8, PostgreSQL, Tailwind CSS, Devise (admin), Heroku
+- **SEO targets:** "bvi cruise ship schedule", "tortola cruise ship schedule", "the baths bvi crowded"
+- **Synergy:** Feeds into Yacht Warriors audience — charter guests are the primary users
+- **Status:** Live, scraper running, Google Analytics installed
+
 ### Colorado Pine Beetle (coloradopinebeetle.com)
 - **What:** Lead gen site for pine bark beetle awareness/prevention/treatment on Colorado Front Range
 - **Monetization:** Sell leads to tree care companies
@@ -156,6 +166,7 @@ I have a standard blog implementation I use across all sites:
 | Housekeeper | `/home/dreamstream/projects/claude/housekeeper` |
 | Matt Weidert | `/home/dreamstream/projects/matt_weidert` |
 | BVI Cruise Ship | `/home/dreamstream/projects/bvi_cruise_ship` |
+| Ferry Schedule | `/home/dreamstream/projects/ferry_schedule` |
 
 ---
 

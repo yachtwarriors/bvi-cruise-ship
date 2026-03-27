@@ -7,6 +7,7 @@ class Location < ApplicationRecord
 
   THE_BATHS = "the-baths".freeze
   WHITE_BAY = "white-bay".freeze
+  CANE_GARDEN_BAY = "cane-garden-bay".freeze
 
   scope :by_slug, ->(slug) { find_by!(slug: slug) }
 end

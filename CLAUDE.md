@@ -8,6 +8,7 @@ Matt Weidert — entrepreneur, Marine veteran, Rails developer, based in Castle 
 - **Yacht Warriors** (yachtwarriors.com) — crewed yacht charter booking, BVI/Caribbean, Rails 7.2, 1000+ URLs
 - **CharterProtect** (charterprotect.com) — yacht charter travel insurance distribution, Rails 8
 - **Map Tracks** — sailing route map keepsake product, Rails 8 + MapLibre
+- **BVI Cruise Ship Schedule** (bvicruiseshipschedule.com) — BVI cruise ship schedule & crowd tracker, Rails 8
 - **Colorado Pine Beetle** (coloradopinebeetle.com) — lead gen for tree care, Rails 8, 25 city pages live
 - **History by Bill** (historybybill.com) — history blog for Bill's weekly emails, Rails 8
 - **Housekeeper** — AI agent task runner (family events scanner), Rails 8 + Claude API
