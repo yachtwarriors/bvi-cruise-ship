@@ -99,7 +99,10 @@ class CrowdCalculationService
     arrival_minutes = arrival_minutes_bvi(visit)
     departure_minutes = departure_minutes_bvi(visit)
 
-    return 0 unless arrival_minutes && departure_minutes
+    # Default arrival: 8:00 AM if not provided
+    arrival_minutes ||= 8 * 60
+    # Default departure: 5:00 PM if not provided (typical for Road Town)
+    departure_minutes ||= 17 * 60
 
     # Earliest possible crowd start: ship arrival + transit time to get there
     earliest_from_ship = arrival_minutes + transit_minutes
