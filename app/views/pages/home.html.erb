@@ -1,0 +1,211 @@
+<% meta title: "BVI Cruise Ship Schedule — Tortola Cruise Port & Crowd Tracker",
+       description: "Check the BVI cruise ship schedule for Tortola, Virgin Gorda, and Jost Van Dyke. See which ships are in port, passenger counts, and hourly crowd risk levels at The Baths and White Bay.",
+       keywords: "bvi cruise ship schedule, tortola cruise ship schedule, tortola cruise port, british virgin islands cruise ship schedule, tortola cruise port schedule, bvi cruise schedule, the baths bvi crowded, road town cruise ships" %>
+<% meta og: { title: "BVI Cruise Ship Schedule & Crowd Tracker",
+              description: "Track cruise ships visiting the BVI and check hourly crowd risk at The Baths and White Bay. Plan your charter day around the crowds.",
+              type: "website",
+              image: image_url("the-baths-4.jpg") } %>
+<% meta twitter: { card: "summary_large_image",
+                   title: "BVI Cruise Ship Schedule & Crowd Tracker",
+                   description: "Track cruise ships visiting the BVI and check hourly crowd risk at The Baths and White Bay.",
+                   image: image_url("the-baths-4.jpg") } %>
+
+<%# Hero — full width with background image %>
+<div class="relative isolate overflow-hidden">
+  <%= image_tag "the-baths-3.jpg", class: "absolute inset-0 -z-10 size-full object-cover brightness-50", alt: "The Baths, Virgin Gorda BVI" %>
+  <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32 text-center">
+    <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-6xl">BVI Cruise Ship Schedule</h1>
+    <p class="mt-6 text-lg font-medium text-gray-300 sm:text-xl/8">
+      We look at how many cruise ships are in town, how many passengers they carry, and their arrival and departure
+      times to give you our best estimate of when <strong class="text-white">The Baths</strong> and
+      <strong class="text-white">White Bay</strong> are most likely to be crowded — so you can plan around it.
+    </p>
+    <div class="mt-8 flex items-center justify-center gap-x-4">
+      <a href="#schedule" class="rounded-md bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-400">View This Week</a>
+      <a href="#how-it-works" class="text-sm font-semibold text-white">How it works <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</div>
+
+<div class="mx-auto max-w-3xl px-4 mt-8 mb-8">
+
+<%# How to read this %>
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
+  <h3 class="text-sm font-semibold text-slate-700 mb-3">How to Read the Hourly Timeline</h3>
+  <p class="text-xs text-slate-500 mb-3">Each box below represents one hour. The color tells you the expected crowd level from cruise ship visitors at that time.</p>
+  <div class="grid grid-cols-3 gap-3 text-center">
+    <div class="rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-2">
+      <div class="w-full h-2 rounded-full bg-emerald-400 mb-1.5"></div>
+      <div class="text-sm font-semibold text-emerald-700">Low</div>
+      <div class="text-xs text-emerald-600 mt-0.5">Few cruise visitors expected.</div>
+    </div>
+    <div class="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2">
+      <div class="w-full h-2 rounded-full bg-amber-400 mb-1.5"></div>
+      <div class="text-sm font-semibold text-amber-700">Moderate</div>
+      <div class="text-xs text-amber-600 mt-0.5">Cruise passengers around. Not empty.</div>
+    </div>
+    <div class="rounded-lg bg-red-50 border border-red-200 px-3 py-2">
+      <div class="w-full h-2 rounded-full bg-red-500 mb-1.5"></div>
+      <div class="text-sm font-semibold text-red-700">High</div>
+      <div class="text-xs text-red-600 mt-0.5">Heavy crowds. Mega-ship or multiple ships.</div>
+    </div>
+  </div>
+</div>
+
+<%= turbo_frame_tag "schedule" do %>
+<div id="schedule"></div>
+<%# Week navigation %>
+<div class="flex items-center justify-between mb-4">
+  <%= link_to root_path(start_date: @prev_week_start), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white rounded-lg border border-slate-200 hover:bg-slate-50 transition" do %>
+    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    Prev
+  <% end %>
+
+  <div class="text-center">
+    <h2 class="text-lg font-semibold text-slate-900">
+      <%= @start_date.strftime("%b %-d") %> – <%= @end_date.strftime("%b %-d, %Y") %>
+    </h2>
+    <% if @start_date == @today %>
+      <p class="text-xs text-cyan-600 font-medium">This Week</p>
+    <% else %>
+      <%= link_to "Today", root_path, class: "text-xs text-cyan-600 hover:text-cyan-700 font-medium" %>
+    <% end %>
+  </div>
+
+  <%= link_to root_path(start_date: @next_week_start), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white rounded-lg border border-slate-200 hover:bg-slate-50 transition" do %>
+    Next
+    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  <% end %>
+</div>
+
+<%# Jump to date %>
+<div class="mb-6 text-center">
+  <%= form_with url: root_path, method: :get, class: "inline-flex items-center gap-2" do |f| %>
+    <%= f.date_field :start_date, value: @start_date, class: "text-sm border border-slate-200 rounded-lg px-3 py-1.5 text-slate-700 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" %>
+    <%= f.submit "Go", class: "px-3 py-1.5 text-sm font-medium text-white bg-cyan-500 rounded-lg hover:bg-cyan-600 cursor-pointer transition" %>
+  <% end %>
+</div>
+
+<%# Day cards %>
+<div class="space-y-5">
+  <% @dates.each do |date| %>
+    <% visits = @visits_by_date[date] || [] %>
+    <% is_today = date == @today %>
+
+    <div class="bg-white rounded-xl shadow-sm border <%= is_today ? 'border-cyan-300 ring-2 ring-cyan-100' : 'border-slate-200' %> overflow-hidden">
+
+      <%# Day header %>
+      <div class="px-4 pt-4 <%= is_today ? 'bg-cyan-50/50' : '' %>">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="text-center min-w-[3rem]">
+              <div class="text-xs font-medium text-slate-500 uppercase"><%= date.strftime("%a") %></div>
+              <div class="text-2xl font-bold <%= is_today ? 'text-cyan-600' : 'text-slate-900' %>"><%= date.day %></div>
+              <% if is_today %>
+                <div class="text-[10px] font-semibold text-cyan-600 uppercase">Today</div>
+              <% end %>
+            </div>
+            <div>
+              <div class="text-sm font-medium text-slate-700"><%= date.strftime("%B %-d, %Y") %></div>
+            </div>
+          </div>
+
+          <%# Ship count and passenger count — prominent and labeled %>
+          <% if visits.any? %>
+            <div class="text-right">
+              <div class="text-2xl font-bold text-slate-900"><%= number_with_delimiter(total_passengers_for(visits)) %></div>
+              <div class="text-xs text-slate-500">cruise guests · <%= visits.size %> ship<%= visits.size == 1 ? '' : 's' %></div>
+            </div>
+          <% else %>
+            <div class="text-right">
+              <div class="text-sm font-medium text-slate-400">No planned visits</div>
+              <div class="text-xs text-slate-400">Schedule may not be available yet</div>
+            </div>
+          <% end %>
+        </div>
+
+        <%# Port breakdown — ship names visible %>
+        <% if visits.any? %>
+          <div class="flex flex-wrap gap-x-4 gap-y-1 mb-3 text-xs text-slate-500">
+            <% visits.group_by { |v| v.port.name }.each do |port_name, port_visits| %>
+              <span>
+                <span class="font-medium text-slate-600"><%= port_name.sub(', Tortola', '').sub(', Virgin Gorda', '') %>:</span>
+                <%= port_visits.map { |v| "#{v.ship_name} (#{number_with_delimiter(v.passenger_capacity || 0)})" }.join(', ') %>
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%# Location risk sections %>
+        <% @locations.each do |location| %>
+          <% snapshots = @snapshots[[date, location.id]] || [] %>
+          <% peak = peak_intensity_for(snapshots) %>
+
+
+          <div class="mb-4 last:mb-3">
+            <%# Location header with risk badge %>
+            <div class="flex items-center justify-between mb-1.5">
+              <h4 class="text-sm font-semibold text-slate-700"><%= location.name %></h4>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium <%= intensity_color_class(peak) %> text-white">
+                <%= peak == "green" ? "Low" : peak == "yellow" ? "Moderate" : "High" %>
+              </span>
+            </div>
+
+            <%# Hourly timeline with EVERY hour labeled %>
+            <div class="overflow-x-auto">
+              <div class="min-w-[500px]">
+                <div class="grid gap-px" style="grid-template-columns: repeat(15, minmax(0, 1fr))">
+                  <% (6..20).each do |hour| %>
+                    <% snapshot = snapshots.find { |s| s.hour == hour } %>
+                    <% intensity = snapshot&.intensity || "none" %>
+                    <% visitors = snapshot&.estimated_visitors || 0 %>
+
+                    <div class="text-center">
+                      <div class="h-8 rounded <%= intensity_color_class(intensity) %> cursor-default"
+                           title="<%= format_hour(hour) %> — <%= case intensity; when 'red' then 'High risk'; when 'yellow' then 'Moderate risk'; else 'Low risk'; end %>">
+                      </div>
+                      <div class="text-[9px] text-slate-400 mt-1 leading-tight"><%= format_hour_short(hour) %></div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<% end %>
+
+<%# About section %>
+<div id="how-it-works" class="mt-8 bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+  <h3 class="text-sm font-semibold text-slate-700 mb-2">How does this work?</h3>
+  <div class="text-sm text-slate-500 space-y-2">
+    <p>
+      We pull published cruise ship schedules daily — ship names, passenger capacity, arrival and departure times,
+      and which BVI port they're visiting. Then we estimate how many cruise ship visitors will be at The Baths and
+      White Bay throughout each day.
+    </p>
+    <p>
+      <strong>The Baths</strong> gets cruise traffic two ways: ships at Spanish Town (Virgin Gorda) send passengers
+      directly, and ships at Road Town (Tortola) sell Baths excursions via ferry — we estimate about 20% of Road Town passengers
+      take that trip. <strong>White Bay</strong> gets hit when ships anchor at Jost Van Dyke.
+    </p>
+    <p>
+      These are estimates based on published schedules and ship capacity. Real crowd levels depend on weather, excursion bookings,
+      and actual occupancy. Use this as a planning tool — check the hourly bars and aim for green windows.
+    </p>
+  </div>
+</div>
+
+<%# Footer attribution %>
+<div class="mt-6 pb-4 text-center">
+  <div class="text-xs text-slate-400">
+    Built with 🩵 by the
+    <a href="https://yachtwarriors.com" target="_blank" rel="noopener" class="text-cyan-500 hover:text-cyan-600">Yacht Warriors</a>
+    crew
+  </div>
+</div>
+
+</div> <%# close max-w-3xl wrapper %>

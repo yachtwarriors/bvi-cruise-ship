@@ -1,0 +1,83 @@
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
+
+<div class="grid grid-cols-3 gap-4 mb-8">
+  <div class="bg-white rounded-lg shadow-sm p-4">
+    <div class="text-2xl font-bold text-slate-900"><%= @visit_count %></div>
+    <div class="text-sm text-slate-500">Cruise Visits</div>
+  </div>
+  <div class="bg-white rounded-lg shadow-sm p-4">
+    <div class="text-2xl font-bold text-slate-900"><%= @snapshot_count %></div>
+    <div class="text-sm text-slate-500">Crowd Snapshots</div>
+  </div>
+  <div class="bg-white rounded-lg shadow-sm p-4">
+    <div class="text-2xl font-bold text-slate-900"><%= @locations.size %></div>
+    <div class="text-sm text-slate-500">Tracked Locations</div>
+  </div>
+</div>
+
+<%# Recalculate button %>
+<div class="mb-8">
+  <%= button_to "Recalculate All Crowd Data", admin_recalculate_path, method: :post,
+      class: "px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 text-sm font-medium transition" %>
+</div>
+
+<%# Thresholds summary %>
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+  <h2 class="text-lg font-semibold text-gray-900 mb-4">Crowd Thresholds</h2>
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="text-left text-slate-500 border-b">
+        <th class="pb-2">Location</th>
+        <th class="pb-2">Green Max</th>
+        <th class="pb-2">Yellow Max</th>
+        <th class="pb-2">Red Above</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @locations.each do |location| %>
+        <% threshold = location.crowd_threshold %>
+        <tr class="border-b border-slate-100">
+          <td class="py-2 font-medium"><%= location.name %></td>
+          <td class="py-2"><span class="text-emerald-600"><%= threshold&.green_max || "—" %></span></td>
+          <td class="py-2"><span class="text-amber-600"><%= threshold&.yellow_max || "—" %></span></td>
+          <td class="py-2"><span class="text-red-600">&gt; <%= threshold&.yellow_max || "—" %></span></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <p class="mt-3"><%= link_to "Edit Thresholds →", admin_thresholds_path, class: "text-cyan-600 hover:text-cyan-700 text-sm" %></p>
+</div>
+
+<%# Recent scrape logs %>
+<div class="bg-white rounded-lg shadow-sm p-6">
+  <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Scraper Runs</h2>
+  <% if @recent_logs.any? %>
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-left text-slate-500 border-b">
+          <th class="pb-2">Time</th>
+          <th class="pb-2">Source</th>
+          <th class="pb-2">Status</th>
+          <th class="pb-2">Records</th>
+          <th class="pb-2">Error</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @recent_logs.each do |log| %>
+          <tr class="border-b border-slate-100">
+            <td class="py-2"><%= log.scraped_at&.strftime("%b %-d %I:%M %p") %></td>
+            <td class="py-2"><%= log.source %></td>
+            <td class="py-2">
+              <% color = { "success" => "bg-emerald-100 text-emerald-700", "warning" => "bg-amber-100 text-amber-700", "error" => "bg-red-100 text-red-700" }[log.status] %>
+              <span class="px-2 py-0.5 rounded-full text-xs font-medium <%= color %>"><%= log.status %></span>
+            </td>
+            <td class="py-2"><%= log.records_fetched %></td>
+            <td class="py-2 text-slate-400 truncate max-w-[200px]"><%= log.error_message %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-sm text-slate-400">No scraper runs yet. Run <code>rake scraper:fetch_schedules</code> to get started.</p>
+  <% end %>
+</div>

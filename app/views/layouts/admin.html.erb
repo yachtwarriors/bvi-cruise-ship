@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-100">
+  <head>
+    <title>Admin — BVI Cruise Ship Tracker</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full">
+    <nav class="bg-slate-800">
+      <div class="mx-auto max-w-4xl px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <span class="text-white font-bold text-sm">Admin</span>
+          <%= link_to "Dashboard", admin_root_path, class: "text-slate-300 hover:text-white text-sm" %>
+          <%= link_to "Thresholds", admin_thresholds_path, class: "text-slate-300 hover:text-white text-sm" %>
+          <%= link_to "Config", admin_configs_path, class: "text-slate-300 hover:text-white text-sm" %>
+        </div>
+        <div class="flex items-center gap-4">
+          <%= link_to "View Site", root_path, class: "text-slate-300 hover:text-white text-sm" %>
+          <%= link_to "Logout", destroy_admin_session_path, data: { turbo_method: :delete }, class: "text-slate-400 hover:text-white text-sm" %>
+        </div>
+      </div>
+    </nav>
+
+    <main class="mx-auto max-w-4xl px-4 py-6">
+      <% if notice %>
+        <div class="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm"><%= alert %></div>
+      <% end %>
+      <%= yield %>
+    </main>
+  </body>
+</html>

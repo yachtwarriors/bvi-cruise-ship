@@ -1,0 +1,214 @@
+# Ship name → max passenger capacity
+# Used as fallback when scraper doesn't provide capacity data
+# Source: various cruise line websites and CruiseMapper
+
+# Norwegian Cruise Line
+Norwegian Epic: 4100
+Norwegian Escape: 4266
+Norwegian Getaway: 3963
+Norwegian Breakaway: 3963
+Norwegian Gem: 2394
+Norwegian Dawn: 2340
+Norwegian Star: 2348
+Norwegian Sky: 2004
+Norwegian Sun: 1936
+Norwegian Spirit: 1966
+Norwegian Jade: 2402
+Norwegian Pearl: 2394
+
+# Royal Caribbean
+Odyssey of the Seas: 4198
+Anthem of the Seas: 4905
+Explorer of the Seas: 3114
+Voyager of the Seas: 3114
+Adventure of the Seas: 3114
+Freedom of the Seas: 3634
+Liberty of the Seas: 3634
+Allure of the Seas: 5484
+Symphony of the Seas: 5518
+Wonder of the Seas: 5734
+Harmony of the Seas: 5479
+Oasis of the Seas: 5400
+Mariner of the Seas: 3114
+Navigator of the Seas: 3114
+Brilliance of the Seas: 2112
+Jewel of the Seas: 2112
+Serenade of the Seas: 2112
+Radiance of the Seas: 2112
+Vision of the Seas: 2000
+Rhapsody of the Seas: 2000
+Grandeur of the Seas: 1950
+Enchantment of the Seas: 1950
+
+# Carnival Cruise Line
+Carnival Magic: 3690
+Carnival Breeze: 3690
+Carnival Dream: 3646
+Carnival Sunshine: 3002
+Carnival Glory: 2974
+Carnival Valor: 2974
+Carnival Liberty: 2974
+Carnival Freedom: 2974
+Carnival Conquest: 2974
+Carnival Legend: 2124
+Carnival Pride: 2124
+Carnival Spirit: 2124
+Mardi Gras: 5282
+Carnival Celebration: 5282
+Carnival Jubilee: 5282
+
+# Celebrity Cruises
+Celebrity Beyond: 3260
+Celebrity Apex: 2910
+Celebrity Edge: 2918
+Celebrity Equinox: 2850
+Celebrity Silhouette: 2886
+Celebrity Eclipse: 2850
+Celebrity Reflection: 3046
+Celebrity Summit: 2158
+Celebrity Constellation: 2034
+Celebrity Millennium: 2034
+Celebrity Infinity: 2046
+
+# Disney Cruise Line
+Disney Fantasy: 4000
+Disney Dream: 4000
+Disney Wonder: 2713
+Disney Magic: 2713
+Disney Wish: 4000
+Disney Treasure: 4000
+
+# MSC Cruises
+MSC Seaside: 5179
+MSC Seashore: 5632
+MSC Meraviglia: 5714
+MSC Divina: 3502
+MSC Fantasia: 3274
+MSC Virtuosa: 6334
+MSC World Europa: 6762
+
+# Holland America
+Nieuw Statendam: 2666
+Koningsdam: 2650
+Eurodam: 2104
+Westerdam: 1916
+Zuiderdam: 1916
+Oosterdam: 1916
+Noordam: 1916
+Rotterdam: 2668
+Nieuw Amsterdam: 2106
+Volendam: 1432
+Zaandam: 1432
+
+# Princess Cruises
+Regal Princess: 3560
+Royal Princess: 3560
+Caribbean Princess: 3140
+Crown Princess: 3080
+Emerald Princess: 3080
+Ruby Princess: 3080
+Sky Princess: 3660
+Enchanted Princess: 3660
+Discovery Princess: 3660
+Sun Princess: 4300
+
+# Marella (TUI)
+Marella Discovery: 1830
+Marella Discovery 2: 2198
+Marella Explorer: 1924
+Marella Explorer 2: 1814
+Marella Voyager: 1912
+
+# Windstar (small luxury)
+Wind Surf: 342
+Wind Star: 148
+Wind Spirit: 148
+Star Breeze: 312
+Star Legend: 312
+Star Pride: 312
+
+# Seabourn (small luxury)
+Seabourn Odyssey: 458
+Seabourn Sojourn: 458
+Seabourn Quest: 458
+Seabourn Ovation: 604
+Seabourn Encore: 604
+Seabourn Venture: 264
+Seabourn Pursuit: 264
+
+# Crystal Cruises
+Crystal Serenity: 980
+Crystal Symphony: 848
+
+# Silversea
+Silver Shadow: 382
+Silver Whisper: 382
+Silver Spirit: 540
+Silver Muse: 596
+Silver Moon: 596
+Silver Dawn: 596
+Silver Nova: 728
+Silver Ray: 728
+
+# Viking Ocean
+Viking Star: 930
+Viking Sea: 930
+Viking Sky: 930
+Viking Sun: 930
+Viking Orion: 930
+Viking Jupiter: 930
+Viking Venus: 930
+Viking Mars: 930
+Viking Neptune: 930
+Viking Saturn: 930
+
+# Cunard
+Queen Mary 2: 2691
+Queen Victoria: 2061
+Queen Elizabeth: 2081
+Queen Anne: 2996
+
+# Star Clippers
+Star Clipper: 170
+Star Flyer: 170
+Royal Clipper: 227
+
+# Ponant
+Le Ponant: 64
+Le Champlain: 184
+Le Bougainville: 184
+Le Jacques Cartier: 184
+Le Commandant Charcot: 245
+
+# Scenic
+Scenic Eclipse: 228
+Scenic Eclipse II: 228
+
+# Azamara
+Azamara Journey: 690
+Azamara Quest: 690
+Azamara Pursuit: 690
+Azamara Onward: 690
+
+# Oceania
+Marina: 1250
+Riviera: 1250
+Insignia: 684
+Nautica: 684
+Regatta: 684
+Sirena: 684
+Vista: 1200
+
+# Regent Seven Seas
+Seven Seas Explorer: 750
+Seven Seas Splendor: 750
+Seven Seas Mariner: 700
+Seven Seas Voyager: 700
+Seven Seas Navigator: 490
+Seven Seas Grandeur: 750
+
+# Aida
+AIDAdiva: 2050
+AIDAluna: 2050
+AIDAperla: 3286
+AIDAnova: 5228

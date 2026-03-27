@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="h-full bg-slate-50">
+  <head>
+    <%= metamagic %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full">
+    <header class="bg-white shadow-sm">
+      <div class="mx-auto max-w-3xl px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-xl font-bold text-slate-900">
+              <%= link_to "BVI Cruise Ship Schedule", root_path, class: "hover:text-cyan-600 transition" %>
+            </h1>
+            <p class="text-xs text-slate-500 mt-0.5">Tortola cruise port schedule & crowd predictions</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <% if notice %>
+        <div class="mx-auto max-w-3xl px-4 mt-4 mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="mx-auto max-w-3xl px-4 mt-4 mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm"><%= alert %></div>
+      <% end %>
+      <%= yield %>
+    </main>
+
+    <footer class="mt-12 pb-8 text-center text-xs text-slate-400">
+      <p>All times in BVI Time (AST / UTC-4). Crowd estimates based on published cruise schedules.</p>
+      <p class="mt-1">Data sourced from public cruise ship schedules. Not affiliated with BVI Ports Authority.</p>
+    </footer>
+  </body>
+</html>
