@@ -1,4 +1,4 @@
-module Admin
+module Manage
   class ThresholdsController < BaseController
     def index
       @thresholds = CrowdThreshold.includes(:location).all

@@ -14,7 +14,7 @@
     <tbody>
       <% @configs.each do |config| %>
         <tr class="border-b border-slate-100">
-          <%= form_with model: config, url: admin_config_path(config), method: :patch do |f| %>
+          <%= form_with model: config, url: manage_config_path(config), method: :patch do |f| %>
             <td class="p-4 font-mono text-xs text-slate-600"><%= config.key %></td>
             <td class="p-4">
               <%= f.text_field :value, class: "border border-slate-200 rounded px-2 py-1 text-sm w-24 focus:ring-2 focus:ring-cyan-500" %>
@@ -31,6 +31,6 @@
 </div>
 
 <div class="mt-4">
-  <%= button_to "Recalculate All Crowd Data", admin_recalculate_path, method: :post,
+  <%= button_to "Recalculate All Crowd Data", manage_recalculate_path, method: :post,
       class: "px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 text-sm font-medium transition" %>
 </div>

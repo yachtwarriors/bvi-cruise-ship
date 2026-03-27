@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   root "pages#home"
 
-  namespace :admin do
+  namespace :manage do
     root "dashboard#index"
     resources :thresholds, only: [:index, :update]
     resources :configs, only: [:index, :update]

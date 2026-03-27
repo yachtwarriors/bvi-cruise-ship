@@ -1,4 +1,4 @@
-module Admin
+module Manage
   class ConfigsController < BaseController
     def index
       @configs = AppConfig.order(:key)

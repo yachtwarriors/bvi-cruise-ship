@@ -1,4 +1,4 @@
-module Admin
+module Manage
   class DashboardController < BaseController
     def index
       @locations = Location.includes(:crowd_threshold).all

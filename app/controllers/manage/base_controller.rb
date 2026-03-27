@@ -1,4 +1,4 @@
-module Admin
+module Manage
   class BaseController < ApplicationController
     before_action :authenticate_admin!
     layout "admin"
