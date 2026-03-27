@@ -70,9 +70,15 @@ class CrowdCalculationService
 
     case location.slug
     when Location::THE_BATHS
+      # Spanish Town ships → direct to The Baths
       visits.select { |v| v.port.slug == Port::SPANISH_TOWN }.each do |v|
         result << [v, 1.0]
       end
+      # Gorda Sound ships → tender to Spanish Town, then to The Baths
+      visits.select { |v| v.port.slug == Port::GORDA_SOUND }.each do |v|
+        result << [v, 1.0]
+      end
+      # Road Town ships → excursion ferry percentage to The Baths
       excursion_pct = AppConfig.get_float("road_town_baths_excursion_pct", default: 0.20)
       visits.select { |v| v.port.slug == Port::ROAD_TOWN }.each do |v|
         result << [v, excursion_pct]
@@ -153,6 +159,8 @@ class CrowdCalculationService
     case [visit.port.slug, location.slug]
     when [Port::SPANISH_TOWN, Location::THE_BATHS]
       AppConfig.get_int("transit_time_baths_from_virgin_gorda", default: 90)
+    when [Port::GORDA_SOUND, Location::THE_BATHS]
+      AppConfig.get_int("transit_time_baths_from_gorda_sound", default: 120)
     when [Port::ROAD_TOWN, Location::THE_BATHS]
       AppConfig.get_int("transit_time_baths_from_road_town", default: 120)
     when [Port::JOST_VAN_DYKE, Location::WHITE_BAY]

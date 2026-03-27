@@ -5,7 +5,8 @@ class CruiseDigScraperService
     "road-town" => "/ports/tortola-british-virgin-islands/arrivals",
     "spanish-town" => "/ports/virgin-gorda-british-virgin-islands/arrivals",
     "jost-van-dyke" => "/ports/jost-van-dyke-british-virgin-islands/arrivals",
-    "norman-island" => "/ports/norman-island-british-virgin-islands/arrivals"
+    "norman-island" => "/ports/norman-island-british-virgin-islands/arrivals",
+    "gorda-sound" => "/ports/gorda-sound-british-virgin-islands/arrivals"
   }.freeze
 
   MAX_PAGES = 20
