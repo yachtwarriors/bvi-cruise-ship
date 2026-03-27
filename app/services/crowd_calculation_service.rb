@@ -165,7 +165,10 @@ class CrowdCalculationService
   def arrival_minutes_bvi(visit)
     return nil unless visit.arrival_at
     t = visit.arrival_at.in_time_zone(BVI_TIMEZONE)
-    t.hour * 60 + t.min
+    minutes = t.hour * 60 + t.min
+    # 23:59 is a "time unknown" marker from schedule sources — treat as nil
+    return nil if minutes >= 23 * 60 + 50
+    minutes
   end
 
   def departure_minutes_bvi(visit)
