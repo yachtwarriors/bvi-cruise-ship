@@ -29,15 +29,11 @@ puts "Seeding crowd thresholds..."
 baths = Location.find_by!(slug: "the-baths")
 white_bay = Location.find_by!(slug: "white-bay")
 
-CrowdThreshold.find_or_create_by!(location: baths) do |t|
-  t.green_max = 500
-  t.yellow_max = 1500
-end
+baths_threshold = CrowdThreshold.find_or_initialize_by(location: baths)
+baths_threshold.update!(green_max: 200, yellow_max: 600)
 
-CrowdThreshold.find_or_create_by!(location: white_bay) do |t|
-  t.green_max = 200
-  t.yellow_max = 600
-end
+white_bay_threshold = CrowdThreshold.find_or_initialize_by(location: white_bay)
+white_bay_threshold.update!(green_max: 100, yellow_max: 300)
 
 # App config defaults
 puts "Seeding app config..."
