@@ -43,6 +43,8 @@ puts "Seeding app config..."
   "transit_time_baths_from_road_town" => { value: "120", description: "Minutes from Road Town to The Baths via ferry excursion" },
   "transit_time_white_bay_from_jost" => { value: "20", description: "Minutes from Jost Van Dyke landing to White Bay" },
   "transit_time_baths_from_gorda_sound" => { value: "120", description: "Minutes from Gorda Sound anchorage to The Baths via tender + taxi" },
+  "spanish_town_baths_pct" => { value: "0.50", description: "Estimated % of Spanish Town passengers who visit The Baths" },
+  "gorda_sound_baths_pct" => { value: "0.40", description: "Estimated % of Gorda Sound passengers who visit The Baths" },
   "road_town_baths_excursion_pct" => { value: "0.20", description: "Estimated % of Road Town cruise passengers who take The Baths excursion" },
   "capacity_utilization_pct" => { value: "0.85", description: "Estimated % of max ship capacity that's actually aboard" },
   "ramp_down_minutes" => { value: "90", description: "Minutes before departure when crowd starts thinning" }

@@ -70,13 +70,15 @@ class CrowdCalculationService
 
     case location.slug
     when Location::THE_BATHS
-      # Spanish Town ships → direct to The Baths
+      # Spanish Town ships → not all go to The Baths (shops, beach, restaurants too)
+      spanish_town_pct = AppConfig.get_float("spanish_town_baths_pct", default: 0.50)
       visits.select { |v| v.port.slug == Port::SPANISH_TOWN }.each do |v|
-        result << [v, 1.0]
+        result << [v, spanish_town_pct]
       end
-      # Gorda Sound ships → tender to Spanish Town, then to The Baths
+      # Gorda Sound ships → tender to Spanish Town, then some go to The Baths
+      gorda_sound_pct = AppConfig.get_float("gorda_sound_baths_pct", default: 0.40)
       visits.select { |v| v.port.slug == Port::GORDA_SOUND }.each do |v|
-        result << [v, 1.0]
+        result << [v, gorda_sound_pct]
       end
       # Road Town ships → excursion ferry percentage to The Baths
       excursion_pct = AppConfig.get_float("road_town_baths_excursion_pct", default: 0.20)
