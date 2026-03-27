@@ -176,8 +176,9 @@ class CrowdCalculationService
     return nil unless visit.arrival_at
     t = visit.arrival_at.in_time_zone(BVI_TIMEZONE)
     minutes = t.hour * 60 + t.min
-    # 23:59 is a "time unknown" marker from schedule sources — treat as nil
+    # 23:59 and 11:59 are "time unknown" markers from schedule sources — treat as nil
     return nil if minutes >= 23 * 60 + 50
+    return nil if minutes == 11 * 60 + 59
     minutes
   end
 
