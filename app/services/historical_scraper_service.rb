@@ -6,12 +6,8 @@ class HistoricalScraperService
     2017 => "/tortola-cruise-ship-schedule-2017",
     2018 => "/tortola-cruise-ship-schedule-2018",
     2019 => "/tortola-bvi-cruise-ship-schedule-2019",
-    2020 => "/tortola-cruise-ship-schedule-2020",
-    2021 => "/tortola-cruise-ship-schedule-2021",
-    2022 => "/tortola-cruise-ship-schedule-2022",
-    2023 => "/tortola-cruise-ship-schedule-2023",
-    2024 => "/tortola-cruise-ship-schedule-2024",
-    2025 => "/tortola-cruise-ship-schedule-2025"
+    2020 => "/road-town-tortola-bvi-cruise-ship-schedule-2020",
+    2021 => "/british-virgin-islands-cruise-ports-schedules-2021"
   }.freeze
 
   def self.fetch_year(year)

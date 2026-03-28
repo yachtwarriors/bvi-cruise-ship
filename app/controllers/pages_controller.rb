@@ -22,5 +22,36 @@ class PagesController < ApplicationController
       .daytime
       .ordered
       .group_by { |s| [s.snapshot_date, s.location_id] }
+
+    # Rolling stats for comparison bar
+    @cruise_stats = build_cruise_stats
+  end
+
+  private
+
+  def build_cruise_stats
+    last_7_start = @today - 6.days
+    last_30_start = @today - 29.days
+    last_year_7_start = last_7_start - 1.year
+    last_year_7_end = @today - 1.year
+    last_year_30_start = last_30_start - 1.year
+    last_year_30_end = @today - 1.year
+
+    stats = {}
+
+    stats[:last_7] = window_stats(last_7_start, @today)
+    stats[:last_7_ly] = window_stats(last_year_7_start, last_year_7_end)
+    stats[:last_30] = window_stats(last_30_start, @today)
+    stats[:last_30_ly] = window_stats(last_year_30_start, last_year_30_end)
+
+    stats
+  end
+
+  def window_stats(start_date, end_date)
+    visits = CruiseVisit.where(visit_date: start_date..end_date)
+    {
+      ships: visits.count,
+      guests: visits.sum(:passenger_capacity)
+    }
   end
 end
