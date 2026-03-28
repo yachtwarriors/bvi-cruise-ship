@@ -1,6 +1,6 @@
 class CrowdCalculationService
   BVI_TIMEZONE = "America/Virgin".freeze
-  HOURS_RANGE = (6..18).freeze
+  HOURS_RANGE = (7..17).freeze
 
   # Passengers need to be back on the ship well before departure.
   # They leave the attraction ~2 hours before ship departure.

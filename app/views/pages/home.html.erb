@@ -178,8 +178,8 @@
             <%# Hourly timeline with EVERY hour labeled %>
             <div>
               <div>
-                <div class="grid gap-px" style="grid-template-columns: repeat(13, minmax(0, 1fr))">
-                  <% (6..18).each do |hour| %>
+                <div class="grid gap-px" style="grid-template-columns: repeat(11, minmax(0, 1fr))">
+                  <% (7..17).each do |hour| %>
                     <% snapshot = snapshots.find { |s| s.hour == hour } %>
                     <% intensity = snapshot&.intensity || "green" %>
                     <% visitors = snapshot&.estimated_visitors || 0 %>
