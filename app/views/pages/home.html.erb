@@ -40,7 +40,7 @@
       <strong class="text-white">White Bay</strong>, and <strong class="text-white">Cane Garden Bay</strong> are most likely to be crowded — so you can plan around it.
     </p>
     <div class="mt-8 flex items-center justify-center gap-x-4">
-      <a href="#schedule" class="rounded-md bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-400">View This Week</a>
+      <a href="#schedule" class="rounded-md bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-400">View Schedule</a>
       <a href="#how-it-works" class="text-sm font-semibold text-white">How it works <span aria-hidden="true">→</span></a>
     </div>
   </div>
@@ -85,9 +85,9 @@
       <%= @start_date.strftime("%b %-d") %> – <%= @end_date.strftime("%b %-d, %Y") %>
     </h2>
     <% if @start_date == @today %>
-      <p class="text-xs text-cyan-600 font-medium">This Week</p>
+      <p class="text-xs text-cyan-600 font-medium">Next 7 Days</p>
     <% else %>
-      <%= link_to "Today", root_path, class: "text-xs text-cyan-600 hover:text-cyan-700 font-medium" %>
+      <%= link_to "Back to Today", root_path, class: "text-xs text-cyan-600 hover:text-cyan-700 font-medium" %>
     <% end %>
   </div>
 
