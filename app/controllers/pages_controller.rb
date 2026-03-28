@@ -3,7 +3,11 @@ class PagesController < ApplicationController
 
   def home
     @today = Time.use_zone(BVI_TIMEZONE) { Time.zone.today }
-    @start_date = params[:start_date]&.to_date || @today
+    @start_date = begin
+      params[:start_date]&.to_date || @today
+    rescue Date::Error
+      @today
+    end
     @end_date = @start_date + 6.days
 
     @dates = (@start_date..@end_date).to_a
@@ -30,21 +34,23 @@ class PagesController < ApplicationController
   private
 
   def build_cruise_stats
-    last_7_start = @today - 6.days
-    last_30_start = @today - 29.days
-    last_year_7_start = last_7_start - 1.year
-    last_year_7_end = @today - 1.year
-    last_year_30_start = last_30_start - 1.year
-    last_year_30_end = @today - 1.year
+    Rails.cache.fetch("cruise_stats/#{@today}", expires_in: 1.hour) do
+      last_7_start = @today - 6.days
+      last_30_start = @today - 29.days
+      last_year_7_start = last_7_start - 1.year
+      last_year_7_end = @today - 1.year
+      last_year_30_start = last_30_start - 1.year
+      last_year_30_end = @today - 1.year
 
-    stats = {}
+      stats = {}
 
-    stats[:last_7] = window_stats(last_7_start, @today)
-    stats[:last_7_ly] = window_stats(last_year_7_start, last_year_7_end)
-    stats[:last_30] = window_stats(last_30_start, @today)
-    stats[:last_30_ly] = window_stats(last_year_30_start, last_year_30_end)
+      stats[:last_7] = window_stats(last_7_start, @today)
+      stats[:last_7_ly] = window_stats(last_year_7_start, last_year_7_end)
+      stats[:last_30] = window_stats(last_30_start, @today)
+      stats[:last_30_ly] = window_stats(last_year_30_start, last_year_30_end)
 
-    stats
+      stats
+    end
   end
 
   def window_stats(start_date, end_date)

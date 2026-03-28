@@ -40,8 +40,6 @@
       <% peak = peak_intensity_for(snapshots) %>
       <% badge_color = case peak; when "red" then "#ef4444"; when "yellow" then "#f59e0b"; else "#10b981"; end %>
       <% badge_text = case peak; when "red" then "High Risk"; when "yellow" then "Moderate"; else "Low Risk"; end %>
-      <% best_time = best_time_text(snapshots) if respond_to?(:best_time_text) %>
-
       <div style="margin-bottom: 16px; padding: 12px 16px; background-color: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 15px; font-weight: 700; color: #1e293b;"><%= location.name %></span>

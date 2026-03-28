@@ -47,31 +47,33 @@ class ScraperOrchestratorService
     today = Time.use_zone(BVI_TIMEZONE) { Time.zone.today }
     count = 0
 
-    visits.each do |attrs|
-      visit = CruiseVisit.find_or_initialize_by(
-        ship_name: attrs[:ship_name],
-        visit_date: attrs[:visit_date],
-        port_id: attrs[:port_id]
-      )
+    ActiveRecord::Base.transaction do
+      visits.each do |attrs|
+        visit = CruiseVisit.find_or_initialize_by(
+          ship_name: attrs[:ship_name],
+          visit_date: attrs[:visit_date],
+          port_id: attrs[:port_id]
+        )
 
-      # Future/today dates: always update with latest scraped data (schedules change)
-      # Past dates: only create if new, never overwrite historical records
-      if visit.new_record?
-        visit.assign_attributes(attrs)
-        visit.save!
-        count += 1
-      elsif attrs[:visit_date] >= today
-        # Future date — refresh with latest data
-        # Prefer crew_center data over cruisedig
-        if attrs[:source] == "crew_center" || visit.source != "crew_center"
+        # Future/today dates: always update with latest scraped data (schedules change)
+        # Past dates: only create if new, never overwrite historical records
+        if visit.new_record?
           visit.assign_attributes(attrs)
-          if visit.changed?
-            visit.save!
-            count += 1
+          visit.save!
+          count += 1
+        elsif attrs[:visit_date] >= today
+          # Future date — refresh with latest data
+          # Prefer crew_center data over cruisedig
+          if attrs[:source] == "crew_center" || visit.source != "crew_center"
+            visit.assign_attributes(attrs)
+            if visit.changed?
+              visit.save!
+              count += 1
+            end
           end
         end
+        # Past dates with existing records: skip (preserve historical data)
       end
-      # Past dates with existing records: skip (preserve historical data)
     end
 
     count

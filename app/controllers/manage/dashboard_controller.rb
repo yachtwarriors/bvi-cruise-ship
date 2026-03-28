@@ -9,9 +9,10 @@ module Manage
     end
 
     def recalculate
-      dates = CruiseVisit.distinct.pluck(:visit_date).sort
+      today = Time.use_zone("America/Virgin") { Time.zone.today }
+      dates = CruiseVisit.where("visit_date >= ?", today).distinct.pluck(:visit_date).sort
       CrowdCalculationService.calculate_for_dates(dates)
-      redirect_to admin_root_path, notice: "Recalculated crowd data for #{dates.size} dates."
+      redirect_to manage_root_path, notice: "Recalculated crowd data for #{dates.size} dates."
     end
   end
 end

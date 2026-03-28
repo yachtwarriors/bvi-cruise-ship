@@ -7,7 +7,7 @@ module Manage
     def update
       @config = AppConfig.find(params[:id])
       if @config.update(config_params)
-        redirect_to admin_configs_path, notice: "#{@config.key} updated."
+        redirect_to manage_configs_path, notice: "#{@config.key} updated."
       else
         @configs = AppConfig.order(:key)
         render :index, status: :unprocessable_entity

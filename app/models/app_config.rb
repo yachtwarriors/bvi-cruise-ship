@@ -3,7 +3,15 @@ class AppConfig < ApplicationRecord
   validates :value, presence: true
 
   def self.get(key, default: nil)
-    find_by(key: key)&.value || default
+    all_cached[key] || default
+  end
+
+  def self.all_cached
+    @all_cached ||= pluck(:key, :value).to_h
+  end
+
+  def self.reload_cache!
+    @all_cached = nil
   end
 
   def self.get_float(key, default: 0.0)
@@ -19,5 +27,6 @@ class AppConfig < ApplicationRecord
     record.value = value.to_s
     record.description = description if description
     record.save!
+    reload_cache!
   end
 end

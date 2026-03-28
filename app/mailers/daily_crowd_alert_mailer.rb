@@ -24,7 +24,7 @@ class DailyCrowdAlertMailer < ApplicationMailer
     priorities = { "red" => 3, "yellow" => 2, "green" => 1 }
     @locations.map { |loc|
       snapshots = @snapshots[loc.id] || []
-      return "green" if snapshots.blank?
+      next "green" if snapshots.blank?
       snapshots.max_by { |s| priorities[s.intensity] || 0 }&.intensity || "green"
     }.max_by { |i| priorities[i] || 0 }
   end

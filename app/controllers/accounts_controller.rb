@@ -9,9 +9,9 @@ class AccountsController < ApplicationController
     @user = current_user
 
     if params[:clear_dates]
-      @user.update!(alert_start_date: nil, alert_end_date: nil)
+      @user.update!(alert_start_date: nil, alert_end_date: nil, email_enabled: false)
       redirect_to account_path, notice: "Alert dates removed."
-    elsif @user.update(account_params)
+    elsif @user.update(account_params.merge(email_enabled: true))
       redirect_to account_path, notice: "Alert dates updated."
     else
       render :show, status: :unprocessable_entity
