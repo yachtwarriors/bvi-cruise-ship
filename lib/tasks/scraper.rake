@@ -4,5 +4,10 @@ namespace :scraper do
     puts "[#{Time.current}] Starting cruise ship schedule scrape..."
     ScraperOrchestratorService.run
     puts "[#{Time.current}] Scrape complete."
+  rescue => e
+    ScraperMonitorService.send_alert(
+      "🚨 Fatal scraper error: #{e.class}: #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}"
+    )
+    raise
   end
 end

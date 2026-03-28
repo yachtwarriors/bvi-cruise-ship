@@ -35,6 +35,9 @@ gem "httparty"
 # Auth
 gem "devise"
 
+# Email
+gem "postmark-rails"
+
 # Environment variables
 gem "figaro"
 

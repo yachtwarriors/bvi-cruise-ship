@@ -31,12 +31,18 @@ class ScraperMonitorService
   end
 
   def self.check_data_freshness
-    last_success = ScrapeLog.last_successful
-    return unless last_success
+    %w[crew_center cruisedig].each do |source|
+      last_success = ScrapeLog.last_successful_for(source)
 
-    hours_since = ((Time.current - last_success.scraped_at) / 1.hour).round
-    if hours_since > 48
-      send_alert("⚠️ Stale data: Last successful scrape was #{hours_since} hours ago")
+      if last_success.nil?
+        send_alert("⚠️ No successful scrape ever recorded for #{source}")
+        next
+      end
+
+      hours_since = ((Time.current - last_success.scraped_at) / 1.hour).round
+      if hours_since > 48
+        send_alert("⚠️ Stale data [#{source}]: Last successful scrape was #{hours_since} hours ago")
+      end
     end
   end
 

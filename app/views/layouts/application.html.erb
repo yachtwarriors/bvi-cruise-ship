@@ -36,6 +36,15 @@
             </h1>
             <p class="text-xs text-slate-500 mt-0.5">Cruise ship schedule & crowd predictions</p>
           </div>
+          <div class="flex items-center gap-3 text-sm">
+            <% if user_signed_in? %>
+              <%= link_to "My Account", account_path, class: "text-slate-600 hover:text-cyan-600 font-medium" %>
+              <%= link_to "Log Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-slate-400 hover:text-slate-600" %>
+            <% else %>
+              <%= link_to "Log In", new_user_session_path, class: "text-slate-600 hover:text-cyan-600" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "rounded-md bg-cyan-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-cyan-400 transition" %>
+            <% end %>
+          </div>
         </div>
       </div>
     </header>

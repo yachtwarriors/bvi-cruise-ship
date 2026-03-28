@@ -1,0 +1,48 @@
+BVI CROWD REPORT — <%= @date.strftime("%A, %B %-d, %Y") %>
+<%= "=" * 50 %>
+
+<% if @visits.any? -%>
+<%= number_with_delimiter(@total_passengers) %> CRUISE GUESTS from <%= @visits.size %> ship<%= @visits.size == 1 ? '' : 's' %>
+
+<% @visits.group_by { |v| v.port.name }.each do |port_name, port_visits| -%>
+<%= port_name.sub(', Tortola', '').sub(', Virgin Gorda', '') %>: <%= port_visits.map { |v| "#{v.ship_name} (#{number_with_delimiter(v.passenger_capacity || 0)})" }.join(', ') %>
+<% end -%>
+
+<% else -%>
+No cruise ships scheduled today! Great day to visit The Baths, White Bay, or Cane Garden Bay.
+
+<% end -%>
+<%= "-" * 50 %>
+
+CROWD RISK BY LOCATION
+<% @locations.each do |location| -%>
+<% snapshots = @snapshots[location.id] || [] -%>
+<% peak = peak_intensity_for(snapshots) -%>
+<% badge = case peak; when "red" then "HIGH RISK"; when "yellow" then "MODERATE"; else "LOW RISK"; end -%>
+
+<%= location.name %> — <%= badge %>
+<% green_hours = snapshots.select { |s| s.intensity == "green" }.map(&:hour).sort -%>
+<% if green_hours.any? && peak != "green" -%>
+  Best times: <%= green_hours.map { |h| format_hour_short(h) }.join(', ') %>
+<% elsif peak == "green" -%>
+  Low risk all day
+<% else -%>
+  Heavy crowds expected throughout the day
+<% end -%>
+<% end -%>
+
+<% if @day_peak.in?(%w[yellow red]) -%>
+<%= "-" * 50 %>
+
+<%= @day_peak == "red" ? "Big cruise day — skip the crowds entirely." : "Planning around the crowds?" %>
+Book a private yacht charter: https://yachtwarriors.com?utm_source=bvicruise&utm_medium=email&utm_campaign=daily_alert&utm_content=yw
+<% end -%>
+
+<%= "-" * 50 %>
+
+Booking a charter? Protect your trip: https://charterprotect.com?utm_source=bvicruise&utm_medium=email&utm_campaign=daily_alert&utm_content=cp
+
+Alerts set for <%= @user.alert_start_date&.strftime("%b %-d") %> - <%= @user.alert_end_date&.strftime("%b %-d, %Y") %>
+Manage alerts: <%= account_url %>
+
+bvicruiseshipschedule.com

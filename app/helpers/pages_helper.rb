@@ -66,6 +66,12 @@ module PagesHelper
     end
   end
 
+  def day_peak_intensity(date, locations, snapshots)
+    locations.map { |loc|
+      peak_intensity_for(snapshots[[date, loc.id]] || [])
+    }.max_by { |i| { "red" => 3, "yellow" => 2, "green" => 1 }[i] || 0 }
+  end
+
   def contributing_port?(visit, location)
     case location.slug
     when Location::THE_BATHS

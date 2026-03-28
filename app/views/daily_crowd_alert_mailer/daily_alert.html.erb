@@ -1,0 +1,93 @@
+<div style="max-width: 600px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1e293b;">
+
+  <%# Header %>
+  <div style="background-color: #1d293d; padding: 20px 24px; border-radius: 8px 8px 0 0;">
+    <h1 style="color: #ffffff; font-size: 20px; margin: 0;">BVI Crowd Report</h1>
+    <p style="color: #94a3b8; font-size: 14px; margin: 4px 0 0;"><%= @date.strftime("%A, %B %-d, %Y") %></p>
+  </div>
+
+  <div style="background-color: #ffffff; padding: 24px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <%# Ships Summary %>
+    <% if @visits.any? %>
+      <div style="margin-bottom: 24px;">
+        <div style="font-size: 32px; font-weight: bold; color: #0f172a;"><%= number_with_delimiter(@total_passengers) %></div>
+        <div style="font-size: 13px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Cruise Guests from <%= @visits.size %> ship<%= @visits.size == 1 ? '' : 's' %></div>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+        <% @visits.group_by { |v| v.port.name }.each do |port_name, port_visits| %>
+          <tr>
+            <td style="padding: 6px 0; font-size: 13px; color: #475569; font-weight: 600; border-bottom: 1px solid #f1f5f9;">
+              <%= port_name.sub(', Tortola', '').sub(', Virgin Gorda', '') %>
+            </td>
+            <td style="padding: 6px 0; font-size: 13px; color: #64748b; border-bottom: 1px solid #f1f5f9;">
+              <%= port_visits.map { |v| "#{v.ship_name} (#{number_with_delimiter(v.passenger_capacity || 0)})" }.join(', ') %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <div style="margin-bottom: 24px; padding: 16px; background-color: #f0fdf4; border-radius: 8px;">
+        <p style="font-size: 15px; color: #166534; margin: 0; font-weight: 600;">No cruise ships scheduled today!</p>
+        <p style="font-size: 13px; color: #15803d; margin: 4px 0 0;">Great day to visit The Baths, White Bay, or Cane Garden Bay.</p>
+      </div>
+    <% end %>
+
+    <%# Location Crowd Risk %>
+    <% @locations.each do |location| %>
+      <% snapshots = @snapshots[location.id] || [] %>
+      <% peak = peak_intensity_for(snapshots) %>
+      <% badge_color = case peak; when "red" then "#ef4444"; when "yellow" then "#f59e0b"; else "#10b981"; end %>
+      <% badge_text = case peak; when "red" then "High Risk"; when "yellow" then "Moderate"; else "Low Risk"; end %>
+      <% best_time = best_time_text(snapshots) if respond_to?(:best_time_text) %>
+
+      <div style="margin-bottom: 16px; padding: 12px 16px; background-color: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 15px; font-weight: 700; color: #1e293b;"><%= location.name %></span>
+          <span style="background-color: <%= badge_color %>; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;"><%= badge_text %></span>
+        </div>
+        <% green_hours = snapshots.select { |s| s.intensity == "green" }.map(&:hour).sort %>
+        <% if green_hours.any? && peak != "green" %>
+          <p style="font-size: 13px; color: #64748b; margin: 6px 0 0;">
+            Best times: <%= green_hours.map { |h| format_hour_short(h) }.join(', ') %>
+          </p>
+        <% elsif peak == "green" %>
+          <p style="font-size: 13px; color: #059669; margin: 6px 0 0;">Low risk all day</p>
+        <% else %>
+          <p style="font-size: 13px; color: #dc2626; margin: 6px 0 0;">Heavy crowds expected throughout the day</p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Yacht Warriors CTA — only on yellow/red days %>
+    <% if @day_peak.in?(%w[yellow red]) %>
+      <div style="margin: 24px 0; padding: 16px; background-color: #ecfeff; border: 1px solid #a5f3fc; border-radius: 8px;">
+        <p style="font-size: 14px; font-weight: 600; color: #164e63; margin: 0;">
+          <%= @day_peak == "red" ? "Big cruise day — skip the crowds entirely." : "Planning around the crowds?" %>
+        </p>
+        <p style="font-size: 13px; color: #0e7490; margin: 4px 0 12px;">A private yacht charter gives you the flexibility to explore on your schedule.</p>
+        <a href="https://yachtwarriors.com?utm_source=bvicruise&utm_medium=email&utm_campaign=daily_alert&utm_content=yw"
+           style="display: inline-block; background-color: #0891b2; color: #ffffff; font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 6px; text-decoration: none;">
+          Book with Yacht Warriors &rarr;
+        </a>
+      </div>
+    <% end %>
+
+    <%# Footer %>
+    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8;">
+      <p style="margin: 0;">
+        Booking a charter?
+        <a href="https://charterprotect.com?utm_source=bvicruise&utm_medium=email&utm_campaign=daily_alert&utm_content=cp" style="color: #0891b2; text-decoration: none;">Protect your trip with CharterProtect &rarr;</a>
+      </p>
+      <p style="margin: 12px 0 0;">
+        You're receiving this because you set alerts for
+        <%= @user.alert_start_date&.strftime("%b %-d") %> &ndash; <%= @user.alert_end_date&.strftime("%b %-d, %Y") %>.
+        <a href="<%= account_url %>" style="color: #0891b2; text-decoration: none;">Manage alerts</a>
+      </p>
+      <p style="margin: 8px 0 0;">
+        <a href="<%= root_url %>" style="color: #0891b2; text-decoration: none;">bvicruiseshipschedule.com</a>
+      </p>
+    </div>
+  </div>
+</div>
