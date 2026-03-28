@@ -9,4 +9,8 @@ class User < ApplicationRecord
     where("alert_start_date <= ? AND alert_end_date >= ?", date, date)
   }
   scope :email_enabled, -> { where(email_enabled: true) }
+
+  def admin?
+    admin
+  end
 end
