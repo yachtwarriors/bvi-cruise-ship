@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
 
   validates :alert_end_date, comparison: { greater_than_or_equal_to: :alert_start_date },
