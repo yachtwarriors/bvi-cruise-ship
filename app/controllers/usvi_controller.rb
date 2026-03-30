@@ -3,11 +3,7 @@ class UsviController < ApplicationController
 
   def show
     @today = Time.use_zone(TIMEZONE) { Time.zone.today }
-    @start_date = begin
-      params[:start_date]&.to_date || @today
-    rescue Date::Error
-      @today
-    end
+    @start_date = parse_start_date(@today)
     @end_date = @start_date + 6.days
 
     @dates = (@start_date..@end_date).to_a

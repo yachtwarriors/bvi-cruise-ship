@@ -35,6 +35,9 @@ gem "httparty"
 # Auth
 gem "devise"
 
+# Rate limiting
+gem "rack-attack"
+
 # Email
 gem "postmark-rails"
 
