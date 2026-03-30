@@ -222,7 +222,7 @@
           <% @st_croix_locations.each do |location| %>
             <% snapshots = @snapshots[[date, location.id]] || [] %>
             <% peak = peak_intensity_for(snapshots) %>
-            <% location_icon = case location.slug; when Location::RAINBOW_BEACH then "🌈"; when Location::BUCK_ISLAND then "🦌"; else "📍"; end %>
+            <% location_icon = case location.slug; when Location::RAINBOW_BEACH then "🌈"; when Location::BUCK_ISLAND then "🤿"; else "📍"; end %>
 
             <div class="mb-3 last:mb-2 rounded-lg border border-slate-100 p-3 <%= intensity_bg_light(peak) %>">
               <div class="flex items-center justify-between mb-2">
