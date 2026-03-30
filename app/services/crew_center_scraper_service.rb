@@ -2,10 +2,14 @@ class CrewCenterScraperService
   BASE_URL = "https://crew-center.com".freeze
 
   PORT_PATHS = {
+    # BVI
     "road-town" => "/road-town-tortola-bvi-cruise-ship-schedule",
     "spanish-town" => "/virgin-gorda-spanish-town-bvi-cruise-ship-schedule",
     "jost-van-dyke" => "/jost-van-dyke-bvi-cruise-ship-schedule",
-    "norman-island" => "/norman-island-bvi-cruise-ships-schedule"
+    "norman-island" => "/norman-island-bvi-cruise-ships-schedule",
+    # USVI
+    "charlotte-amalie" => "/st-thomas-charlotte-amalie-usvi-cruise-ship-schedule",
+    "frederiksted" => "/st-croix-usvi-cruise-ship-schedule"
   }.freeze
 
   def self.fetch_all

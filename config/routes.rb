@@ -5,6 +5,10 @@ Rails.application.routes.draw do
 
   root "pages#home"
 
+  get "/usvi", to: "usvi#show", as: :usvi
+  get "/us-virgin-islands-cruise-ship-schedule", to: redirect("/usvi", status: 301)
+  get "/st-thomas-cruise-ship-schedule", to: redirect("/usvi", status: 301)
+
   namespace :manage do
     root "dashboard#index"
     resources :thresholds, only: [:index, :update]

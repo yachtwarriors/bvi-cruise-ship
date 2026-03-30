@@ -1,0 +1,321 @@
+<% meta title: "USVI Cruise Ship Schedule — St. Thomas & St. Croix Crowd Tracker",
+       description: "Check the USVI cruise ship schedule for Charlotte Amalie (St. Thomas) and Frederiksted (St. Croix). See hourly crowd risk at Magens Bay, Coki Beach, National Park Beaches, Rainbow Beach, and Buck Island.",
+       keywords: "usvi cruise ship schedule, st thomas cruise ship schedule, charlotte amalie cruise ships, st croix cruise ship schedule, frederiksted cruise ships, magens bay crowded, coki beach crowds, trunk bay crowded" %>
+<% meta og: { title: "USVI Cruise Ship Schedule & Crowd Tracker",
+              description: "Track cruise ships visiting St. Thomas and St. Croix. Check hourly crowd risk at Magens Bay, Coki Beach, and National Park Beaches.",
+              type: "website",
+              image: image_url("the-baths-4.jpg") } %>
+
+<% content_for :head do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "USVI Cruise Ship Schedule",
+  "description": "Track cruise ships visiting the US Virgin Islands. See hourly crowd risk levels at Magens Bay, Coki Beach, National Park Beaches, Rainbow Beach, and Buck Island.",
+  "url": "https://bvicruiseshipschedule.com/usvi",
+  "applicationCategory": "TravelApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "about": [
+    { "@type": "TouristAttraction", "name": "Magens Bay", "address": { "@type": "PostalAddress", "addressLocality": "St. Thomas", "addressRegion": "US Virgin Islands" } },
+    { "@type": "TouristAttraction", "name": "Coki Beach", "address": { "@type": "PostalAddress", "addressLocality": "St. Thomas", "addressRegion": "US Virgin Islands" } },
+    { "@type": "TouristAttraction", "name": "National Park Beaches", "address": { "@type": "PostalAddress", "addressLocality": "St. John", "addressRegion": "US Virgin Islands" } },
+    { "@type": "TouristAttraction", "name": "Rainbow Beach", "address": { "@type": "PostalAddress", "addressLocality": "St. Croix", "addressRegion": "US Virgin Islands" } },
+    { "@type": "TouristAttraction", "name": "Buck Island", "address": { "@type": "PostalAddress", "addressLocality": "St. Croix", "addressRegion": "US Virgin Islands" } }
+  ]
+}
+</script>
+<% end %>
+
+<%# Hero %>
+<div class="relative isolate overflow-hidden">
+  <%= image_tag "the-baths-3.jpg", class: "absolute inset-0 -z-10 size-full object-cover brightness-50", alt: "US Virgin Islands" %>
+  <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32 text-center">
+    <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-6xl">USVI Cruise Ship Schedule</h1>
+    <p class="mt-6 text-lg font-medium text-gray-300 sm:text-xl/8">
+      Track cruise ships at <strong class="text-white">Charlotte Amalie</strong> and <strong class="text-white">Frederiksted</strong>.
+      See hourly crowd risk at <strong class="text-white">Magens Bay</strong>, <strong class="text-white">Coki Beach</strong>,
+      <strong class="text-white">National Park Beaches</strong>, <strong class="text-white">Rainbow Beach</strong>, and <strong class="text-white">Buck Island</strong>.
+    </p>
+    <div class="mt-8 flex items-center justify-center gap-x-4">
+      <a href="#schedule" class="rounded-md bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-400">View Schedule</a>
+      <%= link_to root_path, class: "text-sm font-semibold text-white" do %>BVI Schedule <span aria-hidden="true">→</span><% end %>
+    </div>
+  </div>
+</div>
+
+<div class="mx-auto max-w-3xl px-4 mt-8 mb-8">
+
+<%# How to read the timeline %>
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
+  <h3 class="text-sm font-semibold text-slate-700 mb-3">How to Read the Hourly Timeline</h3>
+  <p class="text-xs text-slate-500 mb-3">Each box below represents one hour. The color tells you the expected crowd level from cruise ship visitors at that time.</p>
+  <div class="grid grid-cols-3 gap-3 text-center">
+    <div class="rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-2">
+      <div class="w-full h-2 rounded-full bg-emerald-400 mb-1.5"></div>
+      <div class="text-sm font-semibold text-emerald-700">Low</div>
+      <div class="text-xs text-emerald-600 mt-0.5">Few or no cruise ship visitors expected.</div>
+    </div>
+    <div class="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2">
+      <div class="w-full h-2 rounded-full bg-amber-400 mb-1.5"></div>
+      <div class="text-sm font-semibold text-amber-700">Moderate</div>
+      <div class="text-xs text-amber-600 mt-0.5">Expect cruise ship visitors but shouldn't be overwhelming.</div>
+    </div>
+    <div class="rounded-lg bg-red-50 border border-red-200 px-3 py-2">
+      <div class="w-full h-2 rounded-full bg-red-500 mb-1.5"></div>
+      <div class="text-sm font-semibold text-red-700">High</div>
+      <div class="text-xs text-red-600 mt-0.5">Expect large crowds. Consider going early, late, or picking another day.</div>
+    </div>
+  </div>
+</div>
+
+<%# BVI cross-link %>
+<div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200 p-4 mb-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-sm font-semibold text-blue-900">Also visiting the BVI?</p>
+      <p class="text-xs text-blue-700">Track cruise ship crowds at The Baths, White Bay, and Cane Garden Bay.</p>
+    </div>
+    <%= link_to "BVI Schedule →", root_path, class: "shrink-0 rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition" %>
+  </div>
+</div>
+
+<%= turbo_frame_tag "schedule" do %>
+<div id="schedule"></div>
+
+<%# Week navigation %>
+<div class="flex items-center justify-between mb-4">
+  <%= link_to usvi_path(start_date: @prev_week_start), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white rounded-lg border border-slate-200 hover:bg-slate-50 transition" do %>
+    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    Prev
+  <% end %>
+
+  <div class="text-center">
+    <h2 class="text-lg font-semibold text-slate-900">
+      <%= @start_date.strftime("%b %-d") %> – <%= @end_date.strftime("%b %-d, %Y") %>
+    </h2>
+    <% if @start_date == @today %>
+      <p class="text-xs text-cyan-600 font-medium">Next 7 Days</p>
+    <% else %>
+      <%= link_to "Back to Today", usvi_path, class: "text-xs text-cyan-600 hover:text-cyan-700 font-medium" %>
+    <% end %>
+  </div>
+
+  <%= link_to usvi_path(start_date: @next_week_start), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white rounded-lg border border-slate-200 hover:bg-slate-50 transition" do %>
+    Next
+    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  <% end %>
+</div>
+
+<%# Jump to date %>
+<div class="mb-6 text-center">
+  <%= form_with url: usvi_path, method: :get, class: "inline-flex items-center gap-2" do |f| %>
+    <%= f.date_field :start_date, value: @start_date, class: "text-sm border border-slate-200 rounded-lg px-3 py-1.5 text-slate-700 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" %>
+    <%= f.submit "Go", class: "px-3 py-1.5 text-sm font-medium text-white bg-cyan-500 rounded-lg hover:bg-cyan-600 cursor-pointer transition" %>
+  <% end %>
+</div>
+
+<%# Day cards %>
+<div class="space-y-5">
+  <% @dates.each do |date| %>
+    <% st_thomas_visits = @st_thomas_visits_by_date[date] || [] %>
+    <% st_croix_visits = @st_croix_visits_by_date[date] || [] %>
+    <% all_visits = st_thomas_visits + st_croix_visits %>
+    <% is_today = date == @today %>
+
+    <div class="bg-white rounded-xl shadow-sm border <%= is_today ? 'border-cyan-300 ring-2 ring-cyan-100' : 'border-slate-200' %> overflow-hidden">
+
+      <%# Day header %>
+      <div class="px-4 pt-4 <%= is_today ? 'bg-cyan-50/50' : '' %>">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="text-center min-w-[3rem]">
+              <div class="text-xs font-medium text-slate-500 uppercase"><%= date.strftime("%a") %></div>
+              <div class="text-2xl font-bold <%= is_today ? 'text-cyan-600' : 'text-slate-900' %>"><%= date.day %></div>
+              <% if is_today %>
+                <div class="text-[10px] font-semibold text-cyan-600 uppercase">Today</div>
+              <% end %>
+            </div>
+            <div>
+              <div class="text-sm font-medium text-slate-700"><%= date.strftime("%B %-d, %Y") %></div>
+            </div>
+          </div>
+          <% if all_visits.any? %>
+            <div class="text-right">
+              <div class="text-3xl font-bold text-slate-900"><%= number_with_delimiter(total_passengers_for(all_visits)) %></div>
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Cruise Guests</div>
+              <div class="text-xs text-slate-400"><%= all_visits.size %> ship<%= all_visits.size == 1 ? '' : 's' %> in port</div>
+            </div>
+          <% else %>
+            <div class="text-right">
+              <div class="text-sm font-medium text-slate-400">No planned visits</div>
+              <div class="text-xs text-slate-400">Schedule may not be available yet</div>
+            </div>
+          <% end %>
+        </div>
+
+        <%# === ST. THOMAS SECTION === %>
+        <div class="mb-4">
+          <div class="flex items-center gap-2 mb-2 pb-2 border-b border-slate-200">
+            <span class="text-sm font-bold text-slate-700">St. Thomas</span>
+            <span class="text-xs text-slate-400">Charlotte Amalie</span>
+          </div>
+
+          <% if st_thomas_visits.any? %>
+            <div class="flex flex-wrap gap-x-4 gap-y-1 mb-3 text-xs text-slate-500">
+              <%= st_thomas_visits.map { |v| "#{v.ship_name} (#{number_with_delimiter(v.passenger_capacity || 0)})" }.join(', ') %>
+            </div>
+          <% else %>
+            <p class="text-xs text-slate-400 mb-3">No ships scheduled</p>
+          <% end %>
+
+          <% @st_thomas_locations.each do |location| %>
+            <% snapshots = @snapshots[[date, location.id]] || [] %>
+            <% peak = peak_intensity_for(snapshots) %>
+            <% location_icon = case location.slug; when Location::MAGENS_BAY then "🏖️"; when Location::COKI_BEACH then "🐠"; when Location::NATIONAL_PARK_BEACHES then "🏝️"; else "📍"; end %>
+
+            <div class="mb-3 last:mb-2 rounded-lg border border-slate-100 p-3 <%= intensity_bg_light(peak) %>">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg"><%= location_icon %></span>
+                  <h4 class="text-base font-bold text-slate-800"><%= location.name %></h4>
+                </div>
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold <%= intensity_color_class(peak) %> text-white">
+                  <%= peak == "green" ? "Low Risk" : peak == "yellow" ? "Moderate" : "High Risk" %>
+                </span>
+              </div>
+              <div>
+                <div class="grid gap-px" style="grid-template-columns: repeat(11, minmax(0, 1fr))">
+                  <% (7..17).each do |hour| %>
+                    <% snapshot = snapshots.find { |s| s.hour == hour } %>
+                    <% intensity = snapshot&.intensity || "green" %>
+                    <div class="text-center">
+                      <div class="h-8 rounded <%= intensity_color_class(intensity) %> cursor-default"
+                           title="<%= format_hour(hour) %> — <%= case intensity; when 'red' then 'High risk'; when 'yellow' then 'Moderate risk'; else 'Low risk'; end %>">
+                      </div>
+                      <div class="text-[9px] text-slate-400 mt-1 leading-tight"><%= format_hour_short(hour) %></div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <%# === ST. CROIX SECTION === %>
+        <div class="mb-4">
+          <div class="flex items-center gap-2 mb-2 pb-2 border-b border-slate-200">
+            <span class="text-sm font-bold text-slate-700">St. Croix</span>
+            <span class="text-xs text-slate-400">Frederiksted</span>
+          </div>
+
+          <% if st_croix_visits.any? %>
+            <div class="flex flex-wrap gap-x-4 gap-y-1 mb-3 text-xs text-slate-500">
+              <%= st_croix_visits.map { |v| "#{v.ship_name} (#{number_with_delimiter(v.passenger_capacity || 0)})" }.join(', ') %>
+            </div>
+          <% else %>
+            <p class="text-xs text-slate-400 mb-3">No ships scheduled</p>
+          <% end %>
+
+          <% @st_croix_locations.each do |location| %>
+            <% snapshots = @snapshots[[date, location.id]] || [] %>
+            <% peak = peak_intensity_for(snapshots) %>
+            <% location_icon = case location.slug; when Location::RAINBOW_BEACH then "🌈"; when Location::BUCK_ISLAND then "🦌"; else "📍"; end %>
+
+            <div class="mb-3 last:mb-2 rounded-lg border border-slate-100 p-3 <%= intensity_bg_light(peak) %>">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg"><%= location_icon %></span>
+                  <h4 class="text-base font-bold text-slate-800"><%= location.name %></h4>
+                </div>
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold <%= intensity_color_class(peak) %> text-white">
+                  <%= peak == "green" ? "Low Risk" : peak == "yellow" ? "Moderate" : "High Risk" %>
+                </span>
+              </div>
+              <div>
+                <div class="grid gap-px" style="grid-template-columns: repeat(11, minmax(0, 1fr))">
+                  <% (7..17).each do |hour| %>
+                    <% snapshot = snapshots.find { |s| s.hour == hour } %>
+                    <% intensity = snapshot&.intensity || "green" %>
+                    <div class="text-center">
+                      <div class="h-8 rounded <%= intensity_color_class(intensity) %> cursor-default"
+                           title="<%= format_hour(hour) %> — <%= case intensity; when 'red' then 'High risk'; when 'yellow' then 'Moderate risk'; else 'Low risk'; end %>">
+                      </div>
+                      <div class="text-[9px] text-slate-400 mt-1 leading-tight"><%= format_hour_short(hour) %></div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <%# Yacht Warriors CTA — only on moderate/high crowd days %>
+        <% all_locations = @st_thomas_locations.to_a + @st_croix_locations.to_a %>
+        <% day_peak = day_peak_intensity(date, all_locations, @snapshots) %>
+        <% if day_peak.in?(%w[yellow red]) %>
+          <div class="mx-0 mb-4 rounded-lg border border-cyan-200 bg-cyan-50 px-4 py-3 flex items-center justify-between gap-3">
+            <div>
+              <% if day_peak == "red" %>
+                <p class="text-sm font-medium text-cyan-900">Big cruise day ahead</p>
+                <p class="text-xs text-cyan-700">Skip the crowds entirely with a private yacht charter.</p>
+              <% else %>
+                <p class="text-sm font-medium text-cyan-900">Planning around the crowds?</p>
+                <p class="text-xs text-cyan-700">A private charter gives you the flexibility to explore on your schedule.</p>
+              <% end %>
+            </div>
+            <a href="https://yachtwarriors.com?utm_source=bvicruise&utm_medium=web&utm_campaign=crowd_cta_usvi&utm_content=<%= day_peak %>"
+               target="_blank" rel="noopener"
+               class="shrink-0 rounded-md bg-cyan-600 px-3 py-2 text-xs font-semibold text-white hover:bg-cyan-500 transition">
+              Yacht Warriors →
+            </a>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<% end %>
+
+<%# About section %>
+<div id="how-it-works" class="mt-8 bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+  <h3 class="text-sm font-semibold text-slate-700 mb-2">How does this work?</h3>
+  <div class="text-sm text-slate-500 space-y-2">
+    <p>
+      We pull published cruise ship schedules daily — ship names, passenger capacity, arrival and departure times,
+      and which USVI port they're visiting. Then we estimate hourly crowd levels at popular beaches throughout each day.
+    </p>
+    <p>
+      <strong>Magens Bay</strong> and <strong>Coki Beach</strong> get cruise traffic from ships at Charlotte Amalie (St. Thomas) —
+      they're a short taxi ride from the cruise terminal.
+      <strong>National Park Beaches</strong> (Trunk Bay, Maho Bay, Cinnamon Bay on St. John) get hit when Charlotte Amalie
+      passengers take excursion boats or the Red Hook ferry to St. John.
+    </p>
+    <p>
+      <strong>Rainbow Beach</strong> is steps from the Frederiksted cruise pier on St. Croix — it fills up fast on ship days.
+      <strong>Buck Island</strong> gets cruise excursion boat traffic from Frederiksted, typically arriving about an hour after the ship docks.
+    </p>
+    <p>
+      These are estimates based on published schedules and ship capacity. Real crowd levels depend on weather, excursion bookings,
+      and actual occupancy. Use this as a planning tool — check the hourly bars and aim for green windows.
+    </p>
+  </div>
+</div>
+
+<%# Footer %>
+<div class="mt-6 pb-2 flex justify-center items-center text-sm text-gray-600">
+  Built with 🩵 by the
+  <%= link_to "https://yachtwarriors.com?utm_source=bvicruise&utm_medium=web&utm_campaign=footer_yw_usvi", target: "_blank", rel: "noopener" do %>
+    <%= image_tag "yw_logo.png", alt: "Yacht Warriors Logo", class: "inline h-5 ml-2" %>
+  <% end %>
+</div>
+<div class="pb-4 text-center text-xs text-slate-400">
+  Booking a charter?
+  <a href="https://charterprotect.com?utm_source=bvicruise&utm_medium=web&utm_campaign=footer_cp_usvi"
+     target="_blank" rel="noopener" class="text-cyan-600 hover:text-cyan-500 font-medium">
+    Protect your trip with CharterProtect →
+  </a>
+</div>
+
+</div>

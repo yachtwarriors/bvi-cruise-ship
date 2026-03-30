@@ -14,14 +14,18 @@ class PagesController < ApplicationController
     @prev_week_start = @start_date - 7.days
     @next_week_start = @start_date + 7.days
 
-    # Load all cruise visits for the date range
+    # Load BVI cruise visits only
+    bvi_port_ids = Port.bvi.pluck(:id)
     @visits_by_date = CruiseVisit.includes(:port)
+      .where(port_id: bvi_port_ids)
       .in_range(@start_date, @end_date)
       .group_by(&:visit_date)
 
-    # Load crowd snapshots for both locations
-    @locations = Location.includes(:crowd_threshold).all
+    # Load BVI locations and snapshots only
+    @locations = Location.bvi.includes(:crowd_threshold)
+    bvi_location_ids = @locations.map(&:id)
     @snapshots = CrowdSnapshot.includes(:location)
+      .where(location_id: bvi_location_ids)
       .in_range(@start_date, @end_date)
       .daytime
       .ordered
@@ -54,7 +58,7 @@ class PagesController < ApplicationController
   end
 
   def window_stats(start_date, end_date)
-    visits = CruiseVisit.where(visit_date: start_date..end_date)
+    visits = CruiseVisit.joins(:port).where(port: { territory: "bvi" }).where(visit_date: start_date..end_date)
     {
       ships: visits.count,
       guests: visits.sum(:passenger_capacity)

@@ -8,9 +8,16 @@ class CrowdCalculationService
 
   # Earliest excursion tours start running
   EARLIEST_EXCURSION_HOURS = {
-    Location::THE_BATHS => 8 * 60 + 30,      # First excursion groups can arrive ~8:30 AM
-    Location::WHITE_BAY => 9 * 60,            # Beach bars open ~9-10 AM
-    Location::CANE_GARDEN_BAY => 8 * 60 + 30  # Beach bars and taxis running by ~8:30 AM
+    # BVI
+    Location::THE_BATHS => 8 * 60 + 30,
+    Location::WHITE_BAY => 9 * 60,
+    Location::CANE_GARDEN_BAY => 8 * 60 + 30,
+    # USVI
+    Location::MAGENS_BAY => 8 * 60 + 30,
+    Location::COKI_BEACH => 8 * 60 + 30,
+    Location::NATIONAL_PARK_BEACHES => 9 * 60,
+    Location::RAINBOW_BEACH => 8 * 60,
+    Location::BUCK_ISLAND => 9 * 60
   }.freeze
 
   def self.calculate_for_dates(dates)
@@ -97,6 +104,35 @@ class CrowdCalculationService
       visits.select { |v| v.port.slug == Port::ROAD_TOWN }.each do |v|
         result << [v, cgb_pct]
       end
+
+    # USVI — St. Thomas (Charlotte Amalie) locations
+    when Location::MAGENS_BAY
+      pct = AppConfig.get_float("charlotte_amalie_magens_bay_pct", default: 0.25)
+      visits.select { |v| v.port.slug == Port::CHARLOTTE_AMALIE }.each do |v|
+        result << [v, pct]
+      end
+    when Location::COKI_BEACH
+      pct = AppConfig.get_float("charlotte_amalie_coki_beach_pct", default: 0.20)
+      visits.select { |v| v.port.slug == Port::CHARLOTTE_AMALIE }.each do |v|
+        result << [v, pct]
+      end
+    when Location::NATIONAL_PARK_BEACHES
+      pct = AppConfig.get_float("charlotte_amalie_national_park_pct", default: 0.15)
+      visits.select { |v| v.port.slug == Port::CHARLOTTE_AMALIE }.each do |v|
+        result << [v, pct]
+      end
+
+    # USVI — St. Croix (Frederiksted) locations
+    when Location::RAINBOW_BEACH
+      pct = AppConfig.get_float("frederiksted_rainbow_beach_pct", default: 0.40)
+      visits.select { |v| v.port.slug == Port::FREDERIKSTED }.each do |v|
+        result << [v, pct]
+      end
+    when Location::BUCK_ISLAND
+      pct = AppConfig.get_float("frederiksted_buck_island_pct", default: 0.15)
+      visits.select { |v| v.port.slug == Port::FREDERIKSTED }.each do |v|
+        result << [v, pct]
+      end
     end
 
     result
@@ -175,6 +211,17 @@ class CrowdCalculationService
       AppConfig.get_int("transit_time_white_bay_from_jost", default: 20)
     when [Port::ROAD_TOWN, Location::CANE_GARDEN_BAY]
       AppConfig.get_int("transit_time_cgb_from_road_town", default: 45)
+    # USVI
+    when [Port::CHARLOTTE_AMALIE, Location::MAGENS_BAY]
+      AppConfig.get_int("transit_time_magens_bay", default: 30)
+    when [Port::CHARLOTTE_AMALIE, Location::COKI_BEACH]
+      AppConfig.get_int("transit_time_coki_beach", default: 30)
+    when [Port::CHARLOTTE_AMALIE, Location::NATIONAL_PARK_BEACHES]
+      AppConfig.get_int("transit_time_national_park_beaches", default: 90)
+    when [Port::FREDERIKSTED, Location::RAINBOW_BEACH]
+      AppConfig.get_int("transit_time_rainbow_beach", default: 5)
+    when [Port::FREDERIKSTED, Location::BUCK_ISLAND]
+      AppConfig.get_int("transit_time_buck_island", default: 60)
     else
       60
     end

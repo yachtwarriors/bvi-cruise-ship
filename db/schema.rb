@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_28_194805) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_30_133725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -80,7 +80,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_28_194805) do
     t.string "slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "territory", default: "bvi", null: false
+    t.bigint "port_id"
+    t.index ["port_id"], name: "index_locations_on_port_id"
     t.index ["slug"], name: "index_locations_on_slug", unique: true
+    t.index ["territory"], name: "index_locations_on_territory"
   end
 
   create_table "ports", force: :cascade do |t|
@@ -90,7 +94,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_28_194805) do
     t.decimal "longitude", precision: 10, scale: 6
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "territory", default: "bvi", null: false
     t.index ["slug"], name: "index_ports_on_slug", unique: true
+    t.index ["territory"], name: "index_ports_on_territory"
   end
 
   create_table "scrape_logs", force: :cascade do |t|
@@ -123,4 +129,5 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_28_194805) do
   add_foreign_key "crowd_snapshots", "locations"
   add_foreign_key "crowd_thresholds", "locations"
   add_foreign_key "cruise_visits", "ports"
+  add_foreign_key "locations", "ports"
 end

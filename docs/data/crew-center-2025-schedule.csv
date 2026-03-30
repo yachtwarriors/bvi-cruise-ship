@@ -1,0 +1,265 @@
+date,ship_name,time,guest_capacity
+1-Jan-2025,Wind Surf,10:00 pm - 5:00 pm,376
+1-Jan-2025,Norwegian Epic,06:00 am - 2:00 pm,4228
+1-Jan-2025,Celebrity Apex,07:00 am - 2:00 pm,2918
+2-Jan-2025,Seven Seas Navigator,07:00 am - 7:00 pm,490
+2-Jan-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+4-Jan-2025,Azamara Onward,07:00 am - 1:00 pm,704
+5-Jan-2025,Marella Explorer 2,08:00 am - 4:00 pm,1814
+6-Jan-2025,Star Flyer,-,170
+7-Jan-2025,Marella Discovery,08:00 am - 6:00 pm,1830
+7-Jan-2025,Disney Treasure,-,2476
+8-Jan-2025,P&O Arvia,-,5206
+8-Jan-2025,Norwegian Prima,07:00 am - 6:00 pm,3215
+9-Jan-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+9-Jan-2025,ms Volendam,08:00 am - 5:00 pm,1432
+11-Jan-2025,Marella Voyager,08:00 am - 6:00 pm,1912
+11-Jan-2025,Costa Fascinosa,07:00 am - 3:00 pm,3014
+12-Jan-2025,Resilient Lady,09:00 am - 6:00 pm,2770
+12-Jan-2025,Seabourn Ovation,08:00 am - 5:00 pm,532
+12-Jan-2025,Costa Fortuna,08:00 am - 6:00 pm,2698
+14-Jan-2025,Wind Surf,08:00 am - 6:00 pm,376
+14-Jan-2025,Norwegian Pearl,06:00 am - 2:00 pm,2394
+14-Jan-2025,MSC Virtuosa,10:00 am - 7:00 pm,4810
+15-Jan-2025,Norwegian Epic,06:00 am - 2:00 pm,4228
+15-Jan-2025,Celebrity Apex,07:00 am - 2:00 pm,2918
+16-Jan-2025,AIDAbella,07:00 am - 4:00 pm,2050
+16-Jan-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+19-Jan-2025,P&O Aurora,-,1874
+19-Jan-2025,Marella Explorer 2,08:00 am - 6:00 pm,1814
+20-Jan-2025,Star Flyer,-,170
+20-Jan-2025,Norwegian Viva,08:00 am - 5:00 pm,3219
+21-Jan-2025,Ambience,08:00 am - 7:00 pm,1596
+21-Jan-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+22-Jan-2025,Norwegian Prima,01:00 pm - 8:00 pm,3215
+22-Jan-2025,ms Rotterdam,08:00 am - 6:00 pm,2668
+23-Jan-2025,AIDAluna,07:00 am - 4:00 pm,2050
+23-Jan-2025,SeaDream II,-,94
+23-Jan-2025,SeaDream I,-,94
+23-Jan-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+23-Jan-2025,Celebrity Eclipse,08:00 am - 6:00 pm,2850
+24-Jan-2025,P&O Iona,-,5206
+24-Jan-2025,P&O Arvia,-,5206
+25-Jan-2025,Norwegian Jewel,11:00 am - 6:00 pm,2388
+25-Jan-2025,Marella Voyager,08:00 am - 6:00 pm,1912
+26-Jan-2025,Seabourn Ovation,08:00 am - 5:00 pm,532
+27-Jan-2025,Celebrity Beyond,08:00 am - 6:00 pm,3276
+28-Jan-2025,Wind Surf,08:00 am - 6:00 pm,376
+28-Jan-2025,Viking Sea,-,928
+28-Jan-2025,Mein Schiff 3,07:00 am - 6:00 pm,2506
+28-Jan-2025,Marella Discovery,08:00 am - 6:00 pm,1830
+29-Jan-2025,Norwegian Epic,06:00 am - 2:00 pm,4228
+29-Jan-2025,Celebrity Apex,07:00 am - 2:00 pm,2918
+30-Jan-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+30-Jan-2025,Marella Explorer 2,09:00 am - 7:00 pm,1814
+30-Jan-2025,ms Rotterdam,08:00 am - 5:00 pm,2668
+31-Jan-2025,Seven Seas Grandeur,07:00 am - 5:00 pm,754
+31-Jan-2025,MSC Virtuosa,07:00 am - 3:00 pm,4810
+3-Feb-2025,Star Flyer,-,170
+3-Feb-2025,Queen Mary 2,-,2726
+4-Feb-2025,Wind Surf,08:00 am - 6:00 pm,376
+4-Feb-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+5-Feb-2025,P&O Arvia,-,5206
+5-Feb-2025,Norwegian Epic,06:00 am - 2:00 pm,4228
+6-Feb-2025,AIDAluna,07:00 am - 4:00 pm,2050
+6-Feb-2025,Norwegian Prima,10:00 am - 5:00 pm,3215
+6-Feb-2025,Norwegian Jewel,11:00 am - 7:00 pm,2388
+6-Feb-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+7-Feb-2025,Seven Seas Navigator,07:00 am - 7:00 pm,490
+8-Feb-2025,Marella Voyager,08:00 am - 6:00 pm,1912
+8-Feb-2025,Costa Fascinosa,07:00 am - 3:00 pm,3014
+9-Feb-2025,Resilient Lady,08:00 am - 6:00 pm,2770
+9-Feb-2025,Costa Fortuna,08:00 am - 6:00 pm,2698
+10-Feb-2025,Norwegian Viva,08:00 am - 5:00 pm,3219
+11-Feb-2025,MSC Virtuosa,08:00 am - 6:00 pm,4810
+12-Feb-2025,Norwegian Epic,06:00 am - 2:00 pm,4228
+12-Feb-2025,Celebrity Apex,07:00 am - 2:00 pm,2918
+13-Feb-2025,AIDAmar,01:00 pm - 8:00 pm,2194
+13-Feb-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+13-Feb-2025,Marella Explorer 2,09:00 am - 7:00 pm,1814
+14-Feb-2025,Viking Sea,-,928
+17-Feb-2025,Viking Sea,-,928
+17-Feb-2025,Star Flyer,-,170
+17-Feb-2025,Norwegian Jade,06:00 am - 2:00 pm,2402
+18-Feb-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+19-Feb-2025,AIDAbella,10:00 am - 8:00 pm,2050
+19-Feb-2025,Wind Surf,08:00 am - 5:00 pm,376
+19-Feb-2025,P&O Arvia,-,5206
+20-Feb-2025,Seven Seas Grandeur,07:00 am - 5:00 pm,754
+20-Feb-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+21-Feb-2025,Marella Discovery,08:00 am - 5:00 pm,1830
+22-Feb-2025,Marella Voyager,08:00 am - 6:00 pm,1912
+22-Feb-2025,Costa Fascinosa,07:00 am - 3:00 pm,3014
+23-Feb-2025,Resilient Lady,08:00 am - 6:00 pm,2770
+23-Feb-2025,Seabourn Ovation,08:00 am - 5:00 pm,532
+23-Feb-2025,Costa Fortuna,08:00 am - 6:00 pm,2698
+24-Feb-2025,MSC Virtuosa,10:00 am - 7:00 pm,4810
+25-Feb-2025,Enchanted Princess,07:00 am - 4:00 pm,3668
+26-Feb-2025,Norwegian Epic,06:00 am - 2:00 pm,4228
+26-Feb-2025,Celebrity Apex,07:00 am - 2:00 pm,2918
+27-Feb-2025,SeaDream II,-,94
+27-Feb-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+27-Feb-2025,Marella Explorer 2,12:00 pm - 9:00 pm,1814
+3-Mar-2025,Norwegian Viva,08:00 am - 5:00 pm,3219
+3-Mar-2025,Fred Olsen Balmoral,-,1350
+4-Mar-2025,Wind Surf,08:00 am - 6:00 pm,376
+4-Mar-2025,ms Zaandam,08:00 am - 5:00 pm,1432
+4-Mar-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+5-Mar-2025,P&O Arvia,-,5206
+5-Mar-2025,Norwegian Epic,06:00 am - 2:00 pm,4228
+6-Mar-2025,AIDAluna,07:00 am - 4:00 pm,2050
+6-Mar-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+8-Mar-2025,Norwegian Pearl,12:00 pm - 7:00 pm,2394
+8-Mar-2025,Marella Voyager,08:00 am - 6:00 pm,1912
+8-Mar-2025,Costa Fascinosa,07:00 am - 3:00 pm,3014
+9-Mar-2025,Resilient Lady,08:00 am - 6:00 pm,2770
+9-Mar-2025,Seabourn Ovation,08:00 am - 5:00 pm,532
+10-Mar-2025,MSC Virtuosa,10:00 am - 7:00 pm,4810
+11-Mar-2025,Wind Surf,08:00 am - 6:00 pm,376
+12-Mar-2025,Norwegian Epic,06:00 am - 2:00 pm,4228
+13-Mar-2025,AIDAbella,07:00 am - 4:00 pm,2050
+13-Mar-2025,SeaDream I,-,94
+13-Mar-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+13-Mar-2025,Marella Discovery,08:00 am - 6:00 pm,1830
+16-Mar-2025,Marella Explorer 2,08:00 am - 6:00 pm,1814
+17-Mar-2025,Star Flyer,-,170
+17-Mar-2025,Enchanted Princess,07:00 am - 4:00 pm,3668
+18-Mar-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+20-Mar-2025,AIDAluna,07:00 am - 4:00 pm,2050
+20-Mar-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+21-Mar-2025,Explora 1,08:00 am - 6:00 pm,922
+22-Mar-2025,P&O Ventura,-,3078
+22-Mar-2025,Costa Fascinosa,07:00 am - 3:00 pm,3014
+23-Mar-2025,Resilient Lady,09:00 am - 6:00 pm,2770
+23-Mar-2025,Viking Sea,-,928
+24-Mar-2025,Norwegian Viva,08:00 am - 5:00 pm,3219
+24-Mar-2025,MSC Virtuosa,10:00 am - 7:00 pm,4810
+25-Mar-2025,Wind Surf,08:00 am - 6:00 pm,376
+25-Mar-2025,Marella Voyager,08:00 am - 6:00 pm,1912
+25-Mar-2025,Queen Mary 2,-,2726
+26-Mar-2025,Norwegian Epic,06:00 am - 2:00 pm,4228
+27-Mar-2025,Norwegian Encore,06:00 am - 2:00 pm,3998
+1-Apr-2025,Regal Princess,07:00 am - 4:00 pm,3560
+1-Apr-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+2-Apr-2025,ms Nieuw Statendam,07:00 am - 2:00 pm,2666
+3-Apr-2025,Marella Discovery,08:00 am - 6:00 pm,1830
+5-Apr-2025,Marella Voyager,08:00 am - 6:00 pm,1912
+6-Apr-2025,Enchanted Princess,07:00 am - 4:00 pm,3668
+7-Apr-2025,AIDAbella,12:00 pm - 7:00 pm,2050
+14-Apr-2025,AIDAluna,12:00 pm - 8:00 pm,2050
+15-Apr-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+16-Apr-2025,Oceania Sirena,07:00 am - 5:00 pm,698
+17-Apr-2025,Norwegian Pearl,07:00 am - 6:00 pm,2394
+29-Apr-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+30-Apr-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+7-May-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+13-May-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+14-May-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+21-May-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+27-May-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+28-May-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+4-Jun-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+10-Jun-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+11-Jun-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+18-Jun-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+24-Jun-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+25-Jun-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+2-Jul-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+8-Jul-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+9-Jul-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+16-Jul-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+22-Jul-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+23-Jul-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+28-Jul-2025,Disney Magic,09:00 am - 4:00 pm,1745
+30-Jul-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+5-Aug-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+6-Aug-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+13-Aug-2025,Norwegian Aqua,06:00 am - 12:00 pm,3571
+19-Aug-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+2-Sep-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+4-Sep-2025,Celebrity Reflection,08:00 am - 6:00 pm,3046
+16-Sep-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+30-Sep-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+2-Oct-2025,Celebrity Reflection,08:00 am - 6:00 pm,3046
+13-Oct-2025,Grand Princess,08:00 am - 6:00 pm,2602
+14-Oct-2025,Carnival Venezia,08:00 am - 5:00 pm,4232
+15-Oct-2025,Disney Treasure,08:00 am - 2:00 pm,2476
+16-Oct-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+21-Oct-2025,Brilliant Lady,08:00 am - 6:00 pm,2770
+23-Oct-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+25-Oct-2025,Queen Elizabeth,-,2081
+27-Oct-2025,Grand Princess,08:00 am - 6:00 pm,2602
+28-Oct-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+30-Oct-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+1-Nov-2025,Celebrity Reflection,08:00 am - 6:00 pm,3046
+2-Nov-2025,Mein Schiff 1,07:00 am - 7:00 pm,2534
+4-Nov-2025,Azamara Quest,08:00 am - 6:00 pm,722
+5-Nov-2025,Celebrity Beyond,11:00 am - 7:00 pm,3276
+6-Nov-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+7-Nov-2025,Valiant Lady,08:00 am - 6:00 pm,2770
+8-Nov-2025,Brilliance Of The Seas,08:00 am - 6:00 pm,2150
+8-Nov-2025,Explora 1,09:00 am - 7:00 pm,922
+9-Nov-2025,Valiant Lady,08:00 am - 5:00 pm,2770
+10-Nov-2025,Brilliance Of The Seas,08:00 am - 6:00 pm,2150
+10-Nov-2025,Caribbean Princess,08:00 am - 6:00 pm,3138
+11-Nov-2025,Disney Treasure,07:00 am - 5:00 pm,2476
+12-Nov-2025,P&O Arvia,-,5206
+13-Nov-2025,Spirit of Discovery,08:00 am - 5:00 pm,1000
+13-Nov-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+14-Nov-2025,Celebrity Summit,08:00 am - 6:00 pm,2158
+15-Nov-2025,Queen Elizabeth,-,2081
+18-Nov-2025,Brilliance Of The Seas,08:00 am - 6:00 pm,2150
+19-Nov-2025,Norwegian Joy,06:00 am - 1:00 pm,3804
+19-Nov-2025,Celebrity Beyond,11:00 am - 7:00 pm,3276
+20-Nov-2025,Enchanted Princess,07:00 am - 4:00 pm,3668
+20-Nov-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+21-Nov-2025,Azamara Quest,08:00 am - 6:00 pm,722
+21-Nov-2025,Norwegian Epic,08:00 am - 6:00 pm,4228
+23-Nov-2025,Valiant Lady,09:00 am - 6:00 pm,2770
+24-Nov-2025,Brilliance Of The Seas,08:00 am - 6:00 pm,2150
+24-Nov-2025,Norwegian Epic,08:00 am - 5:00 pm,4228
+24-Nov-2025,Explora 1,08:00 am - 6:00 pm,922
+25-Nov-2025,Oceania Allura,07:00 am - 5:00 pm,1218
+25-Nov-2025,Crystal Serenity,07:00 am - 6:00 pm,740
+26-Nov-2025,Norwegian Joy,06:00 am - 1:00 pm,3804
+26-Nov-2025,Disney Treasure,08:00 am - 2:00 pm,2476
+27-Nov-2025,AIDAsol,07:00 am - 4:00 pm,2194
+27-Nov-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+28-Nov-2025,P&O Arvia,-,5206
+3-Dec-2025,Norwegian Joy,06:00 am - 1:00 pm,3804
+3-Dec-2025,Celebrity Beyond,11:00 am - 7:00 pm,3276
+4-Dec-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+5-Dec-2025,Azamara Quest,08:00 am - 6:00 pm,722
+5-Dec-2025,Brilliance Of The Seas,08:00 am - 6:00 pm,2150
+5-Dec-2025,Norwegian Gem,11:00 am - 7:00 pm,2394
+6-Dec-2025,Queen Elizabeth,-,2081
+9-Dec-2025,Silver Ray,07:00 am - 2:00 pm,556
+9-Dec-2025,P&O Arvia,-,5206
+10-Dec-2025,Carnival Venezia,08:00 am - 5:00 pm,4232
+10-Dec-2025,Norwegian Joy,06:00 am - 1:00 pm,3804
+10-Dec-2025,Disney Treasure,08:00 am - 2:00 pm,2476
+11-Dec-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+13-Dec-2025,Brilliance Of The Seas,08:00 am - 6:00 pm,2150
+14-Dec-2025,Costa Fascinosa,08:00 am - 6:00 pm,3014
+15-Dec-2025,MSC Virtuosa,10:00 am - 7:00 pm,4810
+16-Dec-2025,Brilliance Of The Seas,08:00 am - 6:00 pm,2150
+17-Dec-2025,Norwegian Joy,06:00 am - 1:00 pm,3804
+17-Dec-2025,Celebrity Beyond,11:00 am - 7:00 pm,3276
+18-Dec-2025,Oceania Allura,07:00 am - 3:00 pm,1218
+18-Dec-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+19-Dec-2025,Spirit of Adventure,08:00 am - 5:00 pm,1000
+20-Dec-2025,Azamara Onward,08:00 am - 2:00 pm,704
+20-Dec-2025,Silver Ray,07:00 am - 2:00 pm,556
+24-Dec-2025,Norwegian Joy,06:00 am - 1:00 pm,3804
+24-Dec-2025,Disney Treasure,08:00 am - 2:00 pm,2476
+25-Dec-2025,AIDAsol,07:00 am - 4:00 pm,2194
+25-Dec-2025,Norwegian Aqua,06:00 am - 1:00 pm,3571
+26-Dec-2025,Valiant Lady,08:00 am - 6:00 pm,2770
+26-Dec-2025,P&O Arvia,-,5206
+27-Dec-2025,Queen Elizabeth,-,2081
+27-Dec-2025,Costa Pacifica,07:00 am - 2:00 pm,3014
+28-Dec-2025,Costa Fascinosa,08:00 am - 6:00 pm,3014
+29-Dec-2025,MSC Virtuosa,10:00 am - 7:00 pm,4810
+30-Dec-2025,Queen Mary 2,-,2726
+31-Dec-2025,Seven Seas Mariner,07:00 am - 5:00 pm,708
+31-Dec-2025,Norwegian Joy,06:00 am - 1:00 pm,3804
