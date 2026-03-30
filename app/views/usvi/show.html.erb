@@ -71,13 +71,14 @@
 </div>
 
 <%# BVI cross-link %>
-<div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200 p-4 mb-6">
-  <div class="flex items-center justify-between">
+<div class="relative rounded-xl overflow-hidden mb-6">
+  <%= image_tag "north-sound-4.jpg", class: "absolute inset-0 size-full object-cover brightness-50", alt: "North Sound, Virgin Gorda BVI" %>
+  <div class="relative p-5 flex items-center justify-between">
     <div>
-      <p class="text-sm font-semibold text-blue-900">Also visiting the BVI?</p>
-      <p class="text-xs text-blue-700">Track cruise ship crowds at The Baths, White Bay, and Cane Garden Bay.</p>
+      <p class="text-base font-bold text-white">Also visiting the BVI?</p>
+      <p class="text-sm text-gray-200">Track cruise ship crowds at The Baths, White Bay, and Cane Garden Bay.</p>
     </div>
-    <%= link_to "BVI Schedule →", root_path, class: "shrink-0 rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition" %>
+    <%= link_to "BVI Schedule →", root_path, class: "shrink-0 rounded-md bg-white/90 px-4 py-2 text-xs font-semibold text-slate-900 hover:bg-white transition" %>
   </div>
 </div>
 
