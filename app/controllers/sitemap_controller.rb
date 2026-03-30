@@ -8,6 +8,12 @@ class SitemapController < ApplicationController
         lastmod: last_scrape&.scraped_at&.iso8601 || Time.current.iso8601,
         changefreq: "daily",
         priority: "1.0"
+      },
+      {
+        url: usvi_url,
+        lastmod: last_scrape&.scraped_at&.iso8601 || Time.current.iso8601,
+        changefreq: "daily",
+        priority: "0.9"
       }
     ]
 
