@@ -211,26 +211,7 @@
           </div>
         <% end %>
 
-        <%# Yacht Warriors CTA — only on moderate/high crowd days %>
-        <% day_peak = day_peak_intensity(date, @locations, @snapshots) %>
-        <% if day_peak.in?(%w[yellow red]) %>
-          <div class="mx-4 mb-4 rounded-lg border border-cyan-200 bg-cyan-50 px-4 py-3 flex items-center justify-between gap-3">
-            <div>
-              <% if day_peak == "red" %>
-                <p class="text-sm font-medium text-cyan-900">Big cruise day ahead</p>
-                <p class="text-xs text-cyan-700">Skip the crowds entirely with a private yacht charter.</p>
-              <% else %>
-                <p class="text-sm font-medium text-cyan-900">Planning around the crowds?</p>
-                <p class="text-xs text-cyan-700">A private charter gives you the flexibility to explore on your schedule.</p>
-              <% end %>
-            </div>
-            <a href="https://yachtwarriors.com?utm_source=bvicruise&utm_medium=web&utm_campaign=crowd_cta&utm_content=<%= day_peak %>"
-               target="_blank" rel="noopener"
-               class="shrink-0 rounded-md bg-cyan-600 px-3 py-2 text-xs font-semibold text-white hover:bg-cyan-500 transition">
-              Yacht Warriors →
-            </a>
-          </div>
-        <% end %>
+        <%# Yacht Warriors CTA — disabled for now %>
       </div>
     </div>
   <% end %>
@@ -268,12 +249,6 @@
     <%= image_tag "yw_logo.png", alt: "Yacht Warriors Logo", class: "inline h-5 ml-2" %>
   <% end %>
 </div>
-<div class="pb-4 text-center text-xs text-slate-400">
-  Booking a charter?
-  <a href="https://charterprotect.com?utm_source=bvicruise&utm_medium=web&utm_campaign=footer_cp"
-     target="_blank" rel="noopener" class="text-cyan-600 hover:text-cyan-500 font-medium">
-    Protect your trip with CharterProtect →
-  </a>
-</div>
+<%# CharterProtect footer — disabled for now %>
 
 </div> <%# close max-w-3xl wrapper %>
