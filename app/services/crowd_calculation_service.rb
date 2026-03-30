@@ -94,9 +94,15 @@ class CrowdCalculationService
         result << [v, excursion_pct]
       end
     when Location::WHITE_BAY
-      # Only Jost Van Dyke ships impact White Bay
+      # JVD ships anchor directly — full impact
       visits.select { |v| v.port.slug == Port::JOST_VAN_DYKE }.each do |v|
         result << [v, 1.0]
+      end
+      # Road Town ships — some passengers water taxi to White Bay. Small % but noticeable.
+      # Similar timing to The Baths (ferry + taxi). Kept low so it stays moderate, not red.
+      white_bay_from_rt_pct = AppConfig.get_float("road_town_white_bay_pct", default: 0.03)
+      visits.select { |v| v.port.slug == Port::ROAD_TOWN }.each do |v|
+        result << [v, white_bay_from_rt_pct]
       end
     when Location::CANE_GARDEN_BAY
       # Road Town ships only — it's on Tortola, easy taxi ride
@@ -209,6 +215,8 @@ class CrowdCalculationService
       AppConfig.get_int("transit_time_baths_from_road_town", default: 120)
     when [Port::JOST_VAN_DYKE, Location::WHITE_BAY]
       AppConfig.get_int("transit_time_white_bay_from_jost", default: 20)
+    when [Port::ROAD_TOWN, Location::WHITE_BAY]
+      AppConfig.get_int("transit_time_white_bay_from_road_town", default: 90)
     when [Port::ROAD_TOWN, Location::CANE_GARDEN_BAY]
       AppConfig.get_int("transit_time_cgb_from_road_town", default: 45)
     # USVI
