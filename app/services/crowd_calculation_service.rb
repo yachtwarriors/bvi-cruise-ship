@@ -2,9 +2,14 @@ class CrowdCalculationService
   BVI_TIMEZONE = "America/Virgin".freeze
   HOURS_RANGE = (7..17).freeze
 
-  # Passengers need to be back on the ship well before departure.
-  # They leave the attraction ~2 hours before ship departure.
-  RETURN_TO_SHIP_BUFFER_MINUTES = 120
+  # Base time passengers need at the port before departure (boarding, security, etc.)
+  # Actual buffer = transit_time + BASE_RETURN_BUFFER so close beaches stay busy longer.
+  BASE_RETURN_BUFFER_MINUTES = 60
+
+  # Ramp durations control how quickly crowds build and disperse.
+  # Longer ramps = more realistic gradual buildup/taper.
+  DEFAULT_RAMP_UP_MINUTES = 90
+  DEFAULT_RAMP_DOWN_MINUTES = 120
 
   # Earliest excursion tours start running
   EARLIEST_EXCURSION_HOURS = {
@@ -100,7 +105,7 @@ class CrowdCalculationService
       end
       # Road Town ships — some passengers water taxi to White Bay. Small % but noticeable.
       # Similar timing to The Baths (ferry + taxi). Kept low so it stays moderate, not red.
-      white_bay_from_rt_pct = AppConfig.get_float("road_town_white_bay_pct", default: 0.03)
+      white_bay_from_rt_pct = AppConfig.get_float("road_town_white_bay_pct", default: 0.05)
       visits.select { |v| v.port.slug == Port::ROAD_TOWN }.each do |v|
         result << [v, white_bay_from_rt_pct]
       end
@@ -113,12 +118,12 @@ class CrowdCalculationService
 
     # USVI — St. Thomas (Charlotte Amalie) locations
     when Location::MAGENS_BAY
-      pct = AppConfig.get_float("charlotte_amalie_magens_bay_pct", default: 0.25)
+      pct = AppConfig.get_float("charlotte_amalie_magens_bay_pct", default: 0.10)
       visits.select { |v| v.port.slug == Port::CHARLOTTE_AMALIE }.each do |v|
         result << [v, pct]
       end
     when Location::COKI_BEACH
-      pct = AppConfig.get_float("charlotte_amalie_coki_beach_pct", default: 0.20)
+      pct = AppConfig.get_float("charlotte_amalie_coki_beach_pct", default: 0.10)
       visits.select { |v| v.port.slug == Port::CHARLOTTE_AMALIE }.each do |v|
         result << [v, pct]
       end
@@ -167,15 +172,18 @@ class CrowdCalculationService
     earliest_open = EARLIEST_EXCURSION_HOURS[location.slug] || 9 * 60
     crowd_start = [earliest_from_ship, earliest_open].max
 
-    # Ramp up over 60 minutes after crowd_start
-    ramp_up_end = crowd_start + 60
+    # Ramp up gradually — crowds don't all arrive at once
+    ramp_up_minutes = AppConfig.get_int("ramp_up_minutes", default: DEFAULT_RAMP_UP_MINUTES)
+    ramp_up_end = crowd_start + ramp_up_minutes
 
-    # Passengers must LEAVE the attraction ~2 hours before ship departure
-    # to get back to the ship in time (tender, ferry, taxi, etc.)
-    crowd_end = departure_minutes - RETURN_TO_SHIP_BUFFER_MINUTES
+    # Passengers must LEAVE the attraction in time to get back to the ship.
+    # Close beaches (30 min taxi) → people stay later. Far destinations (90 min ferry) → leave earlier.
+    return_buffer = transit_minutes + BASE_RETURN_BUFFER_MINUTES
+    crowd_end = departure_minutes - return_buffer
 
-    # Ramp down starts 60 minutes before they need to leave
-    ramp_down_start = crowd_end - 60
+    # Ramp down gradually — people leave at staggered times
+    ramp_down_minutes = AppConfig.get_int("ramp_down_minutes", default: DEFAULT_RAMP_DOWN_MINUTES)
+    ramp_down_start = crowd_end - ramp_down_minutes
 
     # If the math doesn't make sense (ship isn't in port long enough), skip
     return 0 if crowd_end <= crowd_start

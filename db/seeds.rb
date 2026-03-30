@@ -35,11 +35,11 @@ baths_threshold = CrowdThreshold.find_or_initialize_by(location: baths)
 baths_threshold.update!(green_max: 200, yellow_max: 600)
 
 white_bay_threshold = CrowdThreshold.find_or_initialize_by(location: white_bay)
-white_bay_threshold.update!(green_max: 100, yellow_max: 300)
+white_bay_threshold.update!(green_max: 50, yellow_max: 150)
 
 cane_garden_bay = Location.find_by!(slug: "cane-garden-bay")
 cgb_threshold = CrowdThreshold.find_or_initialize_by(location: cane_garden_bay)
-cgb_threshold.update!(green_max: 300, yellow_max: 800)
+cgb_threshold.update!(green_max: 200, yellow_max: 500)
 
 # App config defaults
 puts "Seeding app config..."
@@ -54,7 +54,9 @@ puts "Seeding app config..."
   "gorda_sound_baths_pct" => { value: "0.40", description: "Estimated % of Gorda Sound passengers who visit The Baths" },
   "road_town_baths_excursion_pct" => { value: "0.20", description: "Estimated % of Road Town cruise passengers who take The Baths excursion" },
   "capacity_utilization_pct" => { value: "0.85", description: "Estimated % of max ship capacity that's actually aboard" },
-  "ramp_down_minutes" => { value: "90", description: "Minutes before departure when crowd starts thinning" }
+  "road_town_white_bay_pct" => { value: "0.05", description: "Estimated % of Road Town cruise passengers who excursion to White Bay" },
+  "ramp_up_minutes" => { value: "90", description: "Minutes for crowd to ramp up from first arrivals to peak" },
+  "ramp_down_minutes" => { value: "120", description: "Minutes for crowd to ramp down as passengers head back to ship" }
 }.each do |key, attrs|
   AppConfig.find_or_create_by!(key: key) do |c|
     c.value = attrs[:value]

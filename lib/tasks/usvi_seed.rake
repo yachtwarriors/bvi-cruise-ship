@@ -38,9 +38,9 @@ namespace :usvi do
 
     puts "Seeding USVI crowd thresholds..."
     {
-      "magens-bay" => { green_max: 300, yellow_max: 800 },
-      "coki-beach" => { green_max: 150, yellow_max: 400 },
-      "national-park-beaches" => { green_max: 200, yellow_max: 600 },
+      "magens-bay" => { green_max: 100, yellow_max: 200 },
+      "coki-beach" => { green_max: 100, yellow_max: 200 },
+      "national-park-beaches" => { green_max: 100, yellow_max: 300 },
       "rainbow-beach" => { green_max: 100, yellow_max: 300 },
       "buck-island" => { green_max: 80, yellow_max: 250 }
     }.each do |slug, thresholds|
@@ -51,8 +51,8 @@ namespace :usvi do
 
     puts "Seeding USVI app config..."
     {
-      "charlotte_amalie_magens_bay_pct" => { value: "0.25", description: "% of Charlotte Amalie passengers visiting Magens Bay" },
-      "charlotte_amalie_coki_beach_pct" => { value: "0.20", description: "% of Charlotte Amalie passengers visiting Coki Beach" },
+      "charlotte_amalie_magens_bay_pct" => { value: "0.10", description: "% of Charlotte Amalie passengers at Magens Bay concurrently (peak hour)" },
+      "charlotte_amalie_coki_beach_pct" => { value: "0.10", description: "% of Charlotte Amalie passengers at Coki Beach concurrently (peak hour)" },
       "charlotte_amalie_national_park_pct" => { value: "0.15", description: "% of Charlotte Amalie passengers taking St. John excursion" },
       "frederiksted_rainbow_beach_pct" => { value: "0.40", description: "% of Frederiksted passengers walking to Rainbow Beach" },
       "frederiksted_buck_island_pct" => { value: "0.15", description: "% of Frederiksted passengers taking Buck Island excursion" },
@@ -84,5 +84,39 @@ namespace :usvi do
     puts "USVI seed complete!"
     puts "  Ports: #{Port.usvi.count}"
     puts "  Locations: #{Location.usvi.count}"
+  end
+
+  desc "Fix crowd model: thresholds, percentages, ramp config, recalculate all"
+  task fix_crowd_model: :environment do
+    puts "Updating White Bay thresholds (50/150 — tiny beach, any JVD ship = slammed)..."
+    wb = Location.find_by!(slug: "white-bay")
+    wb.crowd_threshold.update!(green_max: 50, yellow_max: 150)
+
+    puts "Updating Magens Bay thresholds (100/200 — >2000 pax = red)..."
+    magens = Location.find_by!(slug: "magens-bay")
+    magens.crowd_threshold.update!(green_max: 100, yellow_max: 200)
+
+    puts "Updating Coki Beach thresholds to match Magens Bay (100/200)..."
+    coki = Location.find_by!(slug: "coki-beach")
+    coki.crowd_threshold.update!(green_max: 100, yellow_max: 200)
+
+    puts "Updating National Park Beaches thresholds (100/300)..."
+    np = Location.find_by!(slug: "national-park-beaches")
+    np.crowd_threshold.update!(green_max: 100, yellow_max: 300)
+
+    puts "Updating contribution percentages..."
+    AppConfig.set("charlotte_amalie_magens_bay_pct", "0.10")
+    AppConfig.set("charlotte_amalie_coki_beach_pct", "0.10")
+    AppConfig.set("road_town_white_bay_pct", "0.05")
+
+    puts "Setting ramp durations (90 min up, 120 min down)..."
+    AppConfig.set("ramp_up_minutes", "90")
+    AppConfig.set("ramp_down_minutes", "120")
+
+    puts "Recalculating all future crowd snapshots..."
+    future_dates = CruiseVisit.where("visit_date >= ?", Date.current).distinct.pluck(:visit_date).sort
+    CrowdCalculationService.calculate_for_dates(future_dates)
+
+    puts "Done! Recalculated #{future_dates.size} dates."
   end
 end

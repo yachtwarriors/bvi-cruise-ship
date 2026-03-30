@@ -9,8 +9,8 @@ class CruiseDigScraperService
     "norman-island" => "/ports/norman-island-british-virgin-islands/arrivals",
     "gorda-sound" => "/ports/gorda-sound-british-virgin-islands/arrivals",
     # USVI
-    "charlotte-amalie" => "/ports/charlotte-amalie-us-virgin-islands/arrivals",
-    "frederiksted" => "/ports/frederiksted-us-virgin-islands/arrivals"
+    "charlotte-amalie" => "/ports/st-thomas-us-virgin-islands/arrivals",
+    "frederiksted" => "/ports/st-croix-us-virgin-islands/arrivals"
   }.freeze
 
   MAX_PAGES = 20
