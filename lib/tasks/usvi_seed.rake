@@ -21,7 +21,7 @@ namespace :usvi do
     puts "Seeding USVI locations..."
     usvi_locations = [
       { name: "Magens Bay", slug: "magens-bay", port: charlotte_amalie },
-      { name: "Coki Beach", slug: "coki-beach", port: charlotte_amalie },
+      { name: "Sapphire and Coki Beaches", slug: "coki-beach", port: charlotte_amalie },
       { name: "National Park Beaches, St. John", slug: "national-park-beaches", port: charlotte_amalie },
       { name: "Rainbow Beach", slug: "rainbow-beach", port: frederiksted },
       { name: "Buck Island", slug: "buck-island", port: frederiksted }
