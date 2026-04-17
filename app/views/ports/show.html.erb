@@ -51,6 +51,9 @@
 
 <div class="mx-auto max-w-3xl px-4 mt-8 mb-8">
 
+<% page_path = send(:"#{config[:route_name]}_path") %>
+<%= render "shared/past_date_banner", start_date: @start_date, today: @today, today_url: page_path %>
+
 <%# Direct-answer lead — data-driven summary for the query "What cruise ships are in [port] today?" %>
 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
   <h2 class="text-sm font-semibold text-slate-700 mb-1">Today at <%= config[:h1].sub(' Cruise Ship Schedule', '') %></h2>
@@ -92,7 +95,6 @@
 <%= turbo_frame_tag "schedule" do %>
 <div id="schedule"></div>
 
-<% page_path = send(:"#{config[:route_name]}_path") %>
 <%= render "shared/week_navigation",
   prev_url: send(:"#{config[:route_name]}_path", start_date: @prev_week_start),
   next_url: send(:"#{config[:route_name]}_path", start_date: @next_week_start),
@@ -101,6 +103,8 @@
   start_date: @start_date,
   end_date: @end_date,
   today: @today %>
+
+<%= render "shared/share_button", url: "https://bvicruiseshipschedule.com#{request.path}?start_date=#{@start_date.iso8601}" %>
 
 <%= render "shared/week_overview",
   dates: @dates,

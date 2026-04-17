@@ -50,6 +50,8 @@
 
 <div class="mx-auto max-w-3xl px-4 mt-8 mb-8">
 
+<%= render "shared/past_date_banner", start_date: @start_date, today: @today, today_url: usvi_path %>
+
 <%= render "shared/timeline_legend" %>
 
 <%# Port & Beach page cross-links %>
@@ -91,6 +93,8 @@
   start_date: @start_date,
   end_date: @end_date,
   today: @today %>
+
+<%= render "shared/share_button", url: "https://bvicruiseshipschedule.com#{request.path}?start_date=#{@start_date.iso8601}" %>
 
 <% combined_visits_by_date = @dates.each_with_object({}) { |d, h| h[d] = (@st_thomas_visits_by_date[d] || []) + (@st_croix_visits_by_date[d] || []) } %>
 <%= render "shared/week_overview",
