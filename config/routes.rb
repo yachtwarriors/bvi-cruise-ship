@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  # Redirect www → apex (canonical domain) with 301
+  constraints host: "www.bvicruiseshipschedule.com" do
+    get "(*path)", to: redirect { |params, req|
+      query = req.query_string.presence
+      "https://bvicruiseshipschedule.com/#{params[:path]}#{query ? "?#{query}" : ''}"
+    }
+  end
+
   devise_for :users, path: "", path_names: { sign_in: "login", sign_up: "signup", sign_out: "logout" }
 
   resource :account, only: [:show, :update], controller: "accounts"
