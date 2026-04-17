@@ -1,0 +1,57 @@
+<%# Locals: date, visits, locations, snapshots, today %>
+<% is_today = date == today %>
+<% day_peak = visits.any? ? day_peak_intensity(date, locations, snapshots) : nil %>
+
+<div class="bg-white rounded-xl shadow-sm border <%= is_today ? 'border-cyan-300 ring-2 ring-cyan-100' : 'border-slate-200' %> <%= "border-l-4 #{intensity_border_class(day_peak)}" if day_peak %> overflow-hidden">
+  <div class="px-4 pt-4 <%= is_today ? 'bg-cyan-50/50' : '' %>">
+    <div class="flex items-start justify-between mb-3">
+      <div class="flex items-center gap-3">
+        <div class="text-center min-w-[3rem]">
+          <div class="text-xs font-medium text-slate-500 uppercase"><%= date.strftime("%a") %></div>
+          <div class="text-2xl font-bold <%= is_today ? 'text-cyan-600' : 'text-slate-900' %>"><%= date.day %></div>
+          <% if is_today %>
+            <div class="text-[10px] font-semibold text-cyan-600 uppercase">Today</div>
+          <% end %>
+        </div>
+        <div>
+          <div class="text-sm font-medium text-slate-700"><%= date.strftime("%B %-d, %Y") %></div>
+        </div>
+      </div>
+
+      <% if visits.any? %>
+        <div class="text-right">
+          <div class="text-3xl font-bold text-slate-900"><%= number_with_delimiter(total_passengers_for(visits)) %></div>
+          <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Cruise Guests</div>
+          <div class="text-xs text-slate-400"><%= visits.size %> ship<%= visits.size == 1 ? '' : 's' %> in port</div>
+        </div>
+      <% else %>
+        <div class="text-right">
+          <div class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+            <span class="size-1.5 rounded-full bg-emerald-500"></span>
+            Quiet day — no ships in port
+          </div>
+          <div class="mt-1 text-xs text-slate-400">Enjoy the beaches 🌴</div>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Port breakdown — ship names %>
+    <% if visits.any? %>
+      <div class="flex flex-wrap gap-x-4 gap-y-1 mb-3 text-xs text-slate-500">
+        <% visits.group_by { |v| v.port.name }.each do |port_name, port_visits| %>
+          <span>
+            <span class="font-medium text-slate-600"><%= port_name.sub(', Tortola', '').sub(', Virgin Gorda', '').sub(', St. Thomas', '').sub(', St. Croix', '') %>:</span>
+            <%= port_visits.map { |v| "#{v.ship_name} (#{number_with_delimiter(v.passenger_capacity || 0)})" }.join(', ') %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Location cards %>
+    <% locations.each do |location| %>
+      <% loc_snapshots = snapshots[[date, location.id]] || [] %>
+      <% peak = peak_intensity_for(loc_snapshots) %>
+      <%= render "shared/location_card", location: location, snapshots: loc_snapshots, peak: peak %>
+    <% end %>
+  </div>
+</div>

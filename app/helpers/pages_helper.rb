@@ -26,6 +26,39 @@ module PagesHelper
     end
   end
 
+  def intensity_border_class(intensity)
+    case intensity
+    when "green" then "border-l-emerald-400"
+    when "yellow" then "border-l-amber-400"
+    when "red" then "border-l-red-500"
+    else "border-l-slate-200"
+    end
+  end
+
+  def intensity_label(intensity)
+    case intensity
+    when "green" then "Low"
+    when "yellow" then "Moderate"
+    when "red" then "High"
+    else "—"
+    end
+  end
+
+  # Summary stats for a week view — used by the weekly overview strip.
+  # Returns { passengers:, ships:, busiest_date:, busiest_peak: } or nil if no visits.
+  def week_overview_stats(dates, visits_by_date, locations, snapshots)
+    all_visits = dates.flat_map { |d| visits_by_date[d] || [] }
+    return nil if all_visits.empty?
+
+    busiest_date = dates.max_by { |d| total_passengers_for(visits_by_date[d] || []) }
+    {
+      passengers: all_visits.sum { |v| v.passenger_capacity || 0 },
+      ships: all_visits.size,
+      busiest_date: busiest_date,
+      busiest_peak: day_peak_intensity(busiest_date, locations, snapshots)
+    }
+  end
+
   def peak_intensity_for(snapshots)
     return "green" if snapshots.blank?
     priorities = { "red" => 3, "yellow" => 2, "green" => 1 }
@@ -72,14 +105,25 @@ module PagesHelper
     }.max_by { |i| { "red" => 3, "yellow" => 2, "green" => 1 }[i] || 0 }
   end
 
+  # Maps each location to the ports whose ships contribute to its crowds
+  LOCATION_PORT_MAP = {
+    Location::THE_BATHS => [Port::SPANISH_TOWN, Port::ROAD_TOWN, Port::GORDA_SOUND],
+    Location::WHITE_BAY => [Port::JOST_VAN_DYKE],
+    Location::CANE_GARDEN_BAY => [Port::ROAD_TOWN],
+    Location::MAGENS_BAY => [Port::CHARLOTTE_AMALIE],
+    Location::COKI_BEACH => [Port::CHARLOTTE_AMALIE],
+    Location::NATIONAL_PARK_BEACHES => [Port::CHARLOTTE_AMALIE],
+    Location::RAINBOW_BEACH => [Port::FREDERIKSTED],
+    Location::BUCK_ISLAND => [Port::FREDERIKSTED],
+  }.freeze
+
   def contributing_port?(visit, location)
-    case location.slug
-    when Location::THE_BATHS
-      visit.port.slug.in?([Port::SPANISH_TOWN, Port::ROAD_TOWN])
-    when Location::WHITE_BAY
-      visit.port.slug == Port::JOST_VAN_DYKE
-    else
-      false
-    end
+    ports = LOCATION_PORT_MAP[location.slug]
+    ports ? visit.port.slug.in?(ports) : false
+  end
+
+  # Inverse: given a location slug, return the port slugs that send crowds there
+  def contributing_port_slugs_for(location_slug)
+    LOCATION_PORT_MAP[location_slug] || []
   end
 end

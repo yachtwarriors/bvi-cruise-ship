@@ -9,6 +9,22 @@ Rails.application.routes.draw do
   get "/us-virgin-islands-cruise-ship-schedule", to: redirect("/usvi", status: 301)
   get "/st-thomas-cruise-ship-schedule", to: redirect("/usvi", status: 301)
 
+  # Port pages
+  get "/tortola" => "ports#show", slug: "road-town", as: :tortola
+  get "/virgin-gorda" => "ports#show", slug: "virgin-gorda", as: :virgin_gorda
+  get "/st-thomas" => "ports#show", slug: "charlotte-amalie", as: :st_thomas
+  get "/st-croix" => "ports#show", slug: "frederiksted", as: :st_croix
+
+  # Beach/attraction pages
+  get "/the-baths" => "locations#show", slug: "the-baths", as: :the_baths
+  get "/cane-garden-bay" => "locations#show", slug: "cane-garden-bay", as: :cane_garden_bay
+  get "/white-bay" => "locations#show", slug: "white-bay", as: :white_bay
+  get "/magens-bay" => "locations#show", slug: "magens-bay", as: :magens_bay
+  get "/coki-beach" => "locations#show", slug: "coki-beach", as: :coki_beach
+  get "/national-park-beaches" => "locations#show", slug: "national-park-beaches", as: :national_park_beaches
+  get "/rainbow-beach" => "locations#show", slug: "rainbow-beach", as: :rainbow_beach
+  get "/buck-island" => "locations#show", slug: "buck-island", as: :buck_island
+
   namespace :manage do
     root "dashboard#index"
     resources :thresholds, only: [:index, :update]

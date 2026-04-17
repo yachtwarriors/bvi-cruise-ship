@@ -1,0 +1,136 @@
+<% config = port_config_for(@port_slug) %>
+
+<% meta title: config[:title],
+       description: config[:description],
+       keywords: config[:keywords] %>
+<% meta og: { title: config[:og_title],
+              description: config[:og_description],
+              type: "website",
+              image: image_url(config[:hero_image]) } %>
+
+<% content_for :head do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "<%= config[:title] %>",
+  "description": "<%= config[:description] %>",
+  "url": "<%= config[:schedule_url] %>",
+  "applicationCategory": "TravelApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "<%= root_url %>" },
+    { "@type": "ListItem", "position": 2, "name": "<%= config[:territory] == 'bvi' ? 'BVI Schedule' : 'USVI Schedule' %>", "item": "<%= config[:territory] == 'bvi' ? root_url : usvi_url %>" },
+    { "@type": "ListItem", "position": 3, "name": "<%= config[:h1].sub(' Cruise Ship Schedule', '') %>", "item": "<%= send(:"#{config[:route_name]}_url") %>" }
+  ]
+}
+</script>
+<% end %>
+
+<%# Hero %>
+<div class="relative isolate overflow-hidden">
+  <%= image_tag config[:hero_image], class: "absolute inset-0 -z-10 size-full object-cover", alt: config[:hero_alt] %>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-slate-900/60 via-slate-900/45 to-slate-950/80"></div>
+  <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32 text-center">
+    <h1 class="text-4xl font-semibold tracking-tight text-balance text-white sm:text-6xl"><%= config[:h1] %></h1>
+    <p class="mt-6 text-lg font-medium text-pretty text-gray-200 sm:text-xl/8"><%= config[:hero_text] %></p>
+    <div class="mt-8 flex items-center justify-center gap-x-4">
+      <a href="#schedule" class="rounded-md bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-400">View Schedule</a>
+      <a href="#how-it-works" class="text-sm font-semibold text-white">How it works <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</div>
+
+<div class="mx-auto max-w-3xl px-4 mt-8 mb-8">
+
+<%= render "shared/timeline_legend" %>
+
+<%# Port logistics %>
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
+  <h3 class="text-sm font-semibold text-slate-700 mb-2">Port Info</h3>
+  <ul class="text-xs text-slate-500 space-y-1.5">
+    <% config[:logistics].each do |item| %>
+      <li class="flex gap-2"><span class="text-slate-400 shrink-0">•</span> <%= item %></li>
+    <% end %>
+  </ul>
+</div>
+
+<%# Cross-links to schedule pages %>
+<div class="flex gap-3 mb-6">
+  <% if config[:territory] == "bvi" %>
+    <%= link_to "← BVI Schedule", root_path, class: "text-xs font-medium text-cyan-600 hover:text-cyan-700" %>
+    <%= link_to "USVI Schedule →", usvi_path, class: "text-xs font-medium text-cyan-600 hover:text-cyan-700" %>
+  <% else %>
+    <%= link_to "← USVI Schedule", usvi_path, class: "text-xs font-medium text-cyan-600 hover:text-cyan-700" %>
+    <%= link_to "BVI Schedule →", root_path, class: "text-xs font-medium text-cyan-600 hover:text-cyan-700" %>
+  <% end %>
+</div>
+
+<%= turbo_frame_tag "schedule" do %>
+<div id="schedule"></div>
+
+<% page_path = send(:"#{config[:route_name]}_path") %>
+<%= render "shared/week_navigation",
+  prev_url: send(:"#{config[:route_name]}_path", start_date: @prev_week_start),
+  next_url: send(:"#{config[:route_name]}_path", start_date: @next_week_start),
+  today_url: page_path,
+  form_url: page_path,
+  start_date: @start_date,
+  end_date: @end_date,
+  today: @today %>
+
+<%= render "shared/week_overview",
+  dates: @dates,
+  visits_by_date: @visits_by_date,
+  locations: @locations,
+  snapshots: @snapshots %>
+
+<%# Day cards %>
+<div class="space-y-5">
+  <% @dates.each do |date| %>
+    <% visits = @visits_by_date[date] || [] %>
+    <%= render "shared/day_card",
+      date: date,
+      visits: visits,
+      locations: @locations,
+      snapshots: @snapshots,
+      today: @today %>
+  <% end %>
+</div>
+<% end %>
+
+<%# Beach page cross-links %>
+<% if @locations.any? %>
+<div class="mt-6 bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+  <h3 class="text-sm font-semibold text-slate-700 mb-2">Beach Crowd Forecasts</h3>
+  <p class="text-xs text-slate-500 mb-3">See detailed crowd forecasts for each beach:</p>
+  <div class="flex flex-wrap gap-2">
+    <% @locations.each do |location| %>
+      <% route_helper = :"#{location.slug.tr('-', '_')}_path" %>
+      <% if respond_to?(route_helper) %>
+        <%= link_to location.name, send(route_helper), class: "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-cyan-50 text-cyan-700 hover:bg-cyan-100 transition" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+<%# About section %>
+<div id="how-it-works" class="mt-6 bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+  <h3 class="text-sm font-semibold text-slate-700 mb-2">How does this work?</h3>
+  <div class="text-sm text-slate-500 space-y-2">
+    <p><%= config[:how_it_works] %></p>
+    <p>These are estimates based on published schedules and ship capacity. Real crowd levels depend on weather, excursion bookings, and actual occupancy. Use this as a planning tool — check the hourly bars and aim for green windows.</p>
+  </div>
+</div>
+
+<%= render "shared/footer_attribution", utm_campaign: "footer_yw_#{config[:route_name]}" %>
+
+</div>

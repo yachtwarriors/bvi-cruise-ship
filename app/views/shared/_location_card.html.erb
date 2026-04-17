@@ -1,0 +1,40 @@
+<%# Locals: location, snapshots, peak %>
+<% location_icon = case location.slug
+   when Location::THE_BATHS then "🪨"
+   when Location::WHITE_BAY then "🏖️"
+   when Location::CANE_GARDEN_BAY then "🌴"
+   when Location::MAGENS_BAY then "🏖️"
+   when Location::COKI_BEACH then "🐠"
+   when Location::NATIONAL_PARK_BEACHES then "🏝️"
+   when Location::RAINBOW_BEACH then "🌈"
+   when Location::BUCK_ISLAND then "🤿"
+   else "📍"
+   end %>
+
+<div class="mb-3 last:mb-2 rounded-lg border border-slate-100 p-3 <%= intensity_bg_light(peak) %>">
+  <div class="flex items-center justify-between mb-2">
+    <div class="flex items-center gap-2">
+      <span class="text-lg"><%= location_icon %></span>
+      <h4 class="text-base font-bold text-slate-800"><%= location.name %></h4>
+    </div>
+    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold <%= intensity_color_class(peak) %> text-white">
+      <%= peak == "green" ? "Low Risk" : peak == "yellow" ? "Moderate" : "High Risk" %>
+    </span>
+  </div>
+
+  <div>
+    <div class="grid gap-px" style="grid-template-columns: repeat(11, minmax(0, 1fr))">
+      <% (7..17).each do |hour| %>
+        <% snapshot = snapshots.find { |s| s.hour == hour } %>
+        <% intensity = snapshot&.intensity || "green" %>
+
+        <div class="text-center">
+          <div class="h-8 rounded <%= intensity_color_class(intensity) %> cursor-default"
+               title="<%= format_hour(hour) %> — <%= case intensity; when 'red' then 'High risk'; when 'yellow' then 'Moderate risk'; else 'Low risk'; end %>">
+          </div>
+          <div class="text-[9px] text-slate-400 mt-1 leading-tight"><%= format_hour_short(hour) %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

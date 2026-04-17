@@ -3,6 +3,7 @@
   <head>
     <%= metamagic %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="canonical" href="<%= request.base_url + request.path %>">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -31,12 +32,14 @@
       <div class="mx-auto max-w-3xl px-4 py-4">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-xl font-bold text-slate-900">
+            <div class="text-xl font-bold text-slate-900">
               <%= link_to "Cruise Ship Schedule", root_path, class: "hover:text-cyan-600 transition" %>
-            </h1>
+            </div>
             <div class="flex items-center gap-3 mt-1">
-              <%= link_to "BVI", root_path, class: "text-xs font-medium #{request.path == '/' ? 'text-cyan-600' : 'text-slate-500 hover:text-cyan-600'}" %>
-              <%= link_to "USVI", usvi_path, class: "text-xs font-medium #{request.path == '/usvi' ? 'text-cyan-600' : 'text-slate-500 hover:text-cyan-600'}" %>
+              <% bvi_paths = %w[/ /tortola /virgin-gorda /the-baths /cane-garden-bay /white-bay] %>
+              <% usvi_paths = %w[/usvi /st-thomas /st-croix /magens-bay /coki-beach /national-park-beaches /rainbow-beach /buck-island] %>
+              <%= link_to "BVI", root_path, class: "text-xs font-medium #{bvi_paths.include?(request.path) ? 'text-cyan-600' : 'text-slate-500 hover:text-cyan-600'}" %>
+              <%= link_to "USVI", usvi_path, class: "text-xs font-medium #{usvi_paths.include?(request.path) ? 'text-cyan-600' : 'text-slate-500 hover:text-cyan-600'}" %>
             </div>
           </div>
           <% if user_signed_in? %>

@@ -31,10 +31,11 @@
 
 <%# Hero — full width with background image %>
 <div class="relative isolate overflow-hidden">
-  <%= image_tag "the-baths-3.jpg", class: "absolute inset-0 -z-10 size-full object-cover brightness-50", alt: "The Baths, Virgin Gorda BVI" %>
+  <%= image_tag "the-baths-3.jpg", class: "absolute inset-0 -z-10 size-full object-cover", alt: "The Baths, Virgin Gorda BVI" %>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-slate-900/60 via-slate-900/45 to-slate-950/80"></div>
   <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32 text-center">
-    <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-6xl">BVI Cruise Ship Schedule</h1>
-    <p class="mt-6 text-lg font-medium text-gray-300 sm:text-xl/8">
+    <h1 class="text-4xl font-semibold tracking-tight text-balance text-white sm:text-6xl">BVI Cruise Ship Schedule</h1>
+    <p class="mt-6 text-lg font-medium text-pretty text-gray-200 sm:text-xl/8">
       We look at how many cruise ships are in town, how many passengers they carry, and their arrival and departure
       times to give you our best estimate of when <strong class="text-white">The Baths</strong>,
       <strong class="text-white">White Bay</strong>, and <strong class="text-white">Cane Garden Bay</strong> are most likely to be crowded — so you can plan around it.
@@ -48,34 +49,25 @@
 
 <div class="mx-auto max-w-3xl px-4 mt-8 mb-8">
 
-<%# How to read this %>
+<%= render "shared/timeline_legend" %>
+
+<%# Port & Beach page cross-links %>
 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
-  <h3 class="text-sm font-semibold text-slate-700 mb-3">How to Read the Hourly Timeline</h3>
-  <p class="text-xs text-slate-500 mb-3">Each box below represents one hour. The color tells you the expected crowd level from cruise ship visitors at that time.</p>
-  <div class="grid grid-cols-3 gap-3 text-center">
-    <div class="rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-2">
-      <div class="w-full h-2 rounded-full bg-emerald-400 mb-1.5"></div>
-      <div class="text-sm font-semibold text-emerald-700">Low</div>
-      <div class="text-xs text-emerald-600 mt-0.5">Few or no cruise ship visitors expected.</div>
-    </div>
-    <div class="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2">
-      <div class="w-full h-2 rounded-full bg-amber-400 mb-1.5"></div>
-      <div class="text-sm font-semibold text-amber-700">Moderate</div>
-      <div class="text-xs text-amber-600 mt-0.5">Expect cruise ship visitors but shouldn't be overwhelming.</div>
-    </div>
-    <div class="rounded-lg bg-red-50 border border-red-200 px-3 py-2">
-      <div class="w-full h-2 rounded-full bg-red-500 mb-1.5"></div>
-      <div class="text-sm font-semibold text-red-700">High</div>
-      <div class="text-xs text-red-600 mt-0.5">Expect large crowds. Consider going early, late, or picking another day.</div>
-    </div>
+  <h3 class="text-sm font-semibold text-slate-700 mb-2">Port & Beach Forecasts</h3>
+  <p class="text-xs text-slate-500 mb-3">Detailed schedules and crowd forecasts:</p>
+  <div class="flex flex-wrap gap-2">
+    <%= link_to "Tortola", tortola_path, class: "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-cyan-50 text-cyan-700 hover:bg-cyan-100 transition" %>
+    <%= link_to "Virgin Gorda", virgin_gorda_path, class: "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-cyan-50 text-cyan-700 hover:bg-cyan-100 transition" %>
+    <%= link_to "The Baths", the_baths_path, class: "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition" %>
+    <%= link_to "Cane Garden Bay", cane_garden_bay_path, class: "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition" %>
+    <%= link_to "White Bay", white_bay_path, class: "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition" %>
   </div>
 </div>
 
-<%# Rolling stats — hidden until we have reliable data %>
-
 <%# USVI cross-link %>
 <div class="relative rounded-xl overflow-hidden mb-6">
-  <%= image_tag "magens-bay.jpg", class: "absolute inset-0 size-full object-cover brightness-50", alt: "Magens Bay, St. Thomas" %>
+  <%= image_tag "magens-bay.jpg", class: "absolute inset-0 size-full object-cover", alt: "Magens Bay, St. Thomas" %>
+  <div class="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/60 to-slate-900/40"></div>
   <div class="relative p-5 flex items-center justify-between">
     <div>
       <p class="text-base font-bold text-white">Also visiting the USVI?</p>
@@ -87,133 +79,32 @@
 
 <%= turbo_frame_tag "schedule" do %>
 <div id="schedule"></div>
-<%# Week navigation %>
-<div class="flex items-center justify-between mb-4">
-  <%= link_to root_path(start_date: @prev_week_start), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white rounded-lg border border-slate-200 hover:bg-slate-50 transition" do %>
-    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-    Prev
-  <% end %>
 
-  <div class="text-center">
-    <h2 class="text-lg font-semibold text-slate-900">
-      <%= @start_date.strftime("%b %-d") %> – <%= @end_date.strftime("%b %-d, %Y") %>
-    </h2>
-    <% if @start_date == @today %>
-      <p class="text-xs text-cyan-600 font-medium">Next 7 Days</p>
-    <% else %>
-      <%= link_to "Back to Today", root_path, class: "text-xs text-cyan-600 hover:text-cyan-700 font-medium" %>
-    <% end %>
-  </div>
+<%= render "shared/week_navigation",
+  prev_url: root_path(start_date: @prev_week_start),
+  next_url: root_path(start_date: @next_week_start),
+  today_url: root_path,
+  form_url: root_path,
+  start_date: @start_date,
+  end_date: @end_date,
+  today: @today %>
 
-  <%= link_to root_path(start_date: @next_week_start), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white rounded-lg border border-slate-200 hover:bg-slate-50 transition" do %>
-    Next
-    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-  <% end %>
-</div>
-
-<%# Jump to date %>
-<div class="mb-6 text-center">
-  <%= form_with url: root_path, method: :get, class: "inline-flex items-center gap-2" do |f| %>
-    <%= f.date_field :start_date, value: @start_date, class: "text-sm border border-slate-200 rounded-lg px-3 py-1.5 text-slate-700 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" %>
-    <%= f.submit "Go", class: "px-3 py-1.5 text-sm font-medium text-white bg-cyan-500 rounded-lg hover:bg-cyan-600 cursor-pointer transition" %>
-  <% end %>
-</div>
+<%= render "shared/week_overview",
+  dates: @dates,
+  visits_by_date: @visits_by_date,
+  locations: @locations,
+  snapshots: @snapshots %>
 
 <%# Day cards %>
 <div class="space-y-5">
   <% @dates.each do |date| %>
     <% visits = @visits_by_date[date] || [] %>
-    <% is_today = date == @today %>
-
-    <div class="bg-white rounded-xl shadow-sm border <%= is_today ? 'border-cyan-300 ring-2 ring-cyan-100' : 'border-slate-200' %> overflow-hidden">
-
-      <%# Day header %>
-      <div class="px-4 pt-4 <%= is_today ? 'bg-cyan-50/50' : '' %>">
-        <div class="flex items-start justify-between mb-3">
-          <div class="flex items-center gap-3">
-            <div class="text-center min-w-[3rem]">
-              <div class="text-xs font-medium text-slate-500 uppercase"><%= date.strftime("%a") %></div>
-              <div class="text-2xl font-bold <%= is_today ? 'text-cyan-600' : 'text-slate-900' %>"><%= date.day %></div>
-              <% if is_today %>
-                <div class="text-[10px] font-semibold text-cyan-600 uppercase">Today</div>
-              <% end %>
-            </div>
-            <div>
-              <div class="text-sm font-medium text-slate-700"><%= date.strftime("%B %-d, %Y") %></div>
-            </div>
-          </div>
-
-          <%# Ship count and passenger count — prominent and labeled %>
-          <% if visits.any? %>
-            <div class="text-right">
-              <div class="text-3xl font-bold text-slate-900"><%= number_with_delimiter(total_passengers_for(visits)) %></div>
-              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Cruise Guests</div>
-              <div class="text-xs text-slate-400"><%= visits.size %> ship<%= visits.size == 1 ? '' : 's' %> in port</div>
-            </div>
-          <% else %>
-            <div class="text-right">
-              <div class="text-sm font-medium text-slate-400">No planned visits</div>
-              <div class="text-xs text-slate-400">Schedule may not be available yet</div>
-            </div>
-          <% end %>
-        </div>
-
-        <%# Port breakdown — ship names visible %>
-        <% if visits.any? %>
-          <div class="flex flex-wrap gap-x-4 gap-y-1 mb-3 text-xs text-slate-500">
-            <% visits.group_by { |v| v.port.name }.each do |port_name, port_visits| %>
-              <span>
-                <span class="font-medium text-slate-600"><%= port_name.sub(', Tortola', '').sub(', Virgin Gorda', '') %>:</span>
-                <%= port_visits.map { |v| "#{v.ship_name} (#{number_with_delimiter(v.passenger_capacity || 0)})" }.join(', ') %>
-              </span>
-            <% end %>
-          </div>
-        <% end %>
-
-        <%# Location risk sections %>
-        <% @locations.each do |location| %>
-          <% snapshots = @snapshots[[date, location.id]] || [] %>
-          <% peak = peak_intensity_for(snapshots) %>
-
-
-          <% location_icon = case location.slug; when Location::THE_BATHS then "🪨"; when Location::WHITE_BAY then "🏖️"; when Location::CANE_GARDEN_BAY then "🌴"; else "📍"; end %>
-          <div class="mb-4 last:mb-3 rounded-lg border border-slate-100 p-3 <%= intensity_bg_light(peak) %>">
-            <%# Location header with icon and risk badge %>
-            <div class="flex items-center justify-between mb-2">
-              <div class="flex items-center gap-2">
-                <span class="text-lg"><%= location_icon %></span>
-                <h4 class="text-base font-bold text-slate-800"><%= location.name %></h4>
-              </div>
-              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold <%= intensity_color_class(peak) %> text-white">
-                <%= peak == "green" ? "Low Risk" : peak == "yellow" ? "Moderate" : "High Risk" %>
-              </span>
-            </div>
-
-            <%# Hourly timeline with EVERY hour labeled %>
-            <div>
-              <div>
-                <div class="grid gap-px" style="grid-template-columns: repeat(11, minmax(0, 1fr))">
-                  <% (7..17).each do |hour| %>
-                    <% snapshot = snapshots.find { |s| s.hour == hour } %>
-                    <% intensity = snapshot&.intensity || "green" %>
-                    <% visitors = snapshot&.estimated_visitors || 0 %>
-
-                    <div class="text-center">
-                      <div class="h-8 rounded <%= intensity_color_class(intensity) %> cursor-default"
-                           title="<%= format_hour(hour) %> — <%= case intensity; when 'red' then 'High risk'; when 'yellow' then 'Moderate risk'; else 'Low risk'; end %>">
-                      </div>
-                      <div class="text-[9px] text-slate-400 mt-1 leading-tight"><%= format_hour_short(hour) %></div>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% end %>
-
-        <%# Yacht Warriors CTA — disabled for now %>
-      </div>
-    </div>
+    <%= render "shared/day_card",
+      date: date,
+      visits: visits,
+      locations: @locations,
+      snapshots: @snapshots,
+      today: @today %>
   <% end %>
 </div>
 <% end %>
@@ -242,13 +133,6 @@
   </div>
 </div>
 
-<%# Footer attribution — matches bathsflagstatus.com style %>
-<div class="mt-6 pb-2 flex justify-center items-center text-sm text-gray-600">
-  Built with 🩵 by the
-  <%= link_to "https://yachtwarriors.com?utm_source=bvicruise&utm_medium=web&utm_campaign=footer_yw", target: "_blank", rel: "noopener" do %>
-    <%= image_tag "yw_logo.png", alt: "Yacht Warriors Logo", class: "inline h-5 ml-2" %>
-  <% end %>
-</div>
-<%# CharterProtect footer — disabled for now %>
+<%= render "shared/footer_attribution", utm_campaign: "footer_yw" %>
 
 </div> <%# close max-w-3xl wrapper %>

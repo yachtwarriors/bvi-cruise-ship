@@ -1,0 +1,17 @@
+Subject: Two free BVI travel tools for your Getting Here page
+
+Hi there,
+
+I run Yacht Warriors, a crewed yacht charter brokerage — I actually had the pleasure of staying on the dock a couple weeks ago and checking out the new yacht club facilities. Beautiful spot.
+
+I built a couple of free tools that I think would be useful for your guests planning their trip:
+
+Avoiding cruise ship crowds: If your guests are heading to The Baths or White Bay on a day when 6,000 cruise passengers are tendering in, they're going to have a bad time. I built bvicruiseshipschedule.com — it consolidates all the cruise ship data for BVI and USVI, breaks down passenger counts by port, and shows hourly crowd risk at the popular spots so people can plan their day around the rush.
+
+Finding ferry schedules: There are half a dozen operators running routes between St. Thomas, Tortola, Virgin Gorda, and Anegada — and none of them are in one place. I built viferries.com to fix that — every operator, every route, real fares with government fees, interactive route maps, and a date picker.
+
+I noticed your Getting Here page currently links to Best of BVI's ferry schedule page. Would you be open to swapping the link or adding either tool as a resource for your guests?
+
+Best,
+Matt Weidert
+Yacht Warriors | yachtwarriors.com
