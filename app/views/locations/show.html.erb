@@ -15,7 +15,8 @@
   "@type": "TouristAttraction",
   "name": "<%= @location.name %>",
   "description": "<%= config[:description] %>",
-  "url": "https://bvicruiseshipschedule.com/<%= @location.slug %>"
+  "url": "https://bvicruiseshipschedule.com/<%= @location.slug %>",
+  "dateModified": "<%= @last_scrape_at.iso8601 %>"
 }
 </script>
 <script type="application/ld+json">
@@ -181,6 +182,8 @@
     <p>Crowd estimates are based on published cruise ship schedules, passenger capacity, and arrival/departure times. Real crowd levels depend on weather, excursion bookings, and actual occupancy.</p>
   </div>
 </div>
+
+<%= render "shared/faq_section", faqs: build_faqs(config[:route_name], today_visits: @today_visits, today_passengers: @today_passengers, today: @today, today_peak: @today_peak, best_time: @best_time, location_name: @location.name) %>
 
 <%= render "shared/footer_attribution", utm_campaign: "footer_yw_#{config[:route_name]}" %>
 

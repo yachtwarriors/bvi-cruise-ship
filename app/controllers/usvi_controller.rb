@@ -34,5 +34,8 @@ class UsviController < ApplicationController
       .in_range(@start_date, @end_date)
       .daytime.ordered
       .group_by { |s| [s.snapshot_date, s.location_id] }
+
+    @today_visits = (@st_thomas_visits_by_date[@today] || []) + (@st_croix_visits_by_date[@today] || [])
+    @today_passengers = @today_visits.sum { |v| v.passenger_capacity || 0 }
   end
 end

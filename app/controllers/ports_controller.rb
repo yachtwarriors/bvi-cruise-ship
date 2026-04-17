@@ -30,6 +30,9 @@ class PortsController < ApplicationController
     else
       load_single_port
     end
+
+    @today_visits = @visits_by_date[@today] || []
+    @today_passengers = @today_visits.sum { |v| v.passenger_capacity || 0 }
   end
 
   private

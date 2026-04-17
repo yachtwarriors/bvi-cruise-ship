@@ -29,6 +29,9 @@ class PagesController < ApplicationController
 
     # Rolling stats for comparison bar
     @cruise_stats = build_cruise_stats
+
+    @today_visits = @visits_by_date[@today] || []
+    @today_passengers = @today_visits.sum { |v| v.passenger_capacity || 0 }
   end
 
   private

@@ -1,0 +1,27 @@
+<%# Expects local: faqs — Array<{question:, answer:}> %>
+<% return if faqs.blank? %>
+
+<div class="mt-6 bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+  <h2 class="text-base font-semibold text-slate-800 mb-3">Frequently Asked Questions</h2>
+  <div class="divide-y divide-slate-100">
+    <% faqs.each do |faq| %>
+      <details class="py-3 group">
+        <summary class="cursor-pointer list-none flex items-start justify-between gap-3">
+          <h3 class="text-sm font-semibold text-slate-700 group-hover:text-cyan-700 flex-1"><%= faq[:question] %></h3>
+          <span class="text-slate-400 group-hover:text-cyan-600 shrink-0 text-xs mt-0.5 group-open:rotate-180 transition">▼</span>
+        </summary>
+        <div class="mt-2 text-sm text-slate-600 leading-relaxed"><%= faq[:answer] %></div>
+      </details>
+    <% end %>
+  </div>
+</div>
+
+<% content_for :head do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": <%= faqs.map { |f| { "@type" => "Question", "name" => f[:question], "acceptedAnswer" => { "@type" => "Answer", "text" => f[:answer] } } }.to_json.html_safe %>
+}
+</script>
+<% end %>

@@ -17,6 +17,7 @@
   "applicationCategory": "TravelApplication",
   "operatingSystem": "Any",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "dateModified": "<%= @last_scrape_at.iso8601 %>",
   "about": [
     { "@type": "TouristAttraction", "name": "Magens Bay", "address": { "@type": "PostalAddress", "addressLocality": "St. Thomas", "addressRegion": "US Virgin Islands" } },
     { "@type": "TouristAttraction", "name": "Sapphire Beach", "address": { "@type": "PostalAddress", "addressLocality": "St. Thomas", "addressRegion": "US Virgin Islands" } },
@@ -212,6 +213,8 @@
     </p>
   </div>
 </div>
+
+<%= render "shared/faq_section", faqs: build_faqs(:usvi, today_visits: @today_visits, today_passengers: @today_passengers, today: @today) %>
 
 <%= render "shared/footer_attribution", utm_campaign: "footer_yw_usvi" %>
 
