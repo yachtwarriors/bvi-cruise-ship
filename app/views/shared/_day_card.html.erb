@@ -35,14 +35,22 @@
       <% end %>
     </div>
 
-    <%# Port breakdown — ship names %>
+    <%# Port breakdown — ship names with their own in-port window %>
     <% if visits.any? %>
-      <div class="flex flex-wrap gap-x-4 gap-y-1 mb-3 text-xs text-slate-500">
+      <div class="mb-3 space-y-1.5 text-xs text-slate-500">
         <% visits.group_by { |v| v.port.name }.each do |port_name, port_visits| %>
-          <span>
+          <div>
             <span class="font-medium text-slate-600"><%= port_name.sub(', Tortola', '').sub(', Virgin Gorda', '').sub(', St. Thomas', '').sub(', St. Croix', '') %>:</span>
-            <%= port_visits.map { |v| "#{v.ship_name} (#{number_with_delimiter(v.passenger_capacity || 0)})" }.join(', ') %>
-          </span>
+            <% port_visits.sort_by { |v| v.arrival_at || Time.zone.now.beginning_of_day }.each do |v| %>
+              <span class="inline-block whitespace-nowrap">
+                <%= v.ship_name %>
+                <span class="text-slate-400">(<%= number_with_delimiter(v.passenger_capacity || 0) %>)</span>
+                <% if (window = ship_time_window(v)) %>
+                  <span class="font-medium text-slate-600"><%= window %></span>
+                <% end %>
+              </span>
+            <% end %>
+          </div>
         <% end %>
       </div>
     <% end %>
