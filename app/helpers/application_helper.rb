@@ -15,6 +15,12 @@ module ApplicationHelper
     local.strftime("%-l:%M%P").sub(":00", "")
   end
 
+  # Prefer the passengers actually expected aboard (PortCall reports these) over
+  # the ship's maximum capacity, which overstates a real sailing.
+  def ship_guest_count(visit)
+    visit.expected_passengers.to_i.positive? ? visit.expected_passengers : visit.passenger_capacity.to_i
+  end
+
   # "6:45am–2pm" for a full call, "6:45am–?" when the sailing time is unknown.
   # Departure times matter as much as arrivals here: two ships in port on the
   # same day rarely overlap fully, and knowing when the big one leaves is the
