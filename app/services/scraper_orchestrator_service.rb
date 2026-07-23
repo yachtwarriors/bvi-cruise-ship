@@ -90,29 +90,36 @@ class ScraperOrchestratorService
   # we keep what we have and log it rather than deleting.
   MIN_COVERAGE_RATIO = 0.5
 
+  # Evaluated per port, not across the whole source. A single port failing or
+  # returning an empty page would otherwise have all of its sailings deleted
+  # while the source-wide total still cleared the coverage check.
   def prune_cancelled(source_name, visits)
     today = Time.use_zone(BVI_TIMEZONE) { Time.zone.today }
-    existing = CruiseVisit.where(source: source_name).where("visit_date >= ?", today)
-    existing_count = existing.count
-    return if existing_count.zero?
+    by_port = visits.group_by { |a| a[:port_id] }
 
-    if visits.size < existing_count * MIN_COVERAGE_RATIO
-      ScraperMonitorService.log_warning(
-        source: source_name,
-        message: "Skipped pruning: scrape returned #{visits.size} records against #{existing_count} on file",
-        records_fetched: visits.size
-      )
-      return
+    by_port.each do |port_id, port_visits|
+      existing = CruiseVisit.where(source: source_name, port_id: port_id).where("visit_date >= ?", today)
+      existing_count = existing.count
+      next if existing_count.zero?
+
+      if port_visits.size < existing_count * MIN_COVERAGE_RATIO
+        ScraperMonitorService.log_warning(
+          source: source_name,
+          message: "Skipped pruning port #{port_id}: #{port_visits.size} scraped against #{existing_count} on file",
+          records_fetched: port_visits.size
+        )
+        next
+      end
+
+      scraped = port_visits.map { |a| [a[:ship_name], a[:visit_date]] }.to_set
+      stale = existing.reject { |v| scraped.include?([v.ship_name, v.visit_date]) }
+      next if stale.empty?
+
+      @pruned_dates.concat(stale.map(&:visit_date))
+      stale.each { |v| Rails.logger.info("Pruning cancelled sailing: #{v.ship_name} at port #{port_id} on #{v.visit_date}") }
+      CruiseVisit.where(id: stale.map(&:id)).delete_all
+      Rails.logger.info("Pruned #{stale.size} cancelled #{source_name} sailings at port #{port_id}")
     end
-
-    scraped = visits.map { |a| [a[:ship_name], a[:visit_date], a[:port_id]] }.to_set
-    stale = existing.reject { |v| scraped.include?([v.ship_name, v.visit_date, v.port_id]) }
-    return if stale.empty?
-
-    @pruned_dates.concat(stale.map(&:visit_date))
-    stale.each { |v| Rails.logger.info("Pruning cancelled sailing: #{v.ship_name} at port #{v.port_id} on #{v.visit_date}") }
-    CruiseVisit.where(id: stale.map(&:id)).delete_all
-    Rails.logger.info("Pruned #{stale.size} cancelled #{source_name} sailings")
   end
 
   def recalculate_crowds(today)
