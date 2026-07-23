@@ -155,10 +155,10 @@ class CrowdCalculationService
   end
 
   def estimate_visitors_at_hour(visit, location, hour, contribution_pct)
-    return 0 unless visit.passenger_capacity && visit.passenger_capacity > 0
+    aboard = passengers_aboard(visit)
+    return 0 unless aboard&.positive?
 
-    capacity_pct = AppConfig.get_float("capacity_utilization_pct", default: 0.85)
-    effective_pax = (visit.passenger_capacity * capacity_pct * contribution_pct).round
+    effective_pax = (aboard * contribution_pct).round
 
     transit_minutes = transit_time_for(visit, location)
 
@@ -237,6 +237,16 @@ class CrowdCalculationService
             end
 
     factor.clamp(0.0, 1.0)
+  end
+
+  # PortCall reports the passengers actually expected on board. Everything else
+  # reports maximum capacity, which has to be discounted to a realistic load —
+  # applying that discount to an already-realistic figure would double-count it.
+  def passengers_aboard(visit)
+    return visit.expected_passengers if visit.expected_passengers.to_i.positive?
+    return nil unless visit.passenger_capacity.to_i.positive?
+
+    (visit.passenger_capacity * AppConfig.get_float("capacity_utilization_pct", default: 0.85)).round
   end
 
   def transit_time_for(visit, location)

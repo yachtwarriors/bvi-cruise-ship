@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_30_133725) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_23_141127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -70,6 +70,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_133725) do
     t.boolean "capacity_estimated", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "expected_passengers"
     t.index ["port_id"], name: "index_cruise_visits_on_port_id"
     t.index ["ship_name", "visit_date", "port_id"], name: "idx_cruise_visits_unique", unique: true
     t.index ["visit_date"], name: "index_cruise_visits_on_visit_date"

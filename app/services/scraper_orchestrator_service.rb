@@ -1,6 +1,11 @@
 class ScraperOrchestratorService
   BVI_TIMEZONE = "America/Virgin".freeze
 
+  # Higher wins when two sources describe the same call. PortCall is the BVI port
+  # operator's own schedule; crew_center is retained only for records already on
+  # file, since that source has been dead since April 2026.
+  SOURCE_RANK = { "portcall" => 3, "crew_center" => 2, "cruisedig" => 1 }.freeze
+
   def self.run
     new.run
   end
@@ -10,10 +15,10 @@ class ScraperOrchestratorService
     total_records = 0
     @pruned_dates = []
 
-    # 1. Scrape Crew Center (near-term, high-quality data)
-    total_records += scrape_source("crew_center") { CrewCenterScraperService.fetch_all }
+    # 1. PortCall — BVI Ports Authority's own system, authoritative for BVI
+    total_records += scrape_source("portcall") { PortCallScraperService.fetch_all }
 
-    # 2. Scrape CruiseDig (extended date range)
+    # 2. Scrape CruiseDig — covers USVI, and BVI dates PortCall has not published
     total_records += scrape_source("cruisedig") { CruiseDigScraperService.fetch_all }
 
     # 3. Recalculate crowd intensities for today and future dates only
@@ -64,9 +69,9 @@ class ScraperOrchestratorService
           visit.save!
           count += 1
         elsif attrs[:visit_date] >= today
-          # Future date — refresh with latest data
-          # Prefer crew_center data over cruisedig
-          if attrs[:source] == "crew_center" || visit.source != "crew_center"
+          # Future date — refresh with latest data, but never let a weaker source
+          # overwrite a stronger one. PortCall is the port operator's own record.
+          if SOURCE_RANK.fetch(attrs[:source], 0) >= SOURCE_RANK.fetch(visit.source, 0)
             visit.assign_attributes(attrs)
             if visit.changed?
               visit.save!
