@@ -44,10 +44,11 @@
     <%# Today's crowd risk — the hero element %>
     <div class="mt-8 mx-auto max-w-lg">
       <% if @today_visits.any? %>
-        <div class="rounded-xl p-5 <%= case @today_peak; when 'red' then 'bg-red-500/90'; when 'yellow' then 'bg-amber-500/90'; else 'bg-emerald-500/90'; end %>">
+        <div class="rounded-xl p-5 <%= case @today_peak; when 'red' then 'bg-red-500/90'; when 'orange' then 'bg-orange-500/90'; when 'yellow' then 'bg-amber-500/90'; else 'bg-emerald-500/90'; end %>">
           <div class="text-2xl font-bold text-white">
             <%= case @today_peak
                 when "red" then "High Risk"
+                when "orange" then "Busy"
                 when "yellow" then "Moderate Risk"
                 else "Low Risk"
                 end %>
@@ -155,7 +156,7 @@
           </div>
         </div>
         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold <%= intensity_color_class(peak) %> text-white">
-          <%= peak == "green" ? "Low Risk" : peak == "yellow" ? "Moderate" : "High Risk" %>
+          <%= intensity_risk_label(peak) %>
         </span>
       </div>
 
@@ -166,7 +167,7 @@
             <% intensity = snapshot&.intensity || "green" %>
             <div class="text-center">
               <div class="h-6 rounded <%= intensity_color_class(intensity) %> cursor-default"
-                   title="<%= format_hour(hour) %> — <%= case intensity; when 'red' then 'High risk'; when 'yellow' then 'Moderate risk'; else 'Low risk'; end %>">
+                   title="<%= format_hour(hour) %> — <%= intensity_label(intensity) %>">
               </div>
               <div class="text-[9px] text-slate-400 mt-0.5 leading-tight"><%= format_hour_short(hour) %></div>
             </div>

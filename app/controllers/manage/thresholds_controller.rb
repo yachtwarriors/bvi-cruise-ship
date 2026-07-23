@@ -17,7 +17,7 @@ module Manage
     private
 
     def threshold_params
-      params.require(:crowd_threshold).permit(:green_max, :yellow_max)
+      params.require(:crowd_threshold).permit(:green_max, :yellow_max, :orange_max)
     end
   end
 end

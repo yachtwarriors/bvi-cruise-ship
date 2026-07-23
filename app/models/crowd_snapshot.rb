@@ -1,9 +1,11 @@
 class CrowdSnapshot < ApplicationRecord
+  INTENSITIES = %w[green yellow orange red].freeze
+
   belongs_to :location
 
   validates :snapshot_date, presence: true
   validates :hour, presence: true, inclusion: { in: 0..23 }
-  validates :intensity, presence: true, inclusion: { in: %w[green yellow red] }
+  validates :intensity, presence: true, inclusion: { in: INTENSITIES }
   validates :hour, uniqueness: { scope: [:location_id, :snapshot_date] }
 
   scope :on_date, ->(date) { where(snapshot_date: date) }

@@ -38,11 +38,11 @@ namespace :usvi do
 
     puts "Seeding USVI crowd thresholds..."
     {
-      "magens-bay" => { green_max: 100, yellow_max: 200 },
-      "coki-beach" => { green_max: 100, yellow_max: 200 },
-      "national-park-beaches" => { green_max: 100, yellow_max: 300 },
-      "rainbow-beach" => { green_max: 100, yellow_max: 300 },
-      "buck-island" => { green_max: 80, yellow_max: 250 }
+      "magens-bay" => { green_max: 100, yellow_max: 150, orange_max: 200 },
+      "coki-beach" => { green_max: 100, yellow_max: 150, orange_max: 200 },
+      "national-park-beaches" => { green_max: 100, yellow_max: 200, orange_max: 300 },
+      "rainbow-beach" => { green_max: 100, yellow_max: 200, orange_max: 300 },
+      "buck-island" => { green_max: 80, yellow_max: 165, orange_max: 250 }
     }.each do |slug, thresholds|
       loc = Location.find_by!(slug: slug)
       t = CrowdThreshold.find_or_initialize_by(location: loc)

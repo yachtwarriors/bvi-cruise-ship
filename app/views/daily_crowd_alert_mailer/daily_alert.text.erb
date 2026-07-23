@@ -18,7 +18,7 @@ CROWD RISK BY LOCATION
 <% @locations.each do |location| -%>
 <% snapshots = @snapshots[location.id] || [] -%>
 <% peak = peak_intensity_for(snapshots) -%>
-<% badge = case peak; when "red" then "HIGH RISK"; when "yellow" then "MODERATE"; else "LOW RISK"; end -%>
+<% badge = case peak; when "red" then "HIGH RISK"; when "orange" then "BUSY"; when "yellow" then "MODERATE"; else "LOW RISK"; end -%>
 
 <%= location.name %> — <%= badge %>
 <% green_hours = snapshots.select { |s| s.intensity == "green" }.map(&:hour).sort -%>

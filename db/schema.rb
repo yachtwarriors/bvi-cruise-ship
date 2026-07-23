@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_07_23_141127) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_23_142733) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -55,6 +55,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_23_141127) do
     t.integer "yellow_max", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "orange_max", null: false
     t.index ["location_id"], name: "index_crowd_thresholds_on_location_id", unique: true
   end
 

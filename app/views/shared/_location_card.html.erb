@@ -18,7 +18,7 @@
       <h4 class="text-base font-bold text-slate-800"><%= location.name %></h4>
     </div>
     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold <%= intensity_color_class(peak) %> text-white">
-      <%= peak == "green" ? "Low Risk" : peak == "yellow" ? "Moderate" : "High Risk" %>
+      <%= intensity_risk_label(peak) %>
     </span>
   </div>
 
@@ -30,7 +30,7 @@
 
         <div class="text-center">
           <div class="h-8 rounded <%= intensity_color_class(intensity) %> cursor-default"
-               title="<%= format_hour(hour) %> — <%= case intensity; when 'red' then 'High risk'; when 'yellow' then 'Moderate risk'; else 'Low risk'; end %>">
+               title="<%= format_hour(hour) %> — <%= intensity_label(intensity) %>">
           </div>
           <div class="text-[9px] text-slate-400 mt-1 leading-tight"><%= format_hour_short(hour) %></div>
         </div>

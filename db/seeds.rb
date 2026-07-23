@@ -32,14 +32,14 @@ baths = Location.find_by!(slug: "the-baths")
 white_bay = Location.find_by!(slug: "white-bay")
 
 baths_threshold = CrowdThreshold.find_or_initialize_by(location: baths)
-baths_threshold.update!(green_max: 200, yellow_max: 600)
+baths_threshold.update!(green_max: 200, yellow_max: 400, orange_max: 600)
 
 white_bay_threshold = CrowdThreshold.find_or_initialize_by(location: white_bay)
-white_bay_threshold.update!(green_max: 50, yellow_max: 150)
+white_bay_threshold.update!(green_max: 50, yellow_max: 100, orange_max: 150)
 
 cane_garden_bay = Location.find_by!(slug: "cane-garden-bay")
 cgb_threshold = CrowdThreshold.find_or_initialize_by(location: cane_garden_bay)
-cgb_threshold.update!(green_max: 200, yellow_max: 500)
+cgb_threshold.update!(green_max: 200, yellow_max: 350, orange_max: 500)
 
 # App config defaults
 puts "Seeding app config..."

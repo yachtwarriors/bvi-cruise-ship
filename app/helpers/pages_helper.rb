@@ -1,8 +1,21 @@
 module PagesHelper
+  INTENSITY_PRIORITY = { "red" => 4, "orange" => 3, "yellow" => 2, "green" => 1 }.freeze
+
+  # Badge wording on location cards. "Busy" sits between Moderate and High Risk.
+  def intensity_risk_label(intensity)
+    case intensity
+    when "green" then "Low Risk"
+    when "yellow" then "Moderate"
+    when "orange" then "Busy"
+    else "High Risk"
+    end
+  end
+
   def intensity_color_class(intensity)
     case intensity
     when "green" then "bg-emerald-400"
     when "yellow" then "bg-amber-400"
+    when "orange" then "bg-orange-500"
     when "red" then "bg-red-500"
     else "bg-gray-200"
     end
@@ -12,6 +25,7 @@ module PagesHelper
     case intensity
     when "green" then "text-emerald-700"
     when "yellow" then "text-amber-700"
+    when "orange" then "text-orange-700"
     when "red" then "text-red-700"
     else "text-gray-500"
     end
@@ -21,6 +35,7 @@ module PagesHelper
     case intensity
     when "green" then "bg-emerald-50"
     when "yellow" then "bg-amber-50"
+    when "orange" then "bg-orange-50"
     when "red" then "bg-red-50"
     else "bg-gray-50"
     end
@@ -30,6 +45,7 @@ module PagesHelper
     case intensity
     when "green" then "border-l-emerald-400"
     when "yellow" then "border-l-amber-400"
+    when "orange" then "border-l-orange-500"
     when "red" then "border-l-red-500"
     else "border-l-slate-200"
     end
@@ -39,6 +55,7 @@ module PagesHelper
     case intensity
     when "green" then "Low"
     when "yellow" then "Moderate"
+    when "orange" then "Busy"
     when "red" then "High"
     else "—"
     end
@@ -61,7 +78,7 @@ module PagesHelper
 
   def peak_intensity_for(snapshots)
     return "green" if snapshots.blank?
-    priorities = { "red" => 3, "yellow" => 2, "green" => 1 }
+    priorities = INTENSITY_PRIORITY
     snapshots.max_by { |s| priorities[s.intensity] || 0 }&.intensity || "green"
   end
 
@@ -102,7 +119,7 @@ module PagesHelper
   def day_peak_intensity(date, locations, snapshots)
     locations.map { |loc|
       peak_intensity_for(snapshots[[date, loc.id]] || [])
-    }.max_by { |i| { "red" => 3, "yellow" => 2, "green" => 1 }[i] || 0 }
+    }.max_by { |i| INTENSITY_PRIORITY[i] || 0 }
   end
 
   # Maps each location to the ports whose ships contribute to its crowds
