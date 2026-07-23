@@ -13,6 +13,9 @@ class CrowdCalculationService
   DEFAULT_RAMP_UP_MINUTES = 90
   DEFAULT_RAMP_DOWN_MINUTES = 120
 
+  # Presence is averaged over each hour at 5-minute resolution.
+  SAMPLES_PER_HOUR = 12
+
   # Earliest excursion tours start running
   EARLIEST_EXCURSION_HOURS = {
     # BVI
@@ -206,22 +209,34 @@ class CrowdCalculationService
     # Outside the crowd window entirely
     return 0 if hour_end <= crowd_start || hour_start >= crowd_end
 
-    # Calculate average presence for this hour using trapezoidal model
-    mid_point = (hour_start + hour_end) / 2.0
+    # Average presence ACROSS the hour, not at a single instant. Sampling only the
+    # midpoint threw away any window that opened or closed mid-hour: a ship whose
+    # crowd cleared at 13:30 scored 0 for the 13:00 hour even with hundreds of
+    # people on the beach until 13:29, producing green hours between busy ones.
+    step = 60.0 / SAMPLES_PER_HOUR
+    total = (0...SAMPLES_PER_HOUR).sum do |i|
+      at = hour_start + (i + 0.5) * step
+      presence_factor(at, crowd_start, ramp_up_end, ramp_down_start, crowd_end)
+    end
 
-    factor = if mid_point < crowd_start
+    (effective_pax * (total / SAMPLES_PER_HOUR)).round
+  end
+
+  # Trapezoid: ramp up from crowd_start, plateau, ramp down to crowd_end.
+  def presence_factor(at, crowd_start, ramp_up_end, ramp_down_start, crowd_end)
+    factor = if at < crowd_start
               0.0
-            elsif mid_point < ramp_up_end
-              (mid_point - crowd_start) / (ramp_up_end - crowd_start).to_f
-            elsif mid_point < ramp_down_start
+            elsif at < ramp_up_end
+              (at - crowd_start) / (ramp_up_end - crowd_start).to_f
+            elsif at < ramp_down_start
               1.0
-            elsif mid_point < crowd_end
-              (crowd_end - mid_point) / (crowd_end - ramp_down_start).to_f
+            elsif at < crowd_end
+              (crowd_end - at) / (crowd_end - ramp_down_start).to_f
             else
               0.0
             end
 
-    (effective_pax * factor.clamp(0.0, 1.0)).round
+    factor.clamp(0.0, 1.0)
   end
 
   def transit_time_for(visit, location)
