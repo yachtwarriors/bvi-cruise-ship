@@ -1,6 +1,10 @@
 # Cruise Ship Schedule API Research
 
 **Date**: March 28, 2026
+**Status**: PARTIALLY SUPERSEDED. See `2026-07-23-data-sources-and-crowd-model.md`
+for current sources. Section 4a's conclusion that PortCall has no data feed was
+**wrong** -- it is now the primary BVI source. Crew Center (3c) is dead. The
+Section 6 recommendation to keep scraping Crew Center is obsolete.
 
 ## Executive Summary
 
@@ -10,7 +14,11 @@
 
 2. **Cruise booking/content APIs** -- These have itineraries, ship details, and port visit schedules from cruise lines, but they're designed for travel agents selling cruises, not for port-side crowd tracking. Most require B2B partnerships. Best option: **Widgety Cruise API** (covers 60+ cruise lines, 1000+ ships, port schedules with times).
 
-**Best practical approach for BVI Cruise Ship Schedule**: Continue scraping Crew Center and CruiseMapper (free, already working), supplement with VesselFinder port calls API for actual arrival/departure verification, and explore Widgety for forward-looking schedule data.
+**Best practical approach for BVI Cruise Ship Schedule**: ~~Continue scraping Crew
+Center and CruiseMapper~~ -- **OBSOLETE**. Use the free PortCall JSON API for BVI
+(see corrected section 4a) and CruiseDig for USVI. VesselFinder remains worth
+considering for AIS verification of *actual* versus scheduled times, which no
+free source provides.
 
 ---
 
@@ -170,11 +178,21 @@
 
 ## 4. Port Authority Systems
 
-### 4a. PortCall.com (BVI)
+### 4a. PortCall.com (BVI) -- **CORRECTED 2026-07-23: this section was wrong**
 - **URL**: https://bvi.portcall.com/
 - **What it is**: Cloud-based port scheduling platform for ports, pilots, and agents.
-- **API**: None publicly documented. The BVI instance exists but no data feed.
-- **Verdict**: Internal port operations tool. Not accessible for external data consumers.
+- **API**: **YES.** A public, unauthenticated JSON endpoint backs the site's own
+  cruise tab: `GET https://bvi.portcall.com/PortCallServer/portcall/app/home/cruise/1`
+  One request returns ~1,230 calls out to January 2028 with berth-level detail,
+  departure times on 97% of calls, and real `ExpectedPassengerCount` values.
+- **Verdict**: **BEST AVAILABLE SOURCE FOR BVI**, and free. This is the port
+  operator's own operational record rather than an aggregator's copy. Implemented
+  as `PortCallScraperService`.
+- **Why the March assessment was wrong**: the schedule is rendered client-side, so
+  the endpoint is invisible in page source. It was found by reading `dist/bundle.js`
+  for route construction. The lesson generalises -- for any SPA, check the bundle
+  before concluding there is no feed.
+- See `2026-07-23-data-sources-and-crowd-model.md` for full field reference and caveats.
 
 ### 4b. BVIPA (BVI Ports Authority)
 - **URL**: https://bviports.org/
