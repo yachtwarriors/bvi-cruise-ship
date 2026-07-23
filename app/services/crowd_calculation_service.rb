@@ -4,7 +4,9 @@ class CrowdCalculationService
 
   # Base time passengers need at the port before departure (boarding, security, etc.)
   # Actual buffer = transit_time + BASE_RETURN_BUFFER so close beaches stay busy longer.
-  BASE_RETURN_BUFFER_MINUTES = 60
+  # Excursions are scheduled against the ship's sailing time, so an hour of slack on
+  # top of a full transit leg double-counted and emptied beaches too early.
+  BASE_RETURN_BUFFER_MINUTES = 30
 
   # Ramp durations control how quickly crowds build and disperse.
   # Longer ramps = more realistic gradual buildup/taper.
@@ -174,7 +176,6 @@ class CrowdCalculationService
 
     # Ramp up gradually — crowds don't all arrive at once
     ramp_up_minutes = AppConfig.get_int("ramp_up_minutes", default: DEFAULT_RAMP_UP_MINUTES)
-    ramp_up_end = crowd_start + ramp_up_minutes
 
     # Passengers must LEAVE the attraction in time to get back to the ship.
     # Close beaches (30 min taxi) → people stay later. Far destinations (90 min ferry) → leave earlier.
@@ -183,10 +184,20 @@ class CrowdCalculationService
 
     # Ramp down gradually — people leave at staggered times
     ramp_down_minutes = AppConfig.get_int("ramp_down_minutes", default: DEFAULT_RAMP_DOWN_MINUTES)
-    ramp_down_start = crowd_end - ramp_down_minutes
 
     # If the math doesn't make sense (ship isn't in port long enough), skip
     return 0 if crowd_end <= crowd_start
+
+    # Short port stays can't fit the full ramps. Without this the ramps overlap,
+    # the trapezoid inverts, and the crowd never reaches its true peak — a 2.5hr
+    # window was being modelled with 3.5hrs of ramp. Cap each at a third of the
+    # window so there is always a genuine plateau in between.
+    window = crowd_end - crowd_start
+    ramp_up_minutes = [ramp_up_minutes, window / 3].min
+    ramp_down_minutes = [ramp_down_minutes, window / 3].min
+
+    ramp_up_end = crowd_start + ramp_up_minutes
+    ramp_down_start = crowd_end - ramp_down_minutes
 
     # Hour boundaries in minutes from midnight
     hour_start = hour * 60
@@ -216,15 +227,15 @@ class CrowdCalculationService
   def transit_time_for(visit, location)
     case [visit.port.slug, location.slug]
     when [Port::SPANISH_TOWN, Location::THE_BATHS]
-      AppConfig.get_int("transit_time_baths_from_virgin_gorda", default: 90)
+      AppConfig.get_int("transit_time_baths_from_virgin_gorda", default: 30)
     when [Port::GORDA_SOUND, Location::THE_BATHS]
-      AppConfig.get_int("transit_time_baths_from_gorda_sound", default: 120)
+      AppConfig.get_int("transit_time_baths_from_gorda_sound", default: 60)
     when [Port::ROAD_TOWN, Location::THE_BATHS]
-      AppConfig.get_int("transit_time_baths_from_road_town", default: 120)
+      AppConfig.get_int("transit_time_baths_from_road_town", default: 60)
     when [Port::JOST_VAN_DYKE, Location::WHITE_BAY]
       AppConfig.get_int("transit_time_white_bay_from_jost", default: 20)
     when [Port::ROAD_TOWN, Location::WHITE_BAY]
-      AppConfig.get_int("transit_time_white_bay_from_road_town", default: 90)
+      AppConfig.get_int("transit_time_white_bay_from_road_town", default: 45)
     when [Port::ROAD_TOWN, Location::CANE_GARDEN_BAY]
       AppConfig.get_int("transit_time_cgb_from_road_town", default: 45)
     # USVI
@@ -253,9 +264,16 @@ class CrowdCalculationService
     minutes
   end
 
+  # Minutes from midnight on the VISIT date, so an overnight call departing at
+  # 02:00 the next day reads as 1560, not 120. Returning the raw clock time would
+  # push crowd_end negative and silently drop the ship from the forecast.
   def departure_minutes_bvi(visit)
     return nil unless visit.departure_at
     t = visit.departure_at.in_time_zone(BVI_TIMEZONE)
-    t.hour * 60 + t.min
+    minutes = t.hour * 60 + t.min
+    # Same "time unknown" markers the sources use on arrivals — fall back to the default
+    return nil if minutes >= 23 * 60 + 50
+
+    minutes + ((t.to_date - visit.visit_date).to_i * 1440)
   end
 end
